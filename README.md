@@ -1,5 +1,4 @@
 # cl-sokol
-### _Your Name <your.name@example.com>_
 
 Common Lisp bindings + wrapper for sokol libraries
 
