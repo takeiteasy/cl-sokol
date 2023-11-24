@@ -630,7 +630,7 @@
 (defstruct sg-color-attachment-action
   (load-action nil :type sg-load-action)
   (store-action nil :type sg-store-action)
-  (clear-value nil :type (:struct %sg-color)))
+  (clear-value (make-sg-color) :type (:struct sg-color)))
 
 (defmethod translate-from-foreign (ptr (type sg-color-attachment-action-type))
   (with-foreign-slots ((load-action store-action clear-value) ptr (:struct %sg-color-attachment-action))
@@ -700,9 +700,9 @@
 
 (defstruct sg-pass-action
   (-start-canary 0 :type :unsigned-int)
-  (colors (make-array 4) :type (:array (:struct %sg-color-attachment-action) 4))
-  (depth nil :type (:struct %sg-depth-attachment-action))
-  (stencil nil :type (:struct %sg-stencil-attachment-action))
+  (colors (make-array 4) :type (:array (:struct sg-color-attachment-action) 4))
+  (depth (make-sg-depth-attachment-action) :type (:struct sg-depth-attachment-action))
+  (stencil (make-sg-stencil-attachment-action) :type (:struct sg-stencil-attachment-action))
   (-end-canary 0 :type :unsigned-int))
 
 (defmethod translate-from-foreign (ptr (type sg-pass-action-type))
@@ -725,8 +725,8 @@
   (samplers (:array (:struct %sg-sampler) 8)))
 
 (defstruct sg-stage-bindings
-  (images (make-array 12) :type (:array (:struct %sg-image) 12))
-  (samplers (make-array 8) :type (:array (:struct %sg-sampler) 8)))
+  (images (make-array 12) :type (:array (:struct sg-image) 12))
+  (samplers (make-array 8) :type (:array (:struct sg-sampler) 8)))
 
 (defmethod translate-from-foreign (ptr (type sg-stage-bindings-type))
   (with-foreign-slots ((images samplers) ptr (:struct %sg-stage-bindings))
@@ -752,12 +752,12 @@
 
 (defstruct sg-bindings
   (-start-canary 0 :type :unsigned-int)
-  (vertex-buffers (make-array 8) :type (:array (:struct %sg-buffer) 8))
+  (vertex-buffers (make-array 8) :type (:array (:struct sg-buffer) 8))
   (vertex-buffer-offsets (make-array 8) :type (:array :int 8))
-  (index-buffer nil :type (:struct %sg-buffer))
+  (index-buffer (make-sg-buffer) :type (:struct sg-buffer))
   (index-buffer-offset 0 :type :int)
-  (vs nil :type (:struct %sg-stage-bindings))
-  (fs nil :type (:struct %sg-stage-bindings))
+  (vs (make-sg-stage-bindings) :type (:struct sg-stage-bindings))
+  (fs (make-sg-stage-bindings) :type (:struct sg-stage-bindings))
   (-end-canary 0 :type :unsigned-int))
 
 (defmethod translate-from-foreign (ptr (type sg-bindings-type))
@@ -796,7 +796,7 @@
   (size 0 :type :unsigned-long)
   (type nil :type sg-buffer-type)
   (usage nil :type sg-usage)
-  (data nil :type (:struct %sg-range))
+  (data (make-sg-range) :type (:struct sg-range))
   (label nil :type (:pointer :char))
   (gl-buffers (make-array 2) :type (:array :unsigned-int 2))
   (mtl-buffers (make-array 2) :type (:array (:pointer :void) 2))
@@ -829,7 +829,7 @@
   (subimage (:array (:array (:struct %sg-range) 16) 6)))
 
 (defstruct sg-image-data
-  (subimage (make-array 6) :type (:array (:array (:struct %sg-range) 16) 6)))
+  (subimage (make-array 6) :type (:array (:array (:struct sg-range) 16) 6)))
 
 (defmethod translate-from-foreign (ptr (type sg-image-data-type))
   (with-foreign-slots ((subimage) ptr (:struct %sg-image-data))
@@ -875,7 +875,7 @@
   (usage nil :type sg-usage)
   (pixel-format nil :type sg-pixel-format)
   (sample-count 0 :type :int)
-  (data nil :type (:struct %sg-image-data))
+  (data (make-sg-image-data) :type (:struct sg-image-data))
   (label nil :type (:pointer :char))
   (gl-textures (make-array 2) :type (:array :unsigned-int 2))
   (gl-texture-target 0 :type :unsigned-int)
@@ -1038,7 +1038,7 @@
 (defstruct sg-shader-uniform-block-desc
   (size 0 :type :unsigned-long)
   (layout nil :type sg-uniform-layout)
-  (uniforms (make-array 16) :type (:array (:struct %sg-shader-uniform-desc) 16)))
+  (uniforms (make-array 16) :type (:array (:struct sg-shader-uniform-desc) 16)))
 
 (defmethod translate-from-foreign (ptr (type sg-shader-uniform-block-desc-type))
   (with-foreign-slots ((size layout uniforms) ptr (:struct %sg-shader-uniform-block-desc))
@@ -1137,13 +1137,13 @@
 
 (defstruct sg-shader-stage-desc
   (source nil :type (:pointer :char))
-  (bytecode nil :type (:struct %sg-range))
+  (bytecode (make-sg-range) :type (:struct sg-range))
   (entry nil :type (:pointer :char))
   (d3d11-target nil :type (:pointer :char))
-  (uniform-blocks (make-array 4) :type (:array (:struct %sg-shader-uniform-block-desc) 4))
-  (images (make-array 12) :type (:array (:struct %sg-shader-image-desc) 12))
-  (samplers (make-array 8) :type (:array (:struct %sg-shader-sampler-desc) 8))
-  (image-sampler-pairs (make-array 12) :type (:array (:struct %sg-shader-image-sampler-pair-desc) 12)))
+  (uniform-blocks (make-array 4) :type (:array (:struct sg-shader-uniform-block-desc) 4))
+  (images (make-array 12) :type (:array (:struct sg-shader-image-desc) 12))
+  (samplers (make-array 8) :type (:array (:struct sg-shader-sampler-desc) 8))
+  (image-sampler-pairs (make-array 12) :type (:array (:struct sg-shader-image-sampler-pair-desc) 12)))
 
 (defmethod translate-from-foreign (ptr (type sg-shader-stage-desc-type))
   (with-foreign-slots ((source bytecode entry d3d11-target uniform-blocks images samplers image-sampler-pairs) ptr (:struct %sg-shader-stage-desc))
@@ -1173,9 +1173,9 @@
 
 (defstruct sg-shader-desc
   (-start-canary 0 :type :unsigned-int)
-  (attrs (make-array 16) :type (:array (:struct %sg-shader-attr-desc) 16))
-  (vs nil :type (:struct %sg-shader-stage-desc))
-  (fs nil :type (:struct %sg-shader-stage-desc))
+  (attrs (make-array 16) :type (:array (:struct sg-shader-attr-desc) 16))
+  (vs (make-sg-shader-stage-desc) :type (:struct sg-shader-stage-desc))
+  (fs (make-sg-shader-stage-desc) :type (:struct sg-shader-stage-desc))
   (label nil :type (:pointer :char))
   (-end-canary 0 :type :unsigned-int))
 
@@ -1246,8 +1246,8 @@
   (attrs (:array (:struct %sg-vertex-attr-state) 16)))
 
 (defstruct sg-vertex-layout-state
-  (buffers (make-array 8) :type (:array (:struct %sg-vertex-buffer-layout-state) 8))
-  (attrs (make-array 16) :type (:array (:struct %sg-vertex-attr-state) 16)))
+  (buffers (make-array 8) :type (:array (:struct sg-vertex-buffer-layout-state) 8))
+  (attrs (make-array 16) :type (:array (:struct sg-vertex-attr-state) 16)))
 
 (defmethod translate-from-foreign (ptr (type sg-vertex-layout-state-type))
   (with-foreign-slots ((buffers attrs) ptr (:struct %sg-vertex-layout-state))
@@ -1297,8 +1297,8 @@
 
 (defstruct sg-stencil-state
   (enabled nil :type :int)
-  (front nil :type (:struct %sg-stencil-face-state))
-  (back nil :type (:struct %sg-stencil-face-state))
+  (front (make-sg-stencil-face-state) :type (:struct sg-stencil-face-state))
+  (back (make-sg-stencil-face-state) :type (:struct sg-stencil-face-state))
   (read-mask 0 :type :unsigned-char)
   (write-mask 0 :type :unsigned-char)
   (ref 0 :type :unsigned-char))
@@ -1394,7 +1394,7 @@
 (defstruct sg-color-target-state
   (pixel-format nil :type sg-pixel-format)
   (write-mask nil :type sg-color-mask)
-  (blend nil :type (:struct %sg-blend-state)))
+  (blend (make-sg-blend-state) :type (:struct sg-blend-state)))
 
 (defmethod translate-from-foreign (ptr (type sg-color-target-state-type))
   (with-foreign-slots ((pixel-format write-mask blend) ptr (:struct %sg-color-target-state))
@@ -1429,18 +1429,18 @@
 
 (defstruct sg-pipeline-desc
   (-start-canary 0 :type :unsigned-int)
-  (shader nil :type (:struct %sg-shader))
-  (layout nil :type (:struct %sg-vertex-layout-state))
-  (depth nil :type (:struct %sg-depth-state))
-  (stencil nil :type (:struct %sg-stencil-state))
+  (shader (make-sg-shader) :type (:struct sg-shader))
+  (layout (make-sg-vertex-layout-state) :type (:struct sg-vertex-layout-state))
+  (depth (make-sg-depth-state) :type (:struct sg-depth-state))
+  (stencil (make-sg-stencil-state) :type (:struct sg-stencil-state))
   (color-count 0 :type :int)
-  (colors (make-array 4) :type (:array (:struct %sg-color-target-state) 4))
+  (colors (make-array 4) :type (:array (:struct sg-color-target-state) 4))
   (primitive-type nil :type sg-primitive-type)
   (index-type nil :type sg-index-type)
   (cull-mode nil :type sg-cull-mode)
   (face-winding nil :type sg-face-winding)
   (sample-count 0 :type :int)
-  (blend-color nil :type (:struct %sg-color))
+  (blend-color (make-sg-color) :type (:struct sg-color))
   (alpha-to-coverage-enabled nil :type :int)
   (label nil :type (:pointer :char))
   (-end-canary 0 :type :unsigned-int))
@@ -1477,7 +1477,7 @@
   (slice :int))
 
 (defstruct sg-pass-attachment-desc
-  (image nil :type (:struct %sg-image))
+  (image (make-sg-image) :type (:struct sg-image))
   (mip-level 0 :type :int)
   (slice 0 :type :int))
 
@@ -1504,9 +1504,9 @@
 
 (defstruct sg-pass-desc
   (-start-canary 0 :type :unsigned-int)
-  (color-attachments (make-array 4) :type (:array (:struct %sg-pass-attachment-desc) 4))
-  (resolve-attachments (make-array 4) :type (:array (:struct %sg-pass-attachment-desc) 4))
-  (depth-stencil-attachment nil :type (:struct %sg-pass-attachment-desc))
+  (color-attachments (make-array 4) :type (:array (:struct sg-pass-attachment-desc) 4))
+  (resolve-attachments (make-array 4) :type (:array (:struct sg-pass-attachment-desc) 4))
+  (depth-stencil-attachment (make-sg-pass-attachment-desc) :type (:struct sg-pass-attachment-desc))
   (label nil :type (:pointer :char))
   (-end-canary 0 :type :unsigned-int))
 
@@ -1750,7 +1750,7 @@
   (active-slot :int))
 
 (defstruct sg-buffer-info
-  (slot nil :type (:struct %sg-slot-info))
+  (slot (make-sg-slot-info) :type (:struct sg-slot-info))
   (update-frame-index 0 :type :unsigned-int)
   (append-frame-index 0 :type :unsigned-int)
   (append-pos 0 :type :int)
@@ -1782,7 +1782,7 @@
   (active-slot :int))
 
 (defstruct sg-image-info
-  (slot nil :type (:struct %sg-slot-info))
+  (slot (make-sg-slot-info) :type (:struct sg-slot-info))
   (upd-frame-index 0 :type :unsigned-int)
   (num-slots 0 :type :int)
   (active-slot 0 :type :int))
@@ -1805,7 +1805,7 @@
   (slot (:struct %sg-slot-info)))
 
 (defstruct sg-sampler-info
-  (slot nil :type (:struct %sg-slot-info)))
+  (slot (make-sg-slot-info) :type (:struct sg-slot-info)))
 
 (defmethod translate-from-foreign (ptr (type sg-sampler-info-type))
   (with-foreign-slots ((slot) ptr (:struct %sg-sampler-info))
@@ -1822,7 +1822,7 @@
   (slot (:struct %sg-slot-info)))
 
 (defstruct sg-shader-info
-  (slot nil :type (:struct %sg-slot-info)))
+  (slot (make-sg-slot-info) :type (:struct sg-slot-info)))
 
 (defmethod translate-from-foreign (ptr (type sg-shader-info-type))
   (with-foreign-slots ((slot) ptr (:struct %sg-shader-info))
@@ -1839,7 +1839,7 @@
   (slot (:struct %sg-slot-info)))
 
 (defstruct sg-pipeline-info
-  (slot nil :type (:struct %sg-slot-info)))
+  (slot (make-sg-slot-info) :type (:struct sg-slot-info)))
 
 (defmethod translate-from-foreign (ptr (type sg-pipeline-info-type))
   (with-foreign-slots ((slot) ptr (:struct %sg-pipeline-info))
@@ -1856,7 +1856,7 @@
   (slot (:struct %sg-slot-info)))
 
 (defstruct sg-pass-info
-  (slot nil :type (:struct %sg-slot-info)))
+  (slot (make-sg-slot-info) :type (:struct sg-slot-info)))
 
 (defmethod translate-from-foreign (ptr (type sg-pass-info-type))
   (with-foreign-slots ((slot) ptr (:struct %sg-pass-info))
@@ -2068,11 +2068,11 @@
   (num-unmap :unsigned-int))
 
 (defstruct sg-frame-stats-d3d11
-  (pass nil :type (:struct %sg-frame-stats-d3d11-pass))
-  (pipeline nil :type (:struct %sg-frame-stats-d3d11-pipeline))
-  (bindings nil :type (:struct %sg-frame-stats-d3d11-bindings))
-  (uniforms nil :type (:struct %sg-frame-stats-d3d11-uniforms))
-  (draw nil :type (:struct %sg-frame-stats-d3d11-draw))
+  (pass (make-sg-frame-stats-d3d11-pass) :type (:struct sg-frame-stats-d3d11-pass))
+  (pipeline (make-sg-frame-stats-d3d11-pipeline) :type (:struct sg-frame-stats-d3d11-pipeline))
+  (bindings (make-sg-frame-stats-d3d11-bindings) :type (:struct sg-frame-stats-d3d11-bindings))
+  (uniforms (make-sg-frame-stats-d3d11-uniforms) :type (:struct sg-frame-stats-d3d11-uniforms))
+  (draw (make-sg-frame-stats-d3d11-draw) :type (:struct sg-frame-stats-d3d11-draw))
   (num-map 0 :type :unsigned-int)
   (num-unmap 0 :type :unsigned-int))
 
@@ -2207,10 +2207,10 @@
   (uniforms (:struct %sg-frame-stats-metal-uniforms)))
 
 (defstruct sg-frame-stats-metal
-  (idpool nil :type (:struct %sg-frame-stats-metal-idpool))
-  (pipeline nil :type (:struct %sg-frame-stats-metal-pipeline))
-  (bindings nil :type (:struct %sg-frame-stats-metal-bindings))
-  (uniforms nil :type (:struct %sg-frame-stats-metal-uniforms)))
+  (idpool (make-sg-frame-stats-metal-idpool) :type (:struct sg-frame-stats-metal-idpool))
+  (pipeline (make-sg-frame-stats-metal-pipeline) :type (:struct sg-frame-stats-metal-pipeline))
+  (bindings (make-sg-frame-stats-metal-bindings) :type (:struct sg-frame-stats-metal-bindings))
+  (uniforms (make-sg-frame-stats-metal-uniforms) :type (:struct sg-frame-stats-metal-uniforms)))
 
 (defmethod translate-from-foreign (ptr (type sg-frame-stats-metal-type))
   (with-foreign-slots ((idpool pipeline bindings uniforms) ptr (:struct %sg-frame-stats-metal))
@@ -2301,8 +2301,8 @@
   (bindings (:struct %sg-frame-stats-wgpu-bindings)))
 
 (defstruct sg-frame-stats-wgpu
-  (uniforms nil :type (:struct %sg-frame-stats-wgpu-uniforms))
-  (bindings nil :type (:struct %sg-frame-stats-wgpu-bindings)))
+  (uniforms (make-sg-frame-stats-wgpu-uniforms) :type (:struct sg-frame-stats-wgpu-uniforms))
+  (bindings (make-sg-frame-stats-wgpu-bindings) :type (:struct sg-frame-stats-wgpu-bindings)))
 
 (defmethod translate-from-foreign (ptr (type sg-frame-stats-wgpu-type))
   (with-foreign-slots ((uniforms bindings) ptr (:struct %sg-frame-stats-wgpu))
@@ -2353,10 +2353,10 @@
   (size-update-buffer 0 :type :unsigned-int)
   (size-append-buffer 0 :type :unsigned-int)
   (size-update-image 0 :type :unsigned-int)
-  (gl nil :type (:struct %sg-frame-stats-gl))
-  (d3d11 nil :type (:struct %sg-frame-stats-d3d11))
-  (metal nil :type (:struct %sg-frame-stats-metal))
-  (wgpu nil :type (:struct %sg-frame-stats-wgpu)))
+  (gl (make-sg-frame-stats-gl) :type (:struct sg-frame-stats-gl))
+  (d3d11 (make-sg-frame-stats-d3d11) :type (:struct sg-frame-stats-d3d11))
+  (metal (make-sg-frame-stats-metal) :type (:struct sg-frame-stats-metal))
+  (wgpu (make-sg-frame-stats-wgpu) :type (:struct sg-frame-stats-wgpu)))
 
 (defmethod translate-from-foreign (ptr (type sg-frame-stats-type))
   (with-foreign-slots ((frame-index num-passes num-apply-viewport num-apply-scissor-rect num-apply-pipeline num-apply-bindings num-apply-uniforms num-draw num-update-buffer num-append-buffer num-update-image size-apply-uniforms size-update-buffer size-append-buffer size-update-image gl d3d11 metal wgpu) ptr (:struct %sg-frame-stats))
@@ -2789,10 +2789,10 @@
   (color-format nil :type sg-pixel-format)
   (depth-format nil :type sg-pixel-format)
   (sample-count 0 :type :int)
-  (metal nil :type (:struct %sg-metal-context-desc))
-  (d3d11 nil :type (:struct %sg-d3d11-context-desc))
-  (wgpu nil :type (:struct %sg-wgpu-context-desc))
-  (gl nil :type (:struct %sg-gl-context-desc)))
+  (metal (make-sg-metal-context-desc) :type (:struct sg-metal-context-desc))
+  (d3d11 (make-sg-d3d11-context-desc) :type (:struct sg-d3d11-context-desc))
+  (wgpu (make-sg-wgpu-context-desc) :type (:struct sg-wgpu-context-desc))
+  (gl (make-sg-gl-context-desc) :type (:struct sg-gl-context-desc)))
 
 (defmethod translate-from-foreign (ptr (type sg-context-desc-type))
   (with-foreign-slots ((color-format depth-format sample-count metal d3d11 wgpu gl) ptr (:struct %sg-context-desc))
@@ -2909,9 +2909,9 @@
   (mtl-force-managed-storage-mode nil :type :int)
   (wgpu-disable-bindgroups-cache nil :type :int)
   (wgpu-bindgroups-cache-size 0 :type :int)
-  (allocator nil :type (:struct %sg-allocator))
-  (logger nil :type (:struct %sg-logger))
-  (context nil :type (:struct %sg-context-desc))
+  (allocator (make-sg-allocator) :type (:struct sg-allocator))
+  (logger (make-sg-logger) :type (:struct sg-logger))
+  (context (make-sg-context-desc) :type (:struct sg-context-desc))
   (-end-canary 0 :type :unsigned-int))
 
 (defmethod translate-from-foreign (ptr (type sg-desc-type))
@@ -4049,7 +4049,7 @@
   (scroll-x 0.0 :type :float)
   (scroll-y 0.0 :type :float)
   (num-touches 0 :type :int)
-  (touches (make-array 8) :type (:array (:struct %sapp-touchpoint) 8))
+  (touches (make-array 8) :type (:array (:struct sapp-touchpoint) 8))
   (window-width 0 :type :int)
   (window-height 0 :type :int)
   (framebuffer-width 0 :type :int)
@@ -4112,7 +4112,7 @@
 (defstruct sapp-image-desc
   (width 0 :type :int)
   (height 0 :type :int)
-  (pixels nil :type (:struct %sapp-range)))
+  (pixels (make-sapp-range) :type (:struct sapp-range)))
 
 (defmethod translate-from-foreign (ptr (type sapp-image-desc-type))
   (with-foreign-slots ((width height pixels) ptr (:struct %sapp-image-desc))
@@ -4133,7 +4133,7 @@
 
 (defstruct sapp-icon-desc
   (sokol-default nil :type :int)
-  (images (make-array 8) :type (:array (:struct %sapp-image-desc) 8)))
+  (images (make-array 8) :type (:array (:struct sapp-image-desc) 8)))
 
 (defmethod translate-from-foreign (ptr (type sapp-icon-desc-type))
   (with-foreign-slots ((sokol-default images) ptr (:struct %sapp-icon-desc))
@@ -4351,9 +4351,9 @@
   (enable-dragndrop nil :type :int)
   (max-dropped-files 0 :type :int)
   (max-dropped-file-path-length 0 :type :int)
-  (icon nil :type (:struct %sapp-icon-desc))
-  (allocator nil :type (:struct %sapp-allocator))
-  (logger nil :type (:struct %sapp-logger))
+  (icon (make-sapp-icon-desc) :type (:struct sapp-icon-desc))
+  (allocator (make-sapp-allocator) :type (:struct sapp-allocator))
+  (logger (make-sapp-logger) :type (:struct sapp-logger))
   (gl-major-version 0 :type :int)
   (gl-minor-version 0 :type :int)
   (win32-console-utf8 nil :type :int)
@@ -4429,8 +4429,8 @@
   (succeeded nil :type :int)
   (error-code nil :type sapp-html5-fetch-error)
   (file-index 0 :type :int)
-  (data nil :type (:struct %sapp-range))
-  (buffer nil :type (:struct %sapp-range))
+  (data (make-sapp-range) :type (:struct sapp-range))
+  (buffer (make-sapp-range) :type (:struct sapp-range))
   (user-data nil :type (:pointer :void)))
 
 (defmethod translate-from-foreign (ptr (type sapp-html5-fetch-response-type))
@@ -4458,7 +4458,7 @@
 (defstruct sapp-html5-fetch-request
   (dropped-file-index 0 :type :int)
   (callback nil :type :pointer)
-  (buffer nil :type (:struct %sapp-range))
+  (buffer (make-sapp-range) :type (:struct sapp-range))
   (user-data nil :type (:pointer :void)))
 
 (defmethod translate-from-foreign (ptr (type sapp-html5-fetch-request-type))
@@ -4721,8 +4721,8 @@
   (stream-cb nil :type :pointer)
   (stream-userdata-cb nil :type :pointer)
   (user-data nil :type (:pointer :void))
-  (allocator nil :type (:struct %saudio-allocator))
-  (logger nil :type (:struct %saudio-logger)))
+  (allocator (make-saudio-allocator) :type (:struct saudio-allocator))
+  (logger (make-saudio-logger) :type (:struct saudio-logger)))
 
 (defmethod translate-from-foreign (ptr (type saudio-desc-type))
   (with-foreign-slots ((sample-rate num-channels buffer-frames packet-frames num-packets stream-cb stream-userdata-cb user-data allocator logger) ptr (:struct %saudio-desc))
@@ -4833,7 +4833,7 @@
   (argv nil :type (:pointer (:pointer :char)))
   (max-args 0 :type :int)
   (buf-size 0 :type :int)
-  (allocator nil :type (:struct %sargs-allocator)))
+  (allocator (make-sargs-allocator) :type (:struct sargs-allocator)))
 
 (defmethod translate-from-foreign (ptr (type sargs-desc-type))
   (with-foreign-slots ((argc argv max-args buf-size allocator) ptr (:struct %sargs-desc))
@@ -4975,8 +4975,8 @@
   (max-requests 0 :type :unsigned-int)
   (num-channels 0 :type :unsigned-int)
   (num-lanes 0 :type :unsigned-int)
-  (allocator nil :type (:struct %sfetch-allocator-t))
-  (logger nil :type (:struct %sfetch-logger-t)))
+  (allocator (make-sfetch-allocator-t) :type (:struct sfetch-allocator-t))
+  (logger (make-sfetch-logger-t) :type (:struct sfetch-logger-t)))
 
 (defmethod translate-from-foreign (ptr (type sfetch-desc-t-type))
   (with-foreign-slots ((max-requests num-channels num-lanes allocator logger) ptr (:struct %sfetch-desc-t))
@@ -5037,7 +5037,7 @@
   (buffer (:struct %sfetch-range-t)))
 
 (defstruct sfetch-response-t
-  (handle nil :type (:struct %sfetch-handle-t))
+  (handle (make-sfetch-handle-t) :type (:struct sfetch-handle-t))
   (dispatched nil :type :int)
   (fetched nil :type :int)
   (paused nil :type :int)
@@ -5050,8 +5050,8 @@
   (path nil :type (:pointer :char))
   (user-data nil :type (:pointer :void))
   (data-offset 0 :type :unsigned-int)
-  (data nil :type (:struct %sfetch-range-t))
-  (buffer nil :type (:struct %sfetch-range-t)))
+  (data (make-sfetch-range-t) :type (:struct sfetch-range-t))
+  (buffer (make-sfetch-range-t) :type (:struct sfetch-range-t)))
 
 (defmethod translate-from-foreign (ptr (type sfetch-response-t-type))
   (with-foreign-slots ((handle dispatched fetched paused finished failed cancelled error-code channel lane path user-data data-offset data buffer) ptr (:struct %sfetch-response-t))
@@ -5091,8 +5091,8 @@
   (path nil :type (:pointer :char))
   (callback nil :type :pointer)
   (chunk-size 0 :type :unsigned-int)
-  (buffer nil :type (:struct %sfetch-range-t))
-  (user-data nil :type (:struct %sfetch-range-t)))
+  (buffer (make-sfetch-range-t) :type (:struct sfetch-range-t))
+  (user-data (make-sfetch-range-t) :type (:struct sfetch-range-t)))
 
 (defmethod translate-from-foreign (ptr (type sfetch-request-t-type))
   (with-foreign-slots ((channel path callback chunk-size buffer user-data) ptr (:struct %sfetch-request-t))

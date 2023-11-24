@@ -102,6 +102,7 @@
       (= tag ":array") f"(make-array {(get (get tree "type") "size")})"
       (in tag ["uint32_t" "uint64_t" "uint8_t" ":int" "size_t" "uintptr_t"]) "0"
       (in tag [":pointer" ":function-pointer" ":_Bool"]) "nil"
+      (in (translate-name tag) f"(make-{(translate-name tag)})"
       True "nil")))
 
 (defn generate-translation-wrapper [tree]
@@ -124,7 +125,7 @@
 
 (defn translate-wrapper-struct [tree]
   (let [struct-name (translate-name (get tree "name"))
-        fields (lfor field (get tree "fields") f"({(translate-name (get field "name"))} {(default-value field)} :type {(translate-symbol (get field "type"))})")]
+        fields (lfor field (get tree "fields") f"({(translate-name (get field "name"))} {(default-value field)} :type {(re.sub "%" "" (translate-symbol (get field "type")))})")]
     (if (.startswith struct-name "-")
         None
         (reduce
