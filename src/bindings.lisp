@@ -9,48 +9,6 @@
 (unless (foreign-library-loaded-p 'libsokol)
   (use-foreign-library libsokol))
 
-(defcstruct --darwin-pthread-handler-rec
-  (--routine :pointer)
-  (--arg (:pointer :void))
-  (--next (:pointer (:struct --darwin-pthread-handler-rec))))
-
-(defcstruct -opaque-pthread-attr-t
-  (--sig :long)
-  (--opaque (:array :char 56)))
-
-(defcstruct -opaque-pthread-cond-t
-  (--sig :long)
-  (--opaque (:array :char 40)))
-
-(defcstruct -opaque-pthread-condattr-t
-  (--sig :long)
-  (--opaque (:array :char 8)))
-
-(defcstruct -opaque-pthread-mutex-t
-  (--sig :long)
-  (--opaque (:array :char 56)))
-
-(defcstruct -opaque-pthread-mutexattr-t
-  (--sig :long)
-  (--opaque (:array :char 8)))
-
-(defcstruct -opaque-pthread-once-t
-  (--sig :long)
-  (--opaque (:array :char 8)))
-
-(defcstruct -opaque-pthread-rwlock-t
-  (--sig :long)
-  (--opaque (:array :char 192)))
-
-(defcstruct -opaque-pthread-rwlockattr-t
-  (--sig :long)
-  (--opaque (:array :char 16)))
-
-(defcstruct -opaque-pthread-t
-  (--sig :long)
-  (--cleanup-stack (:pointer (:struct --darwin-pthread-handler-rec)))
-  (--opaque (:array :char 8176)))
-
 (defcstruct sg-buffer
   (id :unsigned-int))
 

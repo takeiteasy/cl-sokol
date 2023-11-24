@@ -101,6 +101,8 @@
                      (do
                        ;; (print (get field "type"))
                      f"({(translate-name (get field "name"))} {(translate-symbol (get field "type"))})")))
+  (when (.startswith struct-name "-")
+    (return None))
   (unless (in struct-name **struct-symbols**)
     (.append **struct-symbols** struct-name))
   f"(defcstruct {struct-name}\n  {(.join "\n  " fields)})")

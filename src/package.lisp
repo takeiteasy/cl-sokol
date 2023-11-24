@@ -4,16 +4,6 @@
   (:nicknames :%sokol)
   (:use #:cl #:cffi)
   (:export
-   #:--darwin-pthread-handler-rec
-   #:-opaque-pthread-attr-t
-   #:-opaque-pthread-cond-t
-   #:-opaque-pthread-condattr-t
-   #:-opaque-pthread-mutex-t
-   #:-opaque-pthread-mutexattr-t
-   #:-opaque-pthread-once-t
-   #:-opaque-pthread-rwlock-t
-   #:-opaque-pthread-rwlockattr-t
-   #:-opaque-pthread-t
    #:sg-buffer
    #:sg-image
    #:sg-sampler
