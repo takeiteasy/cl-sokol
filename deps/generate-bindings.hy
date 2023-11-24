@@ -104,12 +104,33 @@
       (in tag [":pointer" ":function-pointer" ":_Bool"]) "nil"
       True "nil")))
 
+(defn generate-translation-wrapper [tree]
+  (let [struct-name (translate-name (get tree "name"))
+        fields (lfor field (get tree "fields") f"{(translate-name (get field "name"))}")]
+    (.join "\n" #(f"(defmethod translate-from-foreign (ptr (type {struct-name}-type))"
+                  f"  (with-foreign-slots (({(.join " " fields)}) ptr (:struct %{struct-name}))"
+                  f"    (make-{struct-name} {(.join " " (lfor field fields f":{field} {field}"))})))"
+                  f"(defmethod expand-from-foreign (ptr (type {struct-name}-type))"
+                  f"  `(with-foreign-slots (({(.join " " fields)}) ,ptr (:struct %{struct-name}))"
+                  f"    (make-{struct-name} {(.join " " (lfor field fields f":{field} {field}"))})))"
+                  f"(defmethod translate-into-foreign-memory (value (type {struct-name}-type) ptr)"
+                  f"  (with-foreign-slots (({(.join " " fields)}) ptr (:struct %{struct-name}))"
+                  f"    (setf "
+                  (reduce
+                    "      "
+                    (.join "\n      " (lfor field fields f"{field} ({struct-name}-{field} value)"))
+                    ")))")
+                  ))))
+
 (defn translate-wrapper-struct [tree]
   (let [struct-name (translate-name (get tree "name"))
-        fields (lfor field (get tree "fields") f"({(translate-name (get field "name"))} {(default-value field)})")]
+        fields (lfor field (get tree "fields") f"({(translate-name (get field "name"))} {(default-value field)} :type {(translate-symbol (get field "type"))})")]
     (if (.startswith struct-name "-")
         None
-        f"(defstruct {struct-name}\n  {(.join "\n  " fields)})")))
+        (reduce
+          f"(defstruct {struct-name}\n  {(.join "\n  " fields)})"
+          "\n\n"
+          (generate-translation-wrapper tree)))))
 
 (defn translate-struct [tree]
   (let [struct-name (translate-name (get tree "name"))

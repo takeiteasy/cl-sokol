@@ -17,11 +17,12 @@
   (let ((desc (%sokol:sokol-default-sgdesc)))
     (unwind-protect
         (%sokol:sg-setup desc)
+        
       (cffi:foreign-free desc)))
   (init-cb))
 
 (defcallback frame-cb-wrapper :void ()
-  (let ((pass-action (foreign-alloc '(:struct %sokol:%sg-pass-action))))
+  (let ((pass-action (foreign-alloc '(:struct %sokol:sg-pass-action))))
     (unwind-protect
         (progn
          (%sokol:sg-begin-default-pass pass-action (%sokol:sapp-width) (%sokol:sapp-height))
@@ -38,7 +39,7 @@
   (%sokol:sg-shutdown))
 
 (defun run (win-width win-height &optional win-title)
-  (let ((desc (foreign-alloc '(:struct %sokol:%sapp-desc))))
+  (let ((desc (foreign-alloc '(:struct %sokol:sapp-desc))))
     (unwind-protect
         (with-foreign-slots (((w %sokol::width)
                               (h %sokol::height)
@@ -46,7 +47,7 @@
                               (init %sokol::init-cb)
                               (frame %sokol::frame-cb)
                               (event %sokol::event-cb)
-                              (cleanup %sokol::cleanup-cb)) desc (:struct %sokol:%sapp-desc))
+                              (cleanup %sokol::cleanup-cb)) desc (:struct %sokol:sapp-desc))
           (with-foreign-string (foreign-win-title (if win-title win-title "sokol"))
             (setf
               w win-width
