@@ -34,7 +34,8 @@
   (event-cb event))
 
 (defcallback cleanup-cb-wrapper :void ()
-  (cleanup-cb))
+  (cleanup-cb)
+  (%sokol:sg-shutdown))
 
 (defun run (win-width win-height &optional win-title)
   (let ((desc (foreign-alloc '(:struct %sokol:sapp-desc))))
@@ -47,7 +48,8 @@
                               (event %sokol::event-cb)
                               (cleanup %sokol::cleanup-cb)) desc (:struct %sokol:sapp-desc))
           (with-foreign-string (foreign-win-title (if win-title win-title "sokol"))
-            (setf w win-width
+            (setf
+              w win-width
               h win-height
               title foreign-win-title
               init (callback init-cb-wrapper)

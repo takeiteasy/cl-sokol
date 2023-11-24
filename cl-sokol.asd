@@ -5,9 +5,9 @@
   (sb-int:set-floating-point-modes :traps nil))
 
 (asdf:defsystem #:cl-sokol
-  :description "Describe cl-sokol here"
-  :author "Your Name <your.name@example.com>"
-  :license  "Specify license here"
+  :description "Common Lisp bindings + wrapper for sokol libraries"
+  :author "George Watson <gigolo@hotmail.co.uk>"
+  :license  "MIT"
   :version "0.0.1"
   :depends-on (:cffi
                :cffi-libffi

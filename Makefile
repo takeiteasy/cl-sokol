@@ -1,6 +1,5 @@
 OUT := libsokol
-SPEC := spec/sokol.x86_64-apple-darwin9.spec # TODO: Detect automatically
-LIB_SUFFIX := so
+SPEC := sokol.x86_64-apple-darwin9.spec # TODO: Detect automatically
 EXE_SUFFIX :=
 CFLAGS := -Ideps/ -Ideps/sokol/
 
@@ -23,6 +22,7 @@ else
     UNAME_S := $(shell uname -s)
     ifeq ($(UNAME_S),Linux)
         # OUT := $(OUT)-linux
+		LIB_SUFFIX := so
 		CFLAGS += -DSOKOL_GLCORE33 -pthread -lGL -ldl -lm -lX11 -lasound -lXi -lXcursor
     endif
     ifeq ($(UNAME_S),Darwin)
@@ -44,6 +44,10 @@ endif
 
 default:
 	$(CC) -shared -fpic $(CFLAGS) -Ideps/sokol/ deps/sokol.c -o bin/$(OUT).$(LIB_SUFFIX)
+
+bindings:
+	sh deps/generate-spec.sh
+	hy deps/generate-bindings.hy deps/spec/$(SPEC) 
 
 .PHONY: default clean
 
