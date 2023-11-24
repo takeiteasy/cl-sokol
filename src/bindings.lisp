@@ -9,30 +9,55 @@
 (unless (foreign-library-loaded-p 'libsokol)
   (use-foreign-library libsokol))
 
-(defcstruct sg-buffer
+(defcstruct (%sg-buffer :class sg-buffer-type)
   (id :unsigned-int))
 
-(defcstruct sg-image
+(defstruct sg-buffer
+  (id 0))
+
+(defcstruct (%sg-image :class sg-image-type)
   (id :unsigned-int))
 
-(defcstruct sg-sampler
+(defstruct sg-image
+  (id 0))
+
+(defcstruct (%sg-sampler :class sg-sampler-type)
   (id :unsigned-int))
 
-(defcstruct sg-shader
+(defstruct sg-sampler
+  (id 0))
+
+(defcstruct (%sg-shader :class sg-shader-type)
   (id :unsigned-int))
 
-(defcstruct sg-pipeline
+(defstruct sg-shader
+  (id 0))
+
+(defcstruct (%sg-pipeline :class sg-pipeline-type)
   (id :unsigned-int))
 
-(defcstruct sg-pass
+(defstruct sg-pipeline
+  (id 0))
+
+(defcstruct (%sg-pass :class sg-pass-type)
   (id :unsigned-int))
 
-(defcstruct sg-context
+(defstruct sg-pass
+  (id 0))
+
+(defcstruct (%sg-context :class sg-context-type)
   (id :unsigned-int))
 
-(defcstruct sg-range
+(defstruct sg-context
+  (id 0))
+
+(defcstruct (%sg-range :class sg-range-type)
   (ptr (:pointer :void))
   (size :unsigned-long))
+
+(defstruct sg-range
+  (ptr nil)
+  (size 0))
 
 (defconstant +sg-invalid-id+ 0)
 (defconstant +sg-num-shader-stages+ 2)
@@ -48,11 +73,17 @@
 (defconstant +sg-max-mipmaps+ 16)
 (defconstant +sg-max-texturearray-layers+ 128)
 
-(defcstruct sg-color
+(defcstruct (%sg-color :class sg-color-type)
   (r :float)
   (g :float)
   (b :float)
   (a :float))
+
+(defstruct sg-color
+  (r 0.0)
+  (g 0.0)
+  (b 0.0)
+  (a 0.0))
 
 (defcenum sg-backend
   (:sg-backend-glcore33 0)
@@ -132,7 +163,7 @@
   (:-sg-pixelformat-num 64)
   (:-sg-pixelformat-force-u32 2147483647))
 
-(defcstruct sg-pixelformat-info
+(defcstruct (%sg-pixelformat-info :class sg-pixelformat-info-type)
   (sample :int)
   (filter :int)
   (render :int)
@@ -140,13 +171,27 @@
   (msaa :int)
   (depth :int))
 
-(defcstruct sg-features
+(defstruct sg-pixelformat-info
+  (sample nil)
+  (filter nil)
+  (render nil)
+  (blend nil)
+  (msaa nil)
+  (depth nil))
+
+(defcstruct (%sg-features :class sg-features-type)
   (origin-top-left :int)
   (image-clamp-to-border :int)
   (mrt-independent-blend-state :int)
   (mrt-independent-write-mask :int))
 
-(defcstruct sg-limits
+(defstruct sg-features
+  (origin-top-left nil)
+  (image-clamp-to-border nil)
+  (mrt-independent-blend-state nil)
+  (mrt-independent-write-mask nil))
+
+(defcstruct (%sg-limits :class sg-limits-type)
   (max-image-size-2d :int)
   (max-image-size-cube :int)
   (max-image-size-3d :int)
@@ -155,6 +200,16 @@
   (max-vertex-attrs :int)
   (gl-max-vertex-uniform-vectors :int)
   (gl-max-combined-texture-image-units :int))
+
+(defstruct sg-limits
+  (max-image-size-2d 0)
+  (max-image-size-cube 0)
+  (max-image-size-3d 0)
+  (max-image-size-array 0)
+  (max-image-array-layers 0)
+  (max-vertex-attrs 0)
+  (gl-max-vertex-uniform-vectors 0)
+  (gl-max-combined-texture-image-units 0))
 
 (defcenum sg-resource-state
   (:sg-resourcestate-initial 0)
@@ -416,48 +471,84 @@
   (:sg-storeaction-dontcare 2)
   (:-sg-storeaction-force-u32 2147483647))
 
-(defcstruct sg-color-attachment-action
+(defcstruct (%sg-color-attachment-action :class sg-color-attachment-action-type)
   (load-action sg-load-action)
   (store-action sg-store-action)
-  (clear-value (:struct sg-color)))
+  (clear-value (:struct %sg-color)))
 
-(defcstruct sg-depth-attachment-action
+(defstruct sg-color-attachment-action
+  (load-action nil)
+  (store-action nil)
+  (clear-value nil))
+
+(defcstruct (%sg-depth-attachment-action :class sg-depth-attachment-action-type)
   (load-action sg-load-action)
   (store-action sg-store-action)
   (clear-value :float))
 
-(defcstruct sg-stencil-attachment-action
+(defstruct sg-depth-attachment-action
+  (load-action nil)
+  (store-action nil)
+  (clear-value 0.0))
+
+(defcstruct (%sg-stencil-attachment-action :class sg-stencil-attachment-action-type)
   (load-action sg-load-action)
   (store-action sg-store-action)
   (clear-value :unsigned-char))
 
-(defcstruct sg-pass-action
+(defstruct sg-stencil-attachment-action
+  (load-action nil)
+  (store-action nil)
+  (clear-value 0))
+
+(defcstruct (%sg-pass-action :class sg-pass-action-type)
   (-start-canary :unsigned-int)
-  (colors (:array (:struct sg-color-attachment-action) 4))
-  (depth (:struct sg-depth-attachment-action))
-  (stencil (:struct sg-stencil-attachment-action))
+  (colors (:array (:struct %sg-color-attachment-action) 4))
+  (depth (:struct %sg-depth-attachment-action))
+  (stencil (:struct %sg-stencil-attachment-action))
   (-end-canary :unsigned-int))
 
-(defcstruct sg-stage-bindings
-  (images (:array (:struct sg-image) 12))
-  (samplers (:array (:struct sg-sampler) 8)))
+(defstruct sg-pass-action
+  (-start-canary 0)
+  (colors (make-array 4))
+  (depth nil)
+  (stencil nil)
+  (-end-canary 0))
 
-(defcstruct sg-bindings
+(defcstruct (%sg-stage-bindings :class sg-stage-bindings-type)
+  (images (:array (:struct %sg-image) 12))
+  (samplers (:array (:struct %sg-sampler) 8)))
+
+(defstruct sg-stage-bindings
+  (images (make-array 12))
+  (samplers (make-array 8)))
+
+(defcstruct (%sg-bindings :class sg-bindings-type)
   (-start-canary :unsigned-int)
-  (vertex-buffers (:array (:struct sg-buffer) 8))
+  (vertex-buffers (:array (:struct %sg-buffer) 8))
   (vertex-buffer-offsets (:array :int 8))
-  (index-buffer (:struct sg-buffer))
+  (index-buffer (:struct %sg-buffer))
   (index-buffer-offset :int)
-  (vs (:struct sg-stage-bindings))
-  (fs (:struct sg-stage-bindings))
+  (vs (:struct %sg-stage-bindings))
+  (fs (:struct %sg-stage-bindings))
   (-end-canary :unsigned-int))
 
-(defcstruct sg-buffer-desc
+(defstruct sg-bindings
+  (-start-canary 0)
+  (vertex-buffers (make-array 8))
+  (vertex-buffer-offsets (make-array 8))
+  (index-buffer nil)
+  (index-buffer-offset 0)
+  (vs nil)
+  (fs nil)
+  (-end-canary 0))
+
+(defcstruct (%sg-buffer-desc :class sg-buffer-desc-type)
   (-start-canary :unsigned-int)
   (size :unsigned-long)
   (type sg-buffer-type)
   (usage sg-usage)
-  (data (:struct sg-range))
+  (data (:struct %sg-range))
   (label (:pointer :char))
   (gl-buffers (:array :unsigned-int 2))
   (mtl-buffers (:array (:pointer :void) 2))
@@ -465,10 +556,26 @@
   (wgpu-buffer (:pointer :void))
   (-end-canary :unsigned-int))
 
-(defcstruct sg-image-data
-  (subimage (:array (:array (:struct sg-range) 16) 6)))
+(defstruct sg-buffer-desc
+  (-start-canary 0)
+  (size 0)
+  (type nil)
+  (usage nil)
+  (data nil)
+  (label nil)
+  (gl-buffers (make-array 2))
+  (mtl-buffers (make-array 2))
+  (d3d11-buffer nil)
+  (wgpu-buffer nil)
+  (-end-canary 0))
 
-(defcstruct sg-image-desc
+(defcstruct (%sg-image-data :class sg-image-data-type)
+  (subimage (:array (:array (:struct %sg-range) 16) 6)))
+
+(defstruct sg-image-data
+  (subimage (make-array 6)))
+
+(defcstruct (%sg-image-desc :class sg-image-desc-type)
   (-start-canary :unsigned-int)
   (type sg-image-type)
   (render-target :int)
@@ -479,7 +586,7 @@
   (usage sg-usage)
   (pixel-format sg-pixel-format)
   (sample-count :int)
-  (data (:struct sg-image-data))
+  (data (:struct %sg-image-data))
   (label (:pointer :char))
   (gl-textures (:array :unsigned-int 2))
   (gl-texture-target :unsigned-int)
@@ -490,7 +597,29 @@
   (wgpu-texture-view (:pointer :void))
   (-end-canary :unsigned-int))
 
-(defcstruct sg-sampler-desc
+(defstruct sg-image-desc
+  (-start-canary 0)
+  (type nil)
+  (render-target nil)
+  (width 0)
+  (height 0)
+  (num-slices 0)
+  (num-mipmaps 0)
+  (usage nil)
+  (pixel-format nil)
+  (sample-count 0)
+  (data nil)
+  (label nil)
+  (gl-textures (make-array 2))
+  (gl-texture-target 0)
+  (mtl-textures (make-array 2))
+  (d3d11-texture nil)
+  (d3d11-shader-resource-view nil)
+  (wgpu-texture nil)
+  (wgpu-texture-view nil)
+  (-end-canary 0))
+
+(defcstruct (%sg-sampler-desc :class sg-sampler-desc-type)
   (-start-canary :unsigned-int)
   (min-filter sg-filter)
   (mag-filter sg-filter)
@@ -510,84 +639,181 @@
   (wgpu-sampler (:pointer :void))
   (-end-canary :unsigned-int))
 
-(defcstruct sg-shader-attr-desc
+(defstruct sg-sampler-desc
+  (-start-canary 0)
+  (min-filter nil)
+  (mag-filter nil)
+  (mipmap-filter nil)
+  (wrap-u nil)
+  (wrap-v nil)
+  (wrap-w nil)
+  (min-lod 0.0)
+  (max-lod 0.0)
+  (border-color nil)
+  (compare nil)
+  (max-anisotropy 0)
+  (label nil)
+  (gl-sampler 0)
+  (mtl-sampler nil)
+  (d3d11-sampler nil)
+  (wgpu-sampler nil)
+  (-end-canary 0))
+
+(defcstruct (%sg-shader-attr-desc :class sg-shader-attr-desc-type)
   (name (:pointer :char))
   (sem-name (:pointer :char))
   (sem-index :int))
 
-(defcstruct sg-shader-uniform-desc
+(defstruct sg-shader-attr-desc
+  (name nil)
+  (sem-name nil)
+  (sem-index 0))
+
+(defcstruct (%sg-shader-uniform-desc :class sg-shader-uniform-desc-type)
   (name (:pointer :char))
   (type sg-uniform-type)
   (array-count :int))
 
-(defcstruct sg-shader-uniform-block-desc
+(defstruct sg-shader-uniform-desc
+  (name nil)
+  (type nil)
+  (array-count 0))
+
+(defcstruct (%sg-shader-uniform-block-desc :class sg-shader-uniform-block-desc-type)
   (size :unsigned-long)
   (layout sg-uniform-layout)
-  (uniforms (:array (:struct sg-shader-uniform-desc) 16)))
+  (uniforms (:array (:struct %sg-shader-uniform-desc) 16)))
 
-(defcstruct sg-shader-image-desc
+(defstruct sg-shader-uniform-block-desc
+  (size 0)
+  (layout nil)
+  (uniforms (make-array 16)))
+
+(defcstruct (%sg-shader-image-desc :class sg-shader-image-desc-type)
   (used :int)
   (multisampled :int)
   (image-type sg-image-type)
   (sample-type sg-image-sample-type))
 
-(defcstruct sg-shader-sampler-desc
+(defstruct sg-shader-image-desc
+  (used nil)
+  (multisampled nil)
+  (image-type nil)
+  (sample-type nil))
+
+(defcstruct (%sg-shader-sampler-desc :class sg-shader-sampler-desc-type)
   (used :int)
   (sampler-type sg-sampler-type))
 
-(defcstruct sg-shader-image-sampler-pair-desc
+(defstruct sg-shader-sampler-desc
+  (used nil)
+  (sampler-type nil))
+
+(defcstruct (%sg-shader-image-sampler-pair-desc :class sg-shader-image-sampler-pair-desc-type)
   (used :int)
   (image-slot :int)
   (sampler-slot :int)
   (glsl-name (:pointer :char)))
 
-(defcstruct sg-shader-stage-desc
+(defstruct sg-shader-image-sampler-pair-desc
+  (used nil)
+  (image-slot 0)
+  (sampler-slot 0)
+  (glsl-name nil))
+
+(defcstruct (%sg-shader-stage-desc :class sg-shader-stage-desc-type)
   (source (:pointer :char))
-  (bytecode (:struct sg-range))
+  (bytecode (:struct %sg-range))
   (entry (:pointer :char))
   (d3d11-target (:pointer :char))
-  (uniform-blocks (:array (:struct sg-shader-uniform-block-desc) 4))
-  (images (:array (:struct sg-shader-image-desc) 12))
-  (samplers (:array (:struct sg-shader-sampler-desc) 8))
-  (image-sampler-pairs (:array (:struct sg-shader-image-sampler-pair-desc) 12)))
+  (uniform-blocks (:array (:struct %sg-shader-uniform-block-desc) 4))
+  (images (:array (:struct %sg-shader-image-desc) 12))
+  (samplers (:array (:struct %sg-shader-sampler-desc) 8))
+  (image-sampler-pairs (:array (:struct %sg-shader-image-sampler-pair-desc) 12)))
 
-(defcstruct sg-shader-desc
+(defstruct sg-shader-stage-desc
+  (source nil)
+  (bytecode nil)
+  (entry nil)
+  (d3d11-target nil)
+  (uniform-blocks (make-array 4))
+  (images (make-array 12))
+  (samplers (make-array 8))
+  (image-sampler-pairs (make-array 12)))
+
+(defcstruct (%sg-shader-desc :class sg-shader-desc-type)
   (-start-canary :unsigned-int)
-  (attrs (:array (:struct sg-shader-attr-desc) 16))
-  (vs (:struct sg-shader-stage-desc))
-  (fs (:struct sg-shader-stage-desc))
+  (attrs (:array (:struct %sg-shader-attr-desc) 16))
+  (vs (:struct %sg-shader-stage-desc))
+  (fs (:struct %sg-shader-stage-desc))
   (label (:pointer :char))
   (-end-canary :unsigned-int))
 
-(defcstruct sg-vertex-buffer-layout-state
+(defstruct sg-shader-desc
+  (-start-canary 0)
+  (attrs (make-array 16))
+  (vs nil)
+  (fs nil)
+  (label nil)
+  (-end-canary 0))
+
+(defcstruct (%sg-vertex-buffer-layout-state :class sg-vertex-buffer-layout-state-type)
   (stride :int)
   (step-func sg-vertex-step)
   (step-rate :int))
 
-(defcstruct sg-vertex-attr-state
+(defstruct sg-vertex-buffer-layout-state
+  (stride 0)
+  (step-func nil)
+  (step-rate 0))
+
+(defcstruct (%sg-vertex-attr-state :class sg-vertex-attr-state-type)
   (buffer-index :int)
   (offset :int)
   (format sg-vertex-format))
 
-(defcstruct sg-vertex-layout-state
-  (buffers (:array (:struct sg-vertex-buffer-layout-state) 8))
-  (attrs (:array (:struct sg-vertex-attr-state) 16)))
+(defstruct sg-vertex-attr-state
+  (buffer-index 0)
+  (offset 0)
+  (format nil))
 
-(defcstruct sg-stencil-face-state
+(defcstruct (%sg-vertex-layout-state :class sg-vertex-layout-state-type)
+  (buffers (:array (:struct %sg-vertex-buffer-layout-state) 8))
+  (attrs (:array (:struct %sg-vertex-attr-state) 16)))
+
+(defstruct sg-vertex-layout-state
+  (buffers (make-array 8))
+  (attrs (make-array 16)))
+
+(defcstruct (%sg-stencil-face-state :class sg-stencil-face-state-type)
   (compare sg-compare-func)
   (fail-op sg-stencil-op)
   (depth-fail-op sg-stencil-op)
   (pass-op sg-stencil-op))
 
-(defcstruct sg-stencil-state
+(defstruct sg-stencil-face-state
+  (compare nil)
+  (fail-op nil)
+  (depth-fail-op nil)
+  (pass-op nil))
+
+(defcstruct (%sg-stencil-state :class sg-stencil-state-type)
   (enabled :int)
-  (front (:struct sg-stencil-face-state))
-  (back (:struct sg-stencil-face-state))
+  (front (:struct %sg-stencil-face-state))
+  (back (:struct %sg-stencil-face-state))
   (read-mask :unsigned-char)
   (write-mask :unsigned-char)
   (ref :unsigned-char))
 
-(defcstruct sg-depth-state
+(defstruct sg-stencil-state
+  (enabled nil)
+  (front nil)
+  (back nil)
+  (read-mask 0)
+  (write-mask 0)
+  (ref 0))
+
+(defcstruct (%sg-depth-state :class sg-depth-state-type)
   (pixel-format sg-pixel-format)
   (compare sg-compare-func)
   (write-enabled :int)
@@ -595,7 +821,15 @@
   (bias-slope-scale :float)
   (bias-clamp :float))
 
-(defcstruct sg-blend-state
+(defstruct sg-depth-state
+  (pixel-format nil)
+  (compare nil)
+  (write-enabled nil)
+  (bias 0.0)
+  (bias-slope-scale 0.0)
+  (bias-clamp 0.0))
+
+(defcstruct (%sg-blend-state :class sg-blend-state-type)
   (enabled :int)
   (src-factor-rgb sg-blend-factor)
   (dst-factor-rgb sg-blend-factor)
@@ -604,43 +838,88 @@
   (dst-factor-alpha sg-blend-factor)
   (op-alpha sg-blend-op))
 
-(defcstruct sg-color-target-state
+(defstruct sg-blend-state
+  (enabled nil)
+  (src-factor-rgb nil)
+  (dst-factor-rgb nil)
+  (op-rgb nil)
+  (src-factor-alpha nil)
+  (dst-factor-alpha nil)
+  (op-alpha nil))
+
+(defcstruct (%sg-color-target-state :class sg-color-target-state-type)
   (pixel-format sg-pixel-format)
   (write-mask sg-color-mask)
-  (blend (:struct sg-blend-state)))
+  (blend (:struct %sg-blend-state)))
 
-(defcstruct sg-pipeline-desc
+(defstruct sg-color-target-state
+  (pixel-format nil)
+  (write-mask nil)
+  (blend nil))
+
+(defcstruct (%sg-pipeline-desc :class sg-pipeline-desc-type)
   (-start-canary :unsigned-int)
-  (shader (:struct sg-shader))
-  (layout (:struct sg-vertex-layout-state))
-  (depth (:struct sg-depth-state))
-  (stencil (:struct sg-stencil-state))
+  (shader (:struct %sg-shader))
+  (layout (:struct %sg-vertex-layout-state))
+  (depth (:struct %sg-depth-state))
+  (stencil (:struct %sg-stencil-state))
   (color-count :int)
-  (colors (:array (:struct sg-color-target-state) 4))
+  (colors (:array (:struct %sg-color-target-state) 4))
   (primitive-type sg-primitive-type)
   (index-type sg-index-type)
   (cull-mode sg-cull-mode)
   (face-winding sg-face-winding)
   (sample-count :int)
-  (blend-color (:struct sg-color))
+  (blend-color (:struct %sg-color))
   (alpha-to-coverage-enabled :int)
   (label (:pointer :char))
   (-end-canary :unsigned-int))
 
-(defcstruct sg-pass-attachment-desc
-  (image (:struct sg-image))
+(defstruct sg-pipeline-desc
+  (-start-canary 0)
+  (shader nil)
+  (layout nil)
+  (depth nil)
+  (stencil nil)
+  (color-count 0)
+  (colors (make-array 4))
+  (primitive-type nil)
+  (index-type nil)
+  (cull-mode nil)
+  (face-winding nil)
+  (sample-count 0)
+  (blend-color nil)
+  (alpha-to-coverage-enabled nil)
+  (label nil)
+  (-end-canary 0))
+
+(defcstruct (%sg-pass-attachment-desc :class sg-pass-attachment-desc-type)
+  (image (:struct %sg-image))
   (mip-level :int)
   (slice :int))
 
-(defcstruct sg-pass-desc
+(defstruct sg-pass-attachment-desc
+  (image nil)
+  (mip-level 0)
+  (slice 0))
+
+(defcstruct (%sg-pass-desc :class sg-pass-desc-type)
   (-start-canary :unsigned-int)
-  (color-attachments (:array (:struct sg-pass-attachment-desc) 4))
-  (resolve-attachments (:array (:struct sg-pass-attachment-desc) 4))
-  (depth-stencil-attachment (:struct sg-pass-attachment-desc))
+  (color-attachments (:array (:struct %sg-pass-attachment-desc) 4))
+  (resolve-attachments (:array (:struct %sg-pass-attachment-desc) 4))
+  (depth-stencil-attachment (:struct %sg-pass-attachment-desc))
   (label (:pointer :char))
   (-end-canary :unsigned-int))
 
-(defcstruct sg-trace-hooks
+(defstruct sg-pass-desc
+  (-start-canary 0)
+  (color-attachments (make-array 4))
+  (resolve-attachments (make-array 4))
+  (depth-stencil-attachment nil)
+  (label nil)
+  (-end-canary 0))
+
+(defcstruct (%sg-trace-hooks :class sg-trace-hooks-type)
   (user-data (:pointer :void))
   (reset-state-cache :pointer)
   (make-buffer :pointer)
@@ -701,13 +980,79 @@
   (push-debug-group :pointer)
   (pop-debug-group :pointer))
 
-(defcstruct sg-slot-info
+(defstruct sg-trace-hooks
+  (user-data nil)
+  (reset-state-cache nil)
+  (make-buffer nil)
+  (make-image nil)
+  (make-sampler nil)
+  (make-shader nil)
+  (make-pipeline nil)
+  (make-pass nil)
+  (destroy-buffer nil)
+  (destroy-image nil)
+  (destroy-sampler nil)
+  (destroy-shader nil)
+  (destroy-pipeline nil)
+  (destroy-pass nil)
+  (update-buffer nil)
+  (update-image nil)
+  (append-buffer nil)
+  (begin-default-pass nil)
+  (begin-pass nil)
+  (apply-viewport nil)
+  (apply-scissor-rect nil)
+  (apply-pipeline nil)
+  (apply-bindings nil)
+  (apply-uniforms nil)
+  (draw nil)
+  (end-pass nil)
+  (commit nil)
+  (alloc-buffer nil)
+  (alloc-image nil)
+  (alloc-sampler nil)
+  (alloc-shader nil)
+  (alloc-pipeline nil)
+  (alloc-pass nil)
+  (dealloc-buffer nil)
+  (dealloc-image nil)
+  (dealloc-sampler nil)
+  (dealloc-shader nil)
+  (dealloc-pipeline nil)
+  (dealloc-pass nil)
+  (init-buffer nil)
+  (init-image nil)
+  (init-sampler nil)
+  (init-shader nil)
+  (init-pipeline nil)
+  (init-pass nil)
+  (uninit-buffer nil)
+  (uninit-image nil)
+  (uninit-sampler nil)
+  (uninit-shader nil)
+  (uninit-pipeline nil)
+  (uninit-pass nil)
+  (fail-buffer nil)
+  (fail-image nil)
+  (fail-sampler nil)
+  (fail-shader nil)
+  (fail-pipeline nil)
+  (fail-pass nil)
+  (push-debug-group nil)
+  (pop-debug-group nil))
+
+(defcstruct (%sg-slot-info :class sg-slot-info-type)
   (state sg-resource-state)
   (res-id :unsigned-int)
   (ctx-id :unsigned-int))
 
-(defcstruct sg-buffer-info
-  (slot (:struct sg-slot-info))
+(defstruct sg-slot-info
+  (state nil)
+  (res-id 0)
+  (ctx-id 0))
+
+(defcstruct (%sg-buffer-info :class sg-buffer-info-type)
+  (slot (:struct %sg-slot-info))
   (update-frame-index :unsigned-int)
   (append-frame-index :unsigned-int)
   (append-pos :int)
@@ -715,25 +1060,52 @@
   (num-slots :int)
   (active-slot :int))
 
-(defcstruct sg-image-info
-  (slot (:struct sg-slot-info))
+(defstruct sg-buffer-info
+  (slot nil)
+  (update-frame-index 0)
+  (append-frame-index 0)
+  (append-pos 0)
+  (append-overflow nil)
+  (num-slots 0)
+  (active-slot 0))
+
+(defcstruct (%sg-image-info :class sg-image-info-type)
+  (slot (:struct %sg-slot-info))
   (upd-frame-index :unsigned-int)
   (num-slots :int)
   (active-slot :int))
 
-(defcstruct sg-sampler-info
-  (slot (:struct sg-slot-info)))
+(defstruct sg-image-info
+  (slot nil)
+  (upd-frame-index 0)
+  (num-slots 0)
+  (active-slot 0))
 
-(defcstruct sg-shader-info
-  (slot (:struct sg-slot-info)))
+(defcstruct (%sg-sampler-info :class sg-sampler-info-type)
+  (slot (:struct %sg-slot-info)))
 
-(defcstruct sg-pipeline-info
-  (slot (:struct sg-slot-info)))
+(defstruct sg-sampler-info
+  (slot nil))
 
-(defcstruct sg-pass-info
-  (slot (:struct sg-slot-info)))
+(defcstruct (%sg-shader-info :class sg-shader-info-type)
+  (slot (:struct %sg-slot-info)))
 
-(defcstruct sg-frame-stats-gl
+(defstruct sg-shader-info
+  (slot nil))
+
+(defcstruct (%sg-pipeline-info :class sg-pipeline-info-type)
+  (slot (:struct %sg-slot-info)))
+
+(defstruct sg-pipeline-info
+  (slot nil))
+
+(defcstruct (%sg-pass-info :class sg-pass-info-type)
+  (slot (:struct %sg-slot-info)))
+
+(defstruct sg-pass-info
+  (slot nil))
+
+(defcstruct (%sg-frame-stats-gl :class sg-frame-stats-gl-type)
   (num-bind-buffer :unsigned-int)
   (num-active-texture :unsigned-int)
   (num-bind-texture :unsigned-int)
@@ -746,13 +1118,32 @@
   (num-disable-vertex-attrib-array :unsigned-int)
   (num-uniform :unsigned-int))
 
-(defcstruct sg-frame-stats-d3d11-pass
+(defstruct sg-frame-stats-gl
+  (num-bind-buffer 0)
+  (num-active-texture 0)
+  (num-bind-texture 0)
+  (num-bind-sampler 0)
+  (num-use-program 0)
+  (num-render-state 0)
+  (num-vertex-attrib-pointer 0)
+  (num-vertex-attrib-divisor 0)
+  (num-enable-vertex-attrib-array 0)
+  (num-disable-vertex-attrib-array 0)
+  (num-uniform 0))
+
+(defcstruct (%sg-frame-stats-d3d11-pass :class sg-frame-stats-d3d11-pass-type)
   (num-om-set-render-targets :unsigned-int)
   (num-clear-render-target-view :unsigned-int)
   (num-clear-depth-stencil-view :unsigned-int)
   (num-resolve-subresource :unsigned-int))
 
-(defcstruct sg-frame-stats-d3d11-pipeline
+(defstruct sg-frame-stats-d3d11-pass
+  (num-om-set-render-targets 0)
+  (num-clear-render-target-view 0)
+  (num-clear-depth-stencil-view 0)
+  (num-resolve-subresource 0))
+
+(defcstruct (%sg-frame-stats-d3d11-pipeline :class sg-frame-stats-d3d11-pipeline-type)
   (num-rs-set-state :unsigned-int)
   (num-om-set-depth-stencil-state :unsigned-int)
   (num-om-set-blend-state :unsigned-int)
@@ -763,7 +1154,18 @@
   (num-ps-set-shader :unsigned-int)
   (num-ps-set-constant-buffers :unsigned-int))
 
-(defcstruct sg-frame-stats-d3d11-bindings
+(defstruct sg-frame-stats-d3d11-pipeline
+  (num-rs-set-state 0)
+  (num-om-set-depth-stencil-state 0)
+  (num-om-set-blend-state 0)
+  (num-ia-set-primitive-topology 0)
+  (num-ia-set-input-layout 0)
+  (num-vs-set-shader 0)
+  (num-vs-set-constant-buffers 0)
+  (num-ps-set-shader 0)
+  (num-ps-set-constant-buffers 0))
+
+(defcstruct (%sg-frame-stats-d3d11-bindings :class sg-frame-stats-d3d11-bindings-type)
   (num-ia-set-vertex-buffers :unsigned-int)
   (num-ia-set-index-buffer :unsigned-int)
   (num-vs-set-shader-resources :unsigned-int)
@@ -771,30 +1173,61 @@
   (num-vs-set-samplers :unsigned-int)
   (num-ps-set-samplers :unsigned-int))
 
-(defcstruct sg-frame-stats-d3d11-uniforms
+(defstruct sg-frame-stats-d3d11-bindings
+  (num-ia-set-vertex-buffers 0)
+  (num-ia-set-index-buffer 0)
+  (num-vs-set-shader-resources 0)
+  (num-ps-set-shader-resources 0)
+  (num-vs-set-samplers 0)
+  (num-ps-set-samplers 0))
+
+(defcstruct (%sg-frame-stats-d3d11-uniforms :class sg-frame-stats-d3d11-uniforms-type)
   (num-update-subresource :unsigned-int))
 
-(defcstruct sg-frame-stats-d3d11-draw
+(defstruct sg-frame-stats-d3d11-uniforms
+  (num-update-subresource 0))
+
+(defcstruct (%sg-frame-stats-d3d11-draw :class sg-frame-stats-d3d11-draw-type)
   (num-draw-indexed-instanced :unsigned-int)
   (num-draw-indexed :unsigned-int)
   (num-draw-instanced :unsigned-int)
   (num-draw :unsigned-int))
 
-(defcstruct sg-frame-stats-d3d11
-  (pass (:struct sg-frame-stats-d3d11-pass))
-  (pipeline (:struct sg-frame-stats-d3d11-pipeline))
-  (bindings (:struct sg-frame-stats-d3d11-bindings))
-  (uniforms (:struct sg-frame-stats-d3d11-uniforms))
-  (draw (:struct sg-frame-stats-d3d11-draw))
+(defstruct sg-frame-stats-d3d11-draw
+  (num-draw-indexed-instanced 0)
+  (num-draw-indexed 0)
+  (num-draw-instanced 0)
+  (num-draw 0))
+
+(defcstruct (%sg-frame-stats-d3d11 :class sg-frame-stats-d3d11-type)
+  (pass (:struct %sg-frame-stats-d3d11-pass))
+  (pipeline (:struct %sg-frame-stats-d3d11-pipeline))
+  (bindings (:struct %sg-frame-stats-d3d11-bindings))
+  (uniforms (:struct %sg-frame-stats-d3d11-uniforms))
+  (draw (:struct %sg-frame-stats-d3d11-draw))
   (num-map :unsigned-int)
   (num-unmap :unsigned-int))
 
-(defcstruct sg-frame-stats-metal-idpool
+(defstruct sg-frame-stats-d3d11
+  (pass nil)
+  (pipeline nil)
+  (bindings nil)
+  (uniforms nil)
+  (draw nil)
+  (num-map 0)
+  (num-unmap 0))
+
+(defcstruct (%sg-frame-stats-metal-idpool :class sg-frame-stats-metal-idpool-type)
   (num-added :unsigned-int)
   (num-released :unsigned-int)
   (num-garbage-collected :unsigned-int))
 
-(defcstruct sg-frame-stats-metal-pipeline
+(defstruct sg-frame-stats-metal-idpool
+  (num-added 0)
+  (num-released 0)
+  (num-garbage-collected 0))
+
+(defcstruct (%sg-frame-stats-metal-pipeline :class sg-frame-stats-metal-pipeline-type)
   (num-set-blend-color :unsigned-int)
   (num-set-cull-mode :unsigned-int)
   (num-set-front-facing-winding :unsigned-int)
@@ -803,28 +1236,58 @@
   (num-set-render-pipeline-state :unsigned-int)
   (num-set-depth-stencil-state :unsigned-int))
 
-(defcstruct sg-frame-stats-metal-bindings
+(defstruct sg-frame-stats-metal-pipeline
+  (num-set-blend-color 0)
+  (num-set-cull-mode 0)
+  (num-set-front-facing-winding 0)
+  (num-set-stencil-reference-value 0)
+  (num-set-depth-bias 0)
+  (num-set-render-pipeline-state 0)
+  (num-set-depth-stencil-state 0))
+
+(defcstruct (%sg-frame-stats-metal-bindings :class sg-frame-stats-metal-bindings-type)
   (num-set-vertex-buffer :unsigned-int)
   (num-set-vertex-texture :unsigned-int)
   (num-set-vertex-sampler-state :unsigned-int)
   (num-set-fragment-texture :unsigned-int)
   (num-set-fragment-sampler-state :unsigned-int))
 
-(defcstruct sg-frame-stats-metal-uniforms
+(defstruct sg-frame-stats-metal-bindings
+  (num-set-vertex-buffer 0)
+  (num-set-vertex-texture 0)
+  (num-set-vertex-sampler-state 0)
+  (num-set-fragment-texture 0)
+  (num-set-fragment-sampler-state 0))
+
+(defcstruct (%sg-frame-stats-metal-uniforms :class sg-frame-stats-metal-uniforms-type)
   (num-set-vertex-buffer-offset :unsigned-int)
   (num-set-fragment-buffer-offset :unsigned-int))
 
-(defcstruct sg-frame-stats-metal
-  (idpool (:struct sg-frame-stats-metal-idpool))
-  (pipeline (:struct sg-frame-stats-metal-pipeline))
-  (bindings (:struct sg-frame-stats-metal-bindings))
-  (uniforms (:struct sg-frame-stats-metal-uniforms)))
+(defstruct sg-frame-stats-metal-uniforms
+  (num-set-vertex-buffer-offset 0)
+  (num-set-fragment-buffer-offset 0))
 
-(defcstruct sg-frame-stats-wgpu-uniforms
+(defcstruct (%sg-frame-stats-metal :class sg-frame-stats-metal-type)
+  (idpool (:struct %sg-frame-stats-metal-idpool))
+  (pipeline (:struct %sg-frame-stats-metal-pipeline))
+  (bindings (:struct %sg-frame-stats-metal-bindings))
+  (uniforms (:struct %sg-frame-stats-metal-uniforms)))
+
+(defstruct sg-frame-stats-metal
+  (idpool nil)
+  (pipeline nil)
+  (bindings nil)
+  (uniforms nil))
+
+(defcstruct (%sg-frame-stats-wgpu-uniforms :class sg-frame-stats-wgpu-uniforms-type)
   (num-set-bindgroup :unsigned-int)
   (size-write-buffer :unsigned-int))
 
-(defcstruct sg-frame-stats-wgpu-bindings
+(defstruct sg-frame-stats-wgpu-uniforms
+  (num-set-bindgroup 0)
+  (size-write-buffer 0))
+
+(defcstruct (%sg-frame-stats-wgpu-bindings :class sg-frame-stats-wgpu-bindings-type)
   (num-set-vertex-buffer :unsigned-int)
   (num-skip-redundant-vertex-buffer :unsigned-int)
   (num-set-index-buffer :unsigned-int)
@@ -838,11 +1301,29 @@
   (num-bindgroup-cache-collisions :unsigned-int)
   (num-bindgroup-cache-hash-vs-key-mismatch :unsigned-int))
 
-(defcstruct sg-frame-stats-wgpu
-  (uniforms (:struct sg-frame-stats-wgpu-uniforms))
-  (bindings (:struct sg-frame-stats-wgpu-bindings)))
+(defstruct sg-frame-stats-wgpu-bindings
+  (num-set-vertex-buffer 0)
+  (num-skip-redundant-vertex-buffer 0)
+  (num-set-index-buffer 0)
+  (num-skip-redundant-index-buffer 0)
+  (num-create-bindgroup 0)
+  (num-discard-bindgroup 0)
+  (num-set-bindgroup 0)
+  (num-skip-redundant-bindgroup 0)
+  (num-bindgroup-cache-hits 0)
+  (num-bindgroup-cache-misses 0)
+  (num-bindgroup-cache-collisions 0)
+  (num-bindgroup-cache-hash-vs-key-mismatch 0))
 
-(defcstruct sg-frame-stats
+(defcstruct (%sg-frame-stats-wgpu :class sg-frame-stats-wgpu-type)
+  (uniforms (:struct %sg-frame-stats-wgpu-uniforms))
+  (bindings (:struct %sg-frame-stats-wgpu-bindings)))
+
+(defstruct sg-frame-stats-wgpu
+  (uniforms nil)
+  (bindings nil))
+
+(defcstruct (%sg-frame-stats :class sg-frame-stats-type)
   (frame-index :unsigned-int)
   (num-passes :unsigned-int)
   (num-apply-viewport :unsigned-int)
@@ -858,10 +1339,31 @@
   (size-update-buffer :unsigned-int)
   (size-append-buffer :unsigned-int)
   (size-update-image :unsigned-int)
-  (gl (:struct sg-frame-stats-gl))
-  (d3d11 (:struct sg-frame-stats-d3d11))
-  (metal (:struct sg-frame-stats-metal))
-  (wgpu (:struct sg-frame-stats-wgpu)))
+  (gl (:struct %sg-frame-stats-gl))
+  (d3d11 (:struct %sg-frame-stats-d3d11))
+  (metal (:struct %sg-frame-stats-metal))
+  (wgpu (:struct %sg-frame-stats-wgpu)))
+
+(defstruct sg-frame-stats
+  (frame-index 0)
+  (num-passes 0)
+  (num-apply-viewport 0)
+  (num-apply-scissor-rect 0)
+  (num-apply-pipeline 0)
+  (num-apply-bindings 0)
+  (num-apply-uniforms 0)
+  (num-draw 0)
+  (num-update-buffer 0)
+  (num-append-buffer 0)
+  (num-update-image 0)
+  (size-apply-uniforms 0)
+  (size-update-buffer 0)
+  (size-append-buffer 0)
+  (size-update-image 0)
+  (gl nil)
+  (d3d11 nil)
+  (metal nil)
+  (wgpu nil))
 
 (defcenum sg-log-item
   (:sg-logitem-ok 0)
@@ -1124,7 +1626,7 @@
   (:sg-logitem-validate-updimg-once 257)
   (:sg-logitem-validation-failed 258))
 
-(defcstruct sg-metal-context-desc
+(defcstruct (%sg-metal-context-desc :class sg-metal-context-desc-type)
   (device (:pointer :void))
   (renderpass-descriptor-cb :pointer)
   (renderpass-descriptor-userdata-cb :pointer)
@@ -1132,7 +1634,15 @@
   (drawable-userdata-cb :pointer)
   (user-data (:pointer :void)))
 
-(defcstruct sg-d3d11-context-desc
+(defstruct sg-metal-context-desc
+  (device nil)
+  (renderpass-descriptor-cb nil)
+  (renderpass-descriptor-userdata-cb nil)
+  (drawable-cb nil)
+  (drawable-userdata-cb nil)
+  (user-data nil))
+
+(defcstruct (%sg-d3d11-context-desc :class sg-d3d11-context-desc-type)
   (device (:pointer :void))
   (device-context (:pointer :void))
   (render-target-view-cb :pointer)
@@ -1141,7 +1651,16 @@
   (depth-stencil-view-userdata-cb :pointer)
   (user-data (:pointer :void)))
 
-(defcstruct sg-wgpu-context-desc
+(defstruct sg-d3d11-context-desc
+  (device nil)
+  (device-context nil)
+  (render-target-view-cb nil)
+  (render-target-view-userdata-cb nil)
+  (depth-stencil-view-cb nil)
+  (depth-stencil-view-userdata-cb nil)
+  (user-data nil))
+
+(defcstruct (%sg-wgpu-context-desc :class sg-wgpu-context-desc-type)
   (device (:pointer :void))
   (render-view-cb :pointer)
   (render-view-userdata-cb :pointer)
@@ -1151,34 +1670,71 @@
   (depth-stencil-view-userdata-cb :pointer)
   (user-data (:pointer :void)))
 
-(defcstruct sg-gl-context-desc
+(defstruct sg-wgpu-context-desc
+  (device nil)
+  (render-view-cb nil)
+  (render-view-userdata-cb nil)
+  (resolve-view-cb nil)
+  (resolve-view-userdata-cb nil)
+  (depth-stencil-view-cb nil)
+  (depth-stencil-view-userdata-cb nil)
+  (user-data nil))
+
+(defcstruct (%sg-gl-context-desc :class sg-gl-context-desc-type)
   (default-framebuffer-cb :pointer)
   (default-framebuffer-userdata-cb :pointer)
   (user-data (:pointer :void)))
 
-(defcstruct sg-context-desc
+(defstruct sg-gl-context-desc
+  (default-framebuffer-cb nil)
+  (default-framebuffer-userdata-cb nil)
+  (user-data nil))
+
+(defcstruct (%sg-context-desc :class sg-context-desc-type)
   (color-format sg-pixel-format)
   (depth-format sg-pixel-format)
   (sample-count :int)
-  (metal (:struct sg-metal-context-desc))
-  (d3d11 (:struct sg-d3d11-context-desc))
-  (wgpu (:struct sg-wgpu-context-desc))
-  (gl (:struct sg-gl-context-desc)))
+  (metal (:struct %sg-metal-context-desc))
+  (d3d11 (:struct %sg-d3d11-context-desc))
+  (wgpu (:struct %sg-wgpu-context-desc))
+  (gl (:struct %sg-gl-context-desc)))
 
-(defcstruct sg-commit-listener
+(defstruct sg-context-desc
+  (color-format nil)
+  (depth-format nil)
+  (sample-count 0)
+  (metal nil)
+  (d3d11 nil)
+  (wgpu nil)
+  (gl nil))
+
+(defcstruct (%sg-commit-listener :class sg-commit-listener-type)
   (func :pointer)
   (user-data (:pointer :void)))
 
-(defcstruct sg-allocator
+(defstruct sg-commit-listener
+  (func nil)
+  (user-data nil))
+
+(defcstruct (%sg-allocator :class sg-allocator-type)
   (alloc-fn :pointer)
   (free-fn :pointer)
   (user-data (:pointer :void)))
 
-(defcstruct sg-logger
+(defstruct sg-allocator
+  (alloc-fn nil)
+  (free-fn nil)
+  (user-data nil))
+
+(defcstruct (%sg-logger :class sg-logger-type)
   (func :pointer)
   (user-data (:pointer :void)))
 
-(defcstruct sg-desc
+(defstruct sg-logger
+  (func nil)
+  (user-data nil))
+
+(defcstruct (%sg-desc :class sg-desc-type)
   (-start-canary :unsigned-int)
   (buffer-pool-size :int)
   (image-pool-size :int)
@@ -1193,13 +1749,33 @@
   (mtl-force-managed-storage-mode :int)
   (wgpu-disable-bindgroups-cache :int)
   (wgpu-bindgroups-cache-size :int)
-  (allocator (:struct sg-allocator))
-  (logger (:struct sg-logger))
-  (context (:struct sg-context-desc))
+  (allocator (:struct %sg-allocator))
+  (logger (:struct %sg-logger))
+  (context (:struct %sg-context-desc))
   (-end-canary :unsigned-int))
 
+(defstruct sg-desc
+  (-start-canary 0)
+  (buffer-pool-size 0)
+  (image-pool-size 0)
+  (sampler-pool-size 0)
+  (shader-pool-size 0)
+  (pipeline-pool-size 0)
+  (pass-pool-size 0)
+  (context-pool-size 0)
+  (uniform-buffer-size 0)
+  (max-commit-listeners 0)
+  (disable-validation nil)
+  (mtl-force-managed-storage-mode nil)
+  (wgpu-disable-bindgroups-cache nil)
+  (wgpu-bindgroups-cache-size 0)
+  (allocator nil)
+  (logger nil)
+  (context nil)
+  (-end-canary 0))
+
 (defcfun (sg-setup "sg_setup") :void
-  (desc (:pointer (:struct sg-desc))))
+  (desc (:pointer (:struct %sg-desc))))
 
 (defcfun (sg-shutdown "sg_shutdown") :void)
 
@@ -1207,8 +1783,8 @@
 
 (defcfun (sg-reset-state-cache "sg_reset_state_cache") :void)
 
-(defcfun (sg-install-trace-hooks "sg_install_trace_hooks") (:struct sg-trace-hooks)
-  (trace_hooks (:pointer (:struct sg-trace-hooks))))
+(defcfun (sg-install-trace-hooks "sg_install_trace_hooks") (:struct %sg-trace-hooks)
+  (trace_hooks (:pointer (:struct %sg-trace-hooks))))
 
 (defcfun (sg-push-debug-group "sg_push_debug_group") :void
   (name (:pointer :char)))
@@ -1216,79 +1792,79 @@
 (defcfun (sg-pop-debug-group "sg_pop_debug_group") :void)
 
 (defcfun (sg-add-commit-listener "sg_add_commit_listener") :int
-  (listener (:struct sg-commit-listener)))
+  (listener (:struct %sg-commit-listener)))
 
 (defcfun (sg-remove-commit-listener "sg_remove_commit_listener") :int
-  (listener (:struct sg-commit-listener)))
+  (listener (:struct %sg-commit-listener)))
 
-(defcfun (sg-make-buffer "sg_make_buffer") (:struct sg-buffer)
-  (desc (:pointer (:struct sg-buffer-desc))))
+(defcfun (sg-make-buffer "sg_make_buffer") (:struct %sg-buffer)
+  (desc (:pointer (:struct %sg-buffer-desc))))
 
-(defcfun (sg-make-image "sg_make_image") (:struct sg-image)
-  (desc (:pointer (:struct sg-image-desc))))
+(defcfun (sg-make-image "sg_make_image") (:struct %sg-image)
+  (desc (:pointer (:struct %sg-image-desc))))
 
-(defcfun (sg-make-sampler "sg_make_sampler") (:struct sg-sampler)
-  (desc (:pointer (:struct sg-sampler-desc))))
+(defcfun (sg-make-sampler "sg_make_sampler") (:struct %sg-sampler)
+  (desc (:pointer (:struct %sg-sampler-desc))))
 
-(defcfun (sg-make-shader "sg_make_shader") (:struct sg-shader)
-  (desc (:pointer (:struct sg-shader-desc))))
+(defcfun (sg-make-shader "sg_make_shader") (:struct %sg-shader)
+  (desc (:pointer (:struct %sg-shader-desc))))
 
-(defcfun (sg-make-pipeline "sg_make_pipeline") (:struct sg-pipeline)
-  (desc (:pointer (:struct sg-pipeline-desc))))
+(defcfun (sg-make-pipeline "sg_make_pipeline") (:struct %sg-pipeline)
+  (desc (:pointer (:struct %sg-pipeline-desc))))
 
-(defcfun (sg-make-pass "sg_make_pass") (:struct sg-pass)
-  (desc (:pointer (:struct sg-pass-desc))))
+(defcfun (sg-make-pass "sg_make_pass") (:struct %sg-pass)
+  (desc (:pointer (:struct %sg-pass-desc))))
 
 (defcfun (sg-destroy-buffer "sg_destroy_buffer") :void
-  (buf (:struct sg-buffer)))
+  (buf (:struct %sg-buffer)))
 
 (defcfun (sg-destroy-image "sg_destroy_image") :void
-  (img (:struct sg-image)))
+  (img (:struct %sg-image)))
 
 (defcfun (sg-destroy-sampler "sg_destroy_sampler") :void
-  (smp (:struct sg-sampler)))
+  (smp (:struct %sg-sampler)))
 
 (defcfun (sg-destroy-shader "sg_destroy_shader") :void
-  (shd (:struct sg-shader)))
+  (shd (:struct %sg-shader)))
 
 (defcfun (sg-destroy-pipeline "sg_destroy_pipeline") :void
-  (pip (:struct sg-pipeline)))
+  (pip (:struct %sg-pipeline)))
 
 (defcfun (sg-destroy-pass "sg_destroy_pass") :void
-  (pass (:struct sg-pass)))
+  (pass (:struct %sg-pass)))
 
 (defcfun (sg-update-buffer "sg_update_buffer") :void
-  (buf (:struct sg-buffer))
-  (data (:pointer (:struct sg-range))))
+  (buf (:struct %sg-buffer))
+  (data (:pointer (:struct %sg-range))))
 
 (defcfun (sg-update-image "sg_update_image") :void
-  (img (:struct sg-image))
-  (data (:pointer (:struct sg-image-data))))
+  (img (:struct %sg-image))
+  (data (:pointer (:struct %sg-image-data))))
 
 (defcfun (sg-append-buffer "sg_append_buffer") :int
-  (buf (:struct sg-buffer))
-  (data (:pointer (:struct sg-range))))
+  (buf (:struct %sg-buffer))
+  (data (:pointer (:struct %sg-range))))
 
 (defcfun (sg-query-buffer-overflow "sg_query_buffer_overflow") :int
-  (buf (:struct sg-buffer)))
+  (buf (:struct %sg-buffer)))
 
 (defcfun (sg-query-buffer-will-overflow "sg_query_buffer_will_overflow") :int
-  (buf (:struct sg-buffer))
+  (buf (:struct %sg-buffer))
   (size :unsigned-long))
 
 (defcfun (sg-begin-default-pass "sg_begin_default_pass") :void
-  (pass_action (:pointer (:struct sg-pass-action)))
+  (pass_action (:pointer (:struct %sg-pass-action)))
   (width :int)
   (height :int))
 
 (defcfun (sg-begin-default-passf "sg_begin_default_passf") :void
-  (pass_action (:pointer (:struct sg-pass-action)))
+  (pass_action (:pointer (:struct %sg-pass-action)))
   (width :float)
   (height :float))
 
 (defcfun (sg-begin-pass "sg_begin_pass") :void
-  (pass (:struct sg-pass))
-  (pass_action (:pointer (:struct sg-pass-action))))
+  (pass (:struct %sg-pass))
+  (pass_action (:pointer (:struct %sg-pass-action))))
 
 (defcfun (sg-apply-viewport "sg_apply_viewport") :void
   (x :int)
@@ -1319,15 +1895,15 @@
   (origin_top_left :int))
 
 (defcfun (sg-apply-pipeline "sg_apply_pipeline") :void
-  (pip (:struct sg-pipeline)))
+  (pip (:struct %sg-pipeline)))
 
 (defcfun (sg-apply-bindings "sg_apply_bindings") :void
-  (bindings (:pointer (:struct sg-bindings))))
+  (bindings (:pointer (:struct %sg-bindings))))
 
 (defcfun (sg-apply-uniforms "sg_apply_uniforms") :void
   (stage sg-shader-stage)
   (ub_index :int)
-  (data (:pointer (:struct sg-range))))
+  (data (:pointer (:struct %sg-range))))
 
 (defcfun (sg-draw "sg_draw") :void
   (base_element :int)
@@ -1338,178 +1914,178 @@
 
 (defcfun (sg-commit "sg_commit") :void)
 
-(defcfun (sg-query-desc "sg_query_desc") (:struct sg-desc))
+(defcfun (sg-query-desc "sg_query_desc") (:struct %sg-desc))
 
 (defcfun (sg-query-backend "sg_query_backend") sg-backend)
 
-(defcfun (sg-query-features "sg_query_features") (:struct sg-features))
+(defcfun (sg-query-features "sg_query_features") (:struct %sg-features))
 
-(defcfun (sg-query-limits "sg_query_limits") (:struct sg-limits))
+(defcfun (sg-query-limits "sg_query_limits") (:struct %sg-limits))
 
-(defcfun (sg-query-pixelformat "sg_query_pixelformat") (:struct sg-pixelformat-info)
+(defcfun (sg-query-pixelformat "sg_query_pixelformat") (:struct %sg-pixelformat-info)
   (fmt sg-pixel-format))
 
 (defcfun (sg-query-buffer-state "sg_query_buffer_state") sg-resource-state
-  (buf (:struct sg-buffer)))
+  (buf (:struct %sg-buffer)))
 
 (defcfun (sg-query-image-state "sg_query_image_state") sg-resource-state
-  (img (:struct sg-image)))
+  (img (:struct %sg-image)))
 
 (defcfun (sg-query-sampler-state "sg_query_sampler_state") sg-resource-state
-  (smp (:struct sg-sampler)))
+  (smp (:struct %sg-sampler)))
 
 (defcfun (sg-query-shader-state "sg_query_shader_state") sg-resource-state
-  (shd (:struct sg-shader)))
+  (shd (:struct %sg-shader)))
 
 (defcfun (sg-query-pipeline-state "sg_query_pipeline_state") sg-resource-state
-  (pip (:struct sg-pipeline)))
+  (pip (:struct %sg-pipeline)))
 
 (defcfun (sg-query-pass-state "sg_query_pass_state") sg-resource-state
-  (pass (:struct sg-pass)))
+  (pass (:struct %sg-pass)))
 
-(defcfun (sg-query-buffer-info "sg_query_buffer_info") (:struct sg-buffer-info)
-  (buf (:struct sg-buffer)))
+(defcfun (sg-query-buffer-info "sg_query_buffer_info") (:struct %sg-buffer-info)
+  (buf (:struct %sg-buffer)))
 
-(defcfun (sg-query-image-info "sg_query_image_info") (:struct sg-image-info)
-  (img (:struct sg-image)))
+(defcfun (sg-query-image-info "sg_query_image_info") (:struct %sg-image-info)
+  (img (:struct %sg-image)))
 
-(defcfun (sg-query-sampler-info "sg_query_sampler_info") (:struct sg-sampler-info)
-  (smp (:struct sg-sampler)))
+(defcfun (sg-query-sampler-info "sg_query_sampler_info") (:struct %sg-sampler-info)
+  (smp (:struct %sg-sampler)))
 
-(defcfun (sg-query-shader-info "sg_query_shader_info") (:struct sg-shader-info)
-  (shd (:struct sg-shader)))
+(defcfun (sg-query-shader-info "sg_query_shader_info") (:struct %sg-shader-info)
+  (shd (:struct %sg-shader)))
 
-(defcfun (sg-query-pipeline-info "sg_query_pipeline_info") (:struct sg-pipeline-info)
-  (pip (:struct sg-pipeline)))
+(defcfun (sg-query-pipeline-info "sg_query_pipeline_info") (:struct %sg-pipeline-info)
+  (pip (:struct %sg-pipeline)))
 
-(defcfun (sg-query-pass-info "sg_query_pass_info") (:struct sg-pass-info)
-  (pass (:struct sg-pass)))
+(defcfun (sg-query-pass-info "sg_query_pass_info") (:struct %sg-pass-info)
+  (pass (:struct %sg-pass)))
 
-(defcfun (sg-query-buffer-desc "sg_query_buffer_desc") (:struct sg-buffer-desc)
-  (buf (:struct sg-buffer)))
+(defcfun (sg-query-buffer-desc "sg_query_buffer_desc") (:struct %sg-buffer-desc)
+  (buf (:struct %sg-buffer)))
 
-(defcfun (sg-query-image-desc "sg_query_image_desc") (:struct sg-image-desc)
-  (img (:struct sg-image)))
+(defcfun (sg-query-image-desc "sg_query_image_desc") (:struct %sg-image-desc)
+  (img (:struct %sg-image)))
 
-(defcfun (sg-query-sampler-desc "sg_query_sampler_desc") (:struct sg-sampler-desc)
-  (smp (:struct sg-sampler)))
+(defcfun (sg-query-sampler-desc "sg_query_sampler_desc") (:struct %sg-sampler-desc)
+  (smp (:struct %sg-sampler)))
 
-(defcfun (sg-query-shader-desc "sg_query_shader_desc") (:struct sg-shader-desc)
-  (shd (:struct sg-shader)))
+(defcfun (sg-query-shader-desc "sg_query_shader_desc") (:struct %sg-shader-desc)
+  (shd (:struct %sg-shader)))
 
-(defcfun (sg-query-pipeline-desc "sg_query_pipeline_desc") (:struct sg-pipeline-desc)
-  (pip (:struct sg-pipeline)))
+(defcfun (sg-query-pipeline-desc "sg_query_pipeline_desc") (:struct %sg-pipeline-desc)
+  (pip (:struct %sg-pipeline)))
 
-(defcfun (sg-query-pass-desc "sg_query_pass_desc") (:struct sg-pass-desc)
-  (pass (:struct sg-pass)))
+(defcfun (sg-query-pass-desc "sg_query_pass_desc") (:struct %sg-pass-desc)
+  (pass (:struct %sg-pass)))
 
-(defcfun (sg-query-buffer-defaults "sg_query_buffer_defaults") (:struct sg-buffer-desc)
-  (desc (:pointer (:struct sg-buffer-desc))))
+(defcfun (sg-query-buffer-defaults "sg_query_buffer_defaults") (:struct %sg-buffer-desc)
+  (desc (:pointer (:struct %sg-buffer-desc))))
 
-(defcfun (sg-query-image-defaults "sg_query_image_defaults") (:struct sg-image-desc)
-  (desc (:pointer (:struct sg-image-desc))))
+(defcfun (sg-query-image-defaults "sg_query_image_defaults") (:struct %sg-image-desc)
+  (desc (:pointer (:struct %sg-image-desc))))
 
-(defcfun (sg-query-sampler-defaults "sg_query_sampler_defaults") (:struct sg-sampler-desc)
-  (desc (:pointer (:struct sg-sampler-desc))))
+(defcfun (sg-query-sampler-defaults "sg_query_sampler_defaults") (:struct %sg-sampler-desc)
+  (desc (:pointer (:struct %sg-sampler-desc))))
 
-(defcfun (sg-query-shader-defaults "sg_query_shader_defaults") (:struct sg-shader-desc)
-  (desc (:pointer (:struct sg-shader-desc))))
+(defcfun (sg-query-shader-defaults "sg_query_shader_defaults") (:struct %sg-shader-desc)
+  (desc (:pointer (:struct %sg-shader-desc))))
 
-(defcfun (sg-query-pipeline-defaults "sg_query_pipeline_defaults") (:struct sg-pipeline-desc)
-  (desc (:pointer (:struct sg-pipeline-desc))))
+(defcfun (sg-query-pipeline-defaults "sg_query_pipeline_defaults") (:struct %sg-pipeline-desc)
+  (desc (:pointer (:struct %sg-pipeline-desc))))
 
-(defcfun (sg-query-pass-defaults "sg_query_pass_defaults") (:struct sg-pass-desc)
-  (desc (:pointer (:struct sg-pass-desc))))
+(defcfun (sg-query-pass-defaults "sg_query_pass_defaults") (:struct %sg-pass-desc)
+  (desc (:pointer (:struct %sg-pass-desc))))
 
-(defcfun (sg-alloc-buffer "sg_alloc_buffer") (:struct sg-buffer))
+(defcfun (sg-alloc-buffer "sg_alloc_buffer") (:struct %sg-buffer))
 
-(defcfun (sg-alloc-image "sg_alloc_image") (:struct sg-image))
+(defcfun (sg-alloc-image "sg_alloc_image") (:struct %sg-image))
 
-(defcfun (sg-alloc-sampler "sg_alloc_sampler") (:struct sg-sampler))
+(defcfun (sg-alloc-sampler "sg_alloc_sampler") (:struct %sg-sampler))
 
-(defcfun (sg-alloc-shader "sg_alloc_shader") (:struct sg-shader))
+(defcfun (sg-alloc-shader "sg_alloc_shader") (:struct %sg-shader))
 
-(defcfun (sg-alloc-pipeline "sg_alloc_pipeline") (:struct sg-pipeline))
+(defcfun (sg-alloc-pipeline "sg_alloc_pipeline") (:struct %sg-pipeline))
 
-(defcfun (sg-alloc-pass "sg_alloc_pass") (:struct sg-pass))
+(defcfun (sg-alloc-pass "sg_alloc_pass") (:struct %sg-pass))
 
 (defcfun (sg-dealloc-buffer "sg_dealloc_buffer") :void
-  (buf (:struct sg-buffer)))
+  (buf (:struct %sg-buffer)))
 
 (defcfun (sg-dealloc-image "sg_dealloc_image") :void
-  (img (:struct sg-image)))
+  (img (:struct %sg-image)))
 
 (defcfun (sg-dealloc-sampler "sg_dealloc_sampler") :void
-  (smp (:struct sg-sampler)))
+  (smp (:struct %sg-sampler)))
 
 (defcfun (sg-dealloc-shader "sg_dealloc_shader") :void
-  (shd (:struct sg-shader)))
+  (shd (:struct %sg-shader)))
 
 (defcfun (sg-dealloc-pipeline "sg_dealloc_pipeline") :void
-  (pip (:struct sg-pipeline)))
+  (pip (:struct %sg-pipeline)))
 
 (defcfun (sg-dealloc-pass "sg_dealloc_pass") :void
-  (pass (:struct sg-pass)))
+  (pass (:struct %sg-pass)))
 
 (defcfun (sg-init-buffer "sg_init_buffer") :void
-  (buf (:struct sg-buffer))
-  (desc (:pointer (:struct sg-buffer-desc))))
+  (buf (:struct %sg-buffer))
+  (desc (:pointer (:struct %sg-buffer-desc))))
 
 (defcfun (sg-init-image "sg_init_image") :void
-  (img (:struct sg-image))
-  (desc (:pointer (:struct sg-image-desc))))
+  (img (:struct %sg-image))
+  (desc (:pointer (:struct %sg-image-desc))))
 
 (defcfun (sg-init-sampler "sg_init_sampler") :void
-  (smg (:struct sg-sampler))
-  (desc (:pointer (:struct sg-sampler-desc))))
+  (smg (:struct %sg-sampler))
+  (desc (:pointer (:struct %sg-sampler-desc))))
 
 (defcfun (sg-init-shader "sg_init_shader") :void
-  (shd (:struct sg-shader))
-  (desc (:pointer (:struct sg-shader-desc))))
+  (shd (:struct %sg-shader))
+  (desc (:pointer (:struct %sg-shader-desc))))
 
 (defcfun (sg-init-pipeline "sg_init_pipeline") :void
-  (pip (:struct sg-pipeline))
-  (desc (:pointer (:struct sg-pipeline-desc))))
+  (pip (:struct %sg-pipeline))
+  (desc (:pointer (:struct %sg-pipeline-desc))))
 
 (defcfun (sg-init-pass "sg_init_pass") :void
-  (pass (:struct sg-pass))
-  (desc (:pointer (:struct sg-pass-desc))))
+  (pass (:struct %sg-pass))
+  (desc (:pointer (:struct %sg-pass-desc))))
 
 (defcfun (sg-uninit-buffer "sg_uninit_buffer") :void
-  (buf (:struct sg-buffer)))
+  (buf (:struct %sg-buffer)))
 
 (defcfun (sg-uninit-image "sg_uninit_image") :void
-  (img (:struct sg-image)))
+  (img (:struct %sg-image)))
 
 (defcfun (sg-uninit-sampler "sg_uninit_sampler") :void
-  (smp (:struct sg-sampler)))
+  (smp (:struct %sg-sampler)))
 
 (defcfun (sg-uninit-shader "sg_uninit_shader") :void
-  (shd (:struct sg-shader)))
+  (shd (:struct %sg-shader)))
 
 (defcfun (sg-uninit-pipeline "sg_uninit_pipeline") :void
-  (pip (:struct sg-pipeline)))
+  (pip (:struct %sg-pipeline)))
 
 (defcfun (sg-uninit-pass "sg_uninit_pass") :void
-  (pass (:struct sg-pass)))
+  (pass (:struct %sg-pass)))
 
 (defcfun (sg-fail-buffer "sg_fail_buffer") :void
-  (buf (:struct sg-buffer)))
+  (buf (:struct %sg-buffer)))
 
 (defcfun (sg-fail-image "sg_fail_image") :void
-  (img (:struct sg-image)))
+  (img (:struct %sg-image)))
 
 (defcfun (sg-fail-sampler "sg_fail_sampler") :void
-  (smp (:struct sg-sampler)))
+  (smp (:struct %sg-sampler)))
 
 (defcfun (sg-fail-shader "sg_fail_shader") :void
-  (shd (:struct sg-shader)))
+  (shd (:struct %sg-shader)))
 
 (defcfun (sg-fail-pipeline "sg_fail_pipeline") :void
-  (pip (:struct sg-pipeline)))
+  (pip (:struct %sg-pipeline)))
 
 (defcfun (sg-fail-pass "sg_fail_pass") :void
-  (pass (:struct sg-pass)))
+  (pass (:struct %sg-pass)))
 
 (defcfun (sg-enable-frame-stats "sg_enable_frame_stats") :void)
 
@@ -1517,149 +2093,242 @@
 
 (defcfun (sg-frame-stats-enabled "sg_frame_stats_enabled") :int)
 
-(defcfun (sg-query-frame-stats "sg_query_frame_stats") (:struct sg-frame-stats))
+(defcfun (sg-query-frame-stats "sg_query_frame_stats") (:struct %sg-frame-stats))
 
-(defcfun (sg-setup-context "sg_setup_context") (:struct sg-context))
+(defcfun (sg-setup-context "sg_setup_context") (:struct %sg-context))
 
 (defcfun (sg-activate-context "sg_activate_context") :void
-  (ctx_id (:struct sg-context)))
+  (ctx_id (:struct %sg-context)))
 
 (defcfun (sg-discard-context "sg_discard_context") :void
-  (ctx_id (:struct sg-context)))
+  (ctx_id (:struct %sg-context)))
 
-(defcstruct sg-d3d11-buffer-info
+(defcstruct (%sg-d3d11-buffer-info :class sg-d3d11-buffer-info-type)
   (buf (:pointer :void)))
 
-(defcstruct sg-d3d11-image-info
+(defstruct sg-d3d11-buffer-info
+  (buf nil))
+
+(defcstruct (%sg-d3d11-image-info :class sg-d3d11-image-info-type)
   (tex2d (:pointer :void))
   (tex3d (:pointer :void))
   (res (:pointer :void))
   (srv (:pointer :void)))
 
-(defcstruct sg-d3d11-sampler-info
+(defstruct sg-d3d11-image-info
+  (tex2d nil)
+  (tex3d nil)
+  (res nil)
+  (srv nil))
+
+(defcstruct (%sg-d3d11-sampler-info :class sg-d3d11-sampler-info-type)
   (smp (:pointer :void)))
 
-(defcstruct sg-d3d11-shader-info
+(defstruct sg-d3d11-sampler-info
+  (smp nil))
+
+(defcstruct (%sg-d3d11-shader-info :class sg-d3d11-shader-info-type)
   (vs-cbufs (:array (:pointer :void) 4))
   (fs-cbufs (:array (:pointer :void) 4))
   (vs (:pointer :void))
   (fs (:pointer :void)))
 
-(defcstruct sg-d3d11-pipeline-info
+(defstruct sg-d3d11-shader-info
+  (vs-cbufs (make-array 4))
+  (fs-cbufs (make-array 4))
+  (vs nil)
+  (fs nil))
+
+(defcstruct (%sg-d3d11-pipeline-info :class sg-d3d11-pipeline-info-type)
   (il (:pointer :void))
   (rs (:pointer :void))
   (dss (:pointer :void))
   (bs (:pointer :void)))
 
-(defcstruct sg-d3d11-pass-info
+(defstruct sg-d3d11-pipeline-info
+  (il nil)
+  (rs nil)
+  (dss nil)
+  (bs nil))
+
+(defcstruct (%sg-d3d11-pass-info :class sg-d3d11-pass-info-type)
   (color-rtv (:array (:pointer :void) 4))
   (resolve-rtv (:array (:pointer :void) 4))
   (dsv (:pointer :void)))
 
-(defcstruct sg-mtl-buffer-info
+(defstruct sg-d3d11-pass-info
+  (color-rtv (make-array 4))
+  (resolve-rtv (make-array 4))
+  (dsv nil))
+
+(defcstruct (%sg-mtl-buffer-info :class sg-mtl-buffer-info-type)
   (buf (:array (:pointer :void) 2))
   (active-slot :int))
 
-(defcstruct sg-mtl-image-info
+(defstruct sg-mtl-buffer-info
+  (buf (make-array 2))
+  (active-slot 0))
+
+(defcstruct (%sg-mtl-image-info :class sg-mtl-image-info-type)
   (tex (:array (:pointer :void) 2))
   (active-slot :int))
 
-(defcstruct sg-mtl-sampler-info
+(defstruct sg-mtl-image-info
+  (tex (make-array 2))
+  (active-slot 0))
+
+(defcstruct (%sg-mtl-sampler-info :class sg-mtl-sampler-info-type)
   (smp (:pointer :void)))
 
-(defcstruct sg-mtl-shader-info
+(defstruct sg-mtl-sampler-info
+  (smp nil))
+
+(defcstruct (%sg-mtl-shader-info :class sg-mtl-shader-info-type)
   (vs-lib (:pointer :void))
   (fs-lib (:pointer :void))
   (vs-func (:pointer :void))
   (fs-func (:pointer :void)))
 
-(defcstruct sg-mtl-pipeline-info
+(defstruct sg-mtl-shader-info
+  (vs-lib nil)
+  (fs-lib nil)
+  (vs-func nil)
+  (fs-func nil))
+
+(defcstruct (%sg-mtl-pipeline-info :class sg-mtl-pipeline-info-type)
   (rps (:pointer :void))
   (dss (:pointer :void)))
 
-(defcstruct sg-wgpu-buffer-info
+(defstruct sg-mtl-pipeline-info
+  (rps nil)
+  (dss nil))
+
+(defcstruct (%sg-wgpu-buffer-info :class sg-wgpu-buffer-info-type)
   (buf (:pointer :void)))
 
-(defcstruct sg-wgpu-image-info
+(defstruct sg-wgpu-buffer-info
+  (buf nil))
+
+(defcstruct (%sg-wgpu-image-info :class sg-wgpu-image-info-type)
   (tex (:pointer :void))
   (view (:pointer :void)))
 
-(defcstruct sg-wgpu-sampler-info
+(defstruct sg-wgpu-image-info
+  (tex nil)
+  (view nil))
+
+(defcstruct (%sg-wgpu-sampler-info :class sg-wgpu-sampler-info-type)
   (smp (:pointer :void)))
 
-(defcstruct sg-wgpu-shader-info
+(defstruct sg-wgpu-sampler-info
+  (smp nil))
+
+(defcstruct (%sg-wgpu-shader-info :class sg-wgpu-shader-info-type)
   (vs-mod (:pointer :void))
   (fs-mod (:pointer :void))
   (bgl (:pointer :void)))
 
-(defcstruct sg-wgpu-pipeline-info
+(defstruct sg-wgpu-shader-info
+  (vs-mod nil)
+  (fs-mod nil)
+  (bgl nil))
+
+(defcstruct (%sg-wgpu-pipeline-info :class sg-wgpu-pipeline-info-type)
   (pip (:pointer :void)))
 
-(defcstruct sg-wgpu-pass-info
+(defstruct sg-wgpu-pipeline-info
+  (pip nil))
+
+(defcstruct (%sg-wgpu-pass-info :class sg-wgpu-pass-info-type)
   (color-view (:array (:pointer :void) 4))
   (resolve-view (:array (:pointer :void) 4))
   (ds-view (:pointer :void)))
 
-(defcstruct sg-gl-buffer-info
+(defstruct sg-wgpu-pass-info
+  (color-view (make-array 4))
+  (resolve-view (make-array 4))
+  (ds-view nil))
+
+(defcstruct (%sg-gl-buffer-info :class sg-gl-buffer-info-type)
   (buf (:array :unsigned-int 2))
   (active-slot :int))
 
-(defcstruct sg-gl-image-info
+(defstruct sg-gl-buffer-info
+  (buf (make-array 2))
+  (active-slot 0))
+
+(defcstruct (%sg-gl-image-info :class sg-gl-image-info-type)
   (tex (:array :unsigned-int 2))
   (tex-target :unsigned-int)
   (msaa-render-buffer :unsigned-int)
   (active-slot :int))
 
-(defcstruct sg-gl-sampler-info
+(defstruct sg-gl-image-info
+  (tex (make-array 2))
+  (tex-target 0)
+  (msaa-render-buffer 0)
+  (active-slot 0))
+
+(defcstruct (%sg-gl-sampler-info :class sg-gl-sampler-info-type)
   (smp :unsigned-int))
 
-(defcstruct sg-gl-shader-info
+(defstruct sg-gl-sampler-info
+  (smp 0))
+
+(defcstruct (%sg-gl-shader-info :class sg-gl-shader-info-type)
   (prog :unsigned-int))
 
-(defcstruct sg-gl-pass-info
+(defstruct sg-gl-shader-info
+  (prog 0))
+
+(defcstruct (%sg-gl-pass-info :class sg-gl-pass-info-type)
   (frame-buffer :unsigned-int)
   (msaa-resolve-framebuffer (:array :unsigned-int 4)))
+
+(defstruct sg-gl-pass-info
+  (frame-buffer 0)
+  (msaa-resolve-framebuffer (make-array 4)))
 
 (defcfun (sg-d3d11-device "sg_d3d11_device") (:pointer :void))
 
 (defcfun (sg-d3d11-device-context "sg_d3d11_device_context") (:pointer :void))
 
-(defcfun (sg-d3d11-query-buffer-info "sg_d3d11_query_buffer_info") (:struct sg-d3d11-buffer-info)
-  (buf (:struct sg-buffer)))
+(defcfun (sg-d3d11-query-buffer-info "sg_d3d11_query_buffer_info") (:struct %sg-d3d11-buffer-info)
+  (buf (:struct %sg-buffer)))
 
-(defcfun (sg-d3d11-query-image-info "sg_d3d11_query_image_info") (:struct sg-d3d11-image-info)
-  (img (:struct sg-image)))
+(defcfun (sg-d3d11-query-image-info "sg_d3d11_query_image_info") (:struct %sg-d3d11-image-info)
+  (img (:struct %sg-image)))
 
-(defcfun (sg-d3d11-query-sampler-info "sg_d3d11_query_sampler_info") (:struct sg-d3d11-sampler-info)
-  (smp (:struct sg-sampler)))
+(defcfun (sg-d3d11-query-sampler-info "sg_d3d11_query_sampler_info") (:struct %sg-d3d11-sampler-info)
+  (smp (:struct %sg-sampler)))
 
-(defcfun (sg-d3d11-query-shader-info "sg_d3d11_query_shader_info") (:struct sg-d3d11-shader-info)
-  (shd (:struct sg-shader)))
+(defcfun (sg-d3d11-query-shader-info "sg_d3d11_query_shader_info") (:struct %sg-d3d11-shader-info)
+  (shd (:struct %sg-shader)))
 
-(defcfun (sg-d3d11-query-pipeline-info "sg_d3d11_query_pipeline_info") (:struct sg-d3d11-pipeline-info)
-  (pip (:struct sg-pipeline)))
+(defcfun (sg-d3d11-query-pipeline-info "sg_d3d11_query_pipeline_info") (:struct %sg-d3d11-pipeline-info)
+  (pip (:struct %sg-pipeline)))
 
-(defcfun (sg-d3d11-query-pass-info "sg_d3d11_query_pass_info") (:struct sg-d3d11-pass-info)
-  (pass (:struct sg-pass)))
+(defcfun (sg-d3d11-query-pass-info "sg_d3d11_query_pass_info") (:struct %sg-d3d11-pass-info)
+  (pass (:struct %sg-pass)))
 
 (defcfun (sg-mtl-device "sg_mtl_device") (:pointer :void))
 
 (defcfun (sg-mtl-render-command-encoder "sg_mtl_render_command_encoder") (:pointer :void))
 
-(defcfun (sg-mtl-query-buffer-info "sg_mtl_query_buffer_info") (:struct sg-mtl-buffer-info)
-  (buf (:struct sg-buffer)))
+(defcfun (sg-mtl-query-buffer-info "sg_mtl_query_buffer_info") (:struct %sg-mtl-buffer-info)
+  (buf (:struct %sg-buffer)))
 
-(defcfun (sg-mtl-query-image-info "sg_mtl_query_image_info") (:struct sg-mtl-image-info)
-  (img (:struct sg-image)))
+(defcfun (sg-mtl-query-image-info "sg_mtl_query_image_info") (:struct %sg-mtl-image-info)
+  (img (:struct %sg-image)))
 
-(defcfun (sg-mtl-query-sampler-info "sg_mtl_query_sampler_info") (:struct sg-mtl-sampler-info)
-  (smp (:struct sg-sampler)))
+(defcfun (sg-mtl-query-sampler-info "sg_mtl_query_sampler_info") (:struct %sg-mtl-sampler-info)
+  (smp (:struct %sg-sampler)))
 
-(defcfun (sg-mtl-query-shader-info "sg_mtl_query_shader_info") (:struct sg-mtl-shader-info)
-  (shd (:struct sg-shader)))
+(defcfun (sg-mtl-query-shader-info "sg_mtl_query_shader_info") (:struct %sg-mtl-shader-info)
+  (shd (:struct %sg-shader)))
 
-(defcfun (sg-mtl-query-pipeline-info "sg_mtl_query_pipeline_info") (:struct sg-mtl-pipeline-info)
-  (pip (:struct sg-pipeline)))
+(defcfun (sg-mtl-query-pipeline-info "sg_mtl_query_pipeline_info") (:struct %sg-mtl-pipeline-info)
+  (pip (:struct %sg-pipeline)))
 
 (defcfun (sg-wgpu-device "sg_wgpu_device") (:pointer :void))
 
@@ -1669,38 +2338,38 @@
 
 (defcfun (sg-wgpu-render-pass-encoder "sg_wgpu_render_pass_encoder") (:pointer :void))
 
-(defcfun (sg-wgpu-query-buffer-info "sg_wgpu_query_buffer_info") (:struct sg-wgpu-buffer-info)
-  (buf (:struct sg-buffer)))
+(defcfun (sg-wgpu-query-buffer-info "sg_wgpu_query_buffer_info") (:struct %sg-wgpu-buffer-info)
+  (buf (:struct %sg-buffer)))
 
-(defcfun (sg-wgpu-query-image-info "sg_wgpu_query_image_info") (:struct sg-wgpu-image-info)
-  (img (:struct sg-image)))
+(defcfun (sg-wgpu-query-image-info "sg_wgpu_query_image_info") (:struct %sg-wgpu-image-info)
+  (img (:struct %sg-image)))
 
-(defcfun (sg-wgpu-query-sampler-info "sg_wgpu_query_sampler_info") (:struct sg-wgpu-sampler-info)
-  (smp (:struct sg-sampler)))
+(defcfun (sg-wgpu-query-sampler-info "sg_wgpu_query_sampler_info") (:struct %sg-wgpu-sampler-info)
+  (smp (:struct %sg-sampler)))
 
-(defcfun (sg-wgpu-query-shader-info "sg_wgpu_query_shader_info") (:struct sg-wgpu-shader-info)
-  (shd (:struct sg-shader)))
+(defcfun (sg-wgpu-query-shader-info "sg_wgpu_query_shader_info") (:struct %sg-wgpu-shader-info)
+  (shd (:struct %sg-shader)))
 
-(defcfun (sg-wgpu-query-pipeline-info "sg_wgpu_query_pipeline_info") (:struct sg-wgpu-pipeline-info)
-  (pip (:struct sg-pipeline)))
+(defcfun (sg-wgpu-query-pipeline-info "sg_wgpu_query_pipeline_info") (:struct %sg-wgpu-pipeline-info)
+  (pip (:struct %sg-pipeline)))
 
-(defcfun (sg-wgpu-query-pass-info "sg_wgpu_query_pass_info") (:struct sg-wgpu-pass-info)
-  (pass (:struct sg-pass)))
+(defcfun (sg-wgpu-query-pass-info "sg_wgpu_query_pass_info") (:struct %sg-wgpu-pass-info)
+  (pass (:struct %sg-pass)))
 
-(defcfun (sg-gl-query-buffer-info "sg_gl_query_buffer_info") (:struct sg-gl-buffer-info)
-  (buf (:struct sg-buffer)))
+(defcfun (sg-gl-query-buffer-info "sg_gl_query_buffer_info") (:struct %sg-gl-buffer-info)
+  (buf (:struct %sg-buffer)))
 
-(defcfun (sg-gl-query-image-info "sg_gl_query_image_info") (:struct sg-gl-image-info)
-  (img (:struct sg-image)))
+(defcfun (sg-gl-query-image-info "sg_gl_query_image_info") (:struct %sg-gl-image-info)
+  (img (:struct %sg-image)))
 
-(defcfun (sg-gl-query-sampler-info "sg_gl_query_sampler_info") (:struct sg-gl-sampler-info)
-  (smp (:struct sg-sampler)))
+(defcfun (sg-gl-query-sampler-info "sg_gl_query_sampler_info") (:struct %sg-gl-sampler-info)
+  (smp (:struct %sg-sampler)))
 
-(defcfun (sg-gl-query-shader-info "sg_gl_query_shader_info") (:struct sg-gl-shader-info)
-  (shd (:struct sg-shader)))
+(defcfun (sg-gl-query-shader-info "sg_gl_query_shader_info") (:struct %sg-gl-shader-info)
+  (shd (:struct %sg-shader)))
 
-(defcfun (sg-gl-query-pass-info "sg_gl_query_pass_info") (:struct sg-gl-pass-info)
-  (pass (:struct sg-pass)))
+(defcfun (sg-gl-query-pass-info "sg_gl_query_pass_info") (:struct %sg-gl-pass-info)
+  (pass (:struct %sg-pass)))
 
 (defconstant +sapp-max-touchpoints+ 8)
 (defconstant +sapp-max-mousebuttons+ 3)
@@ -1864,12 +2533,19 @@
   (:sapp-androidtooltype-stylus 2)
   (:sapp-androidtooltype-mouse 3))
 
-(defcstruct sapp-touchpoint
+(defcstruct (%sapp-touchpoint :class sapp-touchpoint-type)
   (identifier :unsigned-long)
   (pos-x :float)
   (pos-y :float)
   (android-tooltype sapp-android-tooltype)
   (changed :int))
+
+(defstruct sapp-touchpoint
+  (identifier 0)
+  (pos-x 0.0)
+  (pos-y 0.0)
+  (android-tooltype nil)
+  (changed nil))
 
 (defcenum sapp-mousebutton
   (:sapp-mousebutton-left 0)
@@ -1885,7 +2561,7 @@
 (defconstant +sapp-modifier-rmb+ 512)
 (defconstant +sapp-modifier-mmb+ 1024)
 
-(defcstruct sapp-event
+(defcstruct (%sapp-event :class sapp-event-type)
   (frame-count :unsigned-long-long)
   (type sapp-event-type)
   (key-code sapp-keycode)
@@ -1900,29 +2576,68 @@
   (scroll-x :float)
   (scroll-y :float)
   (num-touches :int)
-  (touches (:array (:struct sapp-touchpoint) 8))
+  (touches (:array (:struct %sapp-touchpoint) 8))
   (window-width :int)
   (window-height :int)
   (framebuffer-width :int)
   (framebuffer-height :int))
 
-(defcstruct sapp-range
+(defstruct sapp-event
+  (frame-count 0)
+  (type nil)
+  (key-code nil)
+  (char-code 0)
+  (key-repeat nil)
+  (modifiers 0)
+  (mouse-button nil)
+  (mouse-x 0.0)
+  (mouse-y 0.0)
+  (mouse-dx 0.0)
+  (mouse-dy 0.0)
+  (scroll-x 0.0)
+  (scroll-y 0.0)
+  (num-touches 0)
+  (touches (make-array 8))
+  (window-width 0)
+  (window-height 0)
+  (framebuffer-width 0)
+  (framebuffer-height 0))
+
+(defcstruct (%sapp-range :class sapp-range-type)
   (ptr (:pointer :void))
   (size :unsigned-long))
 
-(defcstruct sapp-image-desc
+(defstruct sapp-range
+  (ptr nil)
+  (size 0))
+
+(defcstruct (%sapp-image-desc :class sapp-image-desc-type)
   (width :int)
   (height :int)
-  (pixels (:struct sapp-range)))
+  (pixels (:struct %sapp-range)))
 
-(defcstruct sapp-icon-desc
+(defstruct sapp-image-desc
+  (width 0)
+  (height 0)
+  (pixels nil))
+
+(defcstruct (%sapp-icon-desc :class sapp-icon-desc-type)
   (sokol-default :int)
-  (images (:array (:struct sapp-image-desc) 8)))
+  (images (:array (:struct %sapp-image-desc) 8)))
 
-(defcstruct sapp-allocator
+(defstruct sapp-icon-desc
+  (sokol-default nil)
+  (images (make-array 8)))
+
+(defcstruct (%sapp-allocator :class sapp-allocator-type)
   (alloc-fn :pointer)
   (free-fn :pointer)
   (user-data (:pointer :void)))
+
+(defstruct sapp-allocator
+  (alloc-fn nil)
+  (free-fn nil)
+  (user-data nil))
 
 (defcenum sapp-log-item
   (:sapp-logitem-ok 0)
@@ -2024,11 +2739,15 @@
   (:sapp-logitem-dropped-file-path-too-long 96)
   (:sapp-logitem-clipboard-string-too-big 97))
 
-(defcstruct sapp-logger
+(defcstruct (%sapp-logger :class sapp-logger-type)
   (func :pointer)
   (user-data (:pointer :void)))
 
-(defcstruct sapp-desc
+(defstruct sapp-logger
+  (func nil)
+  (user-data nil))
+
+(defcstruct (%sapp-desc :class sapp-desc-type)
   (init-cb :pointer)
   (frame-cb :pointer)
   (cleanup-cb :pointer)
@@ -2051,9 +2770,9 @@
   (enable-dragndrop :int)
   (max-dropped-files :int)
   (max-dropped-file-path-length :int)
-  (icon (:struct sapp-icon-desc))
-  (allocator (:struct sapp-allocator))
-  (logger (:struct sapp-logger))
+  (icon (:struct %sapp-icon-desc))
+  (allocator (:struct %sapp-allocator))
+  (logger (:struct %sapp-logger))
   (gl-major-version :int)
   (gl-minor-version :int)
   (win32-console-utf8 :int)
@@ -2066,24 +2785,76 @@
   (html5-ask-leave-site :int)
   (ios-keyboard-resizes-canvas :int))
 
+(defstruct sapp-desc
+  (init-cb nil)
+  (frame-cb nil)
+  (cleanup-cb nil)
+  (event-cb nil)
+  (user-data nil)
+  (init-userdata-cb nil)
+  (frame-userdata-cb nil)
+  (cleanup-userdata-cb nil)
+  (event-userdata-cb nil)
+  (width 0)
+  (height 0)
+  (sample-count 0)
+  (swap-interval 0)
+  (high-dpi nil)
+  (fullscreen nil)
+  (alpha nil)
+  (window-title nil)
+  (enable-clipboard nil)
+  (clipboard-size 0)
+  (enable-dragndrop nil)
+  (max-dropped-files 0)
+  (max-dropped-file-path-length 0)
+  (icon nil)
+  (allocator nil)
+  (logger nil)
+  (gl-major-version 0)
+  (gl-minor-version 0)
+  (win32-console-utf8 nil)
+  (win32-console-create nil)
+  (win32-console-attach nil)
+  (html5-canvas-name nil)
+  (html5-canvas-resize nil)
+  (html5-preserve-drawing-buffer nil)
+  (html5-premultiplied-alpha nil)
+  (html5-ask-leave-site nil)
+  (ios-keyboard-resizes-canvas nil))
+
 (defcenum sapp-html5-fetch-error
   (:sapp-html5-fetch-error-no-error 0)
   (:sapp-html5-fetch-error-buffer-too-small 1)
   (:sapp-html5-fetch-error-other 2))
 
-(defcstruct sapp-html5-fetch-response
+(defcstruct (%sapp-html5-fetch-response :class sapp-html5-fetch-response-type)
   (succeeded :int)
   (error-code sapp-html5-fetch-error)
   (file-index :int)
-  (data (:struct sapp-range))
-  (buffer (:struct sapp-range))
+  (data (:struct %sapp-range))
+  (buffer (:struct %sapp-range))
   (user-data (:pointer :void)))
 
-(defcstruct sapp-html5-fetch-request
+(defstruct sapp-html5-fetch-response
+  (succeeded nil)
+  (error-code nil)
+  (file-index 0)
+  (data nil)
+  (buffer nil)
+  (user-data nil))
+
+(defcstruct (%sapp-html5-fetch-request :class sapp-html5-fetch-request-type)
   (dropped-file-index :int)
   (callback :pointer)
-  (buffer (:struct sapp-range))
+  (buffer (:struct %sapp-range))
   (user-data (:pointer :void)))
+
+(defstruct sapp-html5-fetch-request
+  (dropped-file-index 0)
+  (callback nil)
+  (buffer nil)
+  (user-data nil))
 
 (defcenum sapp-mouse-cursor
   (:sapp-mousecursor-default 0)
@@ -2099,7 +2870,7 @@
   (:sapp-mousecursor-not-allowed 10)
   (:-sapp-mousecursor-num 11))
 
-(defcfun (sokol-main "sokol_main") (:struct sapp-desc)
+(defcfun (sokol-main "sokol_main") (:struct %sapp-desc)
   (argc :int)
   (argv (:pointer (:pointer :char))))
 
@@ -2149,7 +2920,7 @@
 
 (defcfun (sapp-userdata "sapp_userdata") (:pointer :void))
 
-(defcfun (sapp-query-desc "sapp_query_desc") (:struct sapp-desc))
+(defcfun (sapp-query-desc "sapp_query_desc") (:struct %sapp-desc))
 
 (defcfun (sapp-request-quit "sapp_request_quit") :void)
 
@@ -2172,7 +2943,7 @@
   (str (:pointer :char)))
 
 (defcfun (sapp-set-icon "sapp_set_icon") :void
-  (icon_desc (:pointer (:struct sapp-icon-desc))))
+  (icon_desc (:pointer (:struct %sapp-icon-desc))))
 
 (defcfun (sapp-get-num-dropped-files "sapp_get_num_dropped_files") :int)
 
@@ -2180,7 +2951,7 @@
   (index :int))
 
 (defcfun (sapp-run "sapp_run") :void
-  (desc (:pointer (:struct sapp-desc))))
+  (desc (:pointer (:struct %sapp-desc))))
 
 (defcfun (sapp-egl-get-display "sapp_egl_get_display") (:pointer :void))
 
@@ -2193,7 +2964,7 @@
   (index :int))
 
 (defcfun (sapp-html5-fetch-dropped-file "sapp_html5_fetch_dropped_file") :void
-  (request (:pointer (:struct sapp-html5-fetch-request))))
+  (request (:pointer (:struct %sapp-html5-fetch-request))))
 
 (defcfun (sapp-metal-get-device "sapp_metal_get_device") (:pointer :void))
 
@@ -2227,7 +2998,7 @@
 
 (defcfun (sapp-android-get-native-activity "sapp_android_get_native_activity") (:pointer :void))
 
-(defcfun (sapp-sgcontext "sapp_sgcontext") (:struct sg-context-desc))
+(defcfun (sapp-sgcontext "sapp_sgcontext") (:struct %sg-context-desc))
 
 (defcenum saudio-log-item
   (:saudio-logitem-ok 0)
@@ -2267,16 +3038,25 @@
   (:saudio-logitem-coreaudio-start-failed 34)
   (:saudio-logitem-backend-buffer-size-isnt-multiple-of-packet-size 35))
 
-(defcstruct saudio-logger
+(defcstruct (%saudio-logger :class saudio-logger-type)
   (func :pointer)
   (user-data (:pointer :void)))
 
-(defcstruct saudio-allocator
+(defstruct saudio-logger
+  (func nil)
+  (user-data nil))
+
+(defcstruct (%saudio-allocator :class saudio-allocator-type)
   (alloc-fn :pointer)
   (free-fn :pointer)
   (user-data (:pointer :void)))
 
-(defcstruct saudio-desc
+(defstruct saudio-allocator
+  (alloc-fn nil)
+  (free-fn nil)
+  (user-data nil))
+
+(defcstruct (%saudio-desc :class saudio-desc-type)
   (sample-rate :int)
   (num-channels :int)
   (buffer-frames :int)
@@ -2285,11 +3065,23 @@
   (stream-cb :pointer)
   (stream-userdata-cb :pointer)
   (user-data (:pointer :void))
-  (allocator (:struct saudio-allocator))
-  (logger (:struct saudio-logger)))
+  (allocator (:struct %saudio-allocator))
+  (logger (:struct %saudio-logger)))
+
+(defstruct saudio-desc
+  (sample-rate 0)
+  (num-channels 0)
+  (buffer-frames 0)
+  (packet-frames 0)
+  (num-packets 0)
+  (stream-cb nil)
+  (stream-userdata-cb nil)
+  (user-data nil)
+  (allocator nil)
+  (logger nil))
 
 (defcfun (saudio-setup "saudio_setup") :void
-  (desc (:pointer (:struct saudio-desc))))
+  (desc (:pointer (:struct %saudio-desc))))
 
 (defcfun (saudio-shutdown "saudio_shutdown") :void)
 
@@ -2297,7 +3089,7 @@
 
 (defcfun (saudio-userdata "saudio_userdata") (:pointer :void))
 
-(defcfun (saudio-query-desc "saudio_query_desc") (:struct saudio-desc))
+(defcfun (saudio-query-desc "saudio_query_desc") (:struct %saudio-desc))
 
 (defcfun (saudio-sample-rate "saudio_sample_rate") :int)
 
@@ -2342,20 +3134,32 @@
 (defcfun (stm-ns "stm_ns") :double
   (ticks :unsigned-long-long))
 
-(defcstruct sargs-allocator
+(defcstruct (%sargs-allocator :class sargs-allocator-type)
   (alloc-fn :pointer)
   (free-fn :pointer)
   (user-data (:pointer :void)))
 
-(defcstruct sargs-desc
+(defstruct sargs-allocator
+  (alloc-fn nil)
+  (free-fn nil)
+  (user-data nil))
+
+(defcstruct (%sargs-desc :class sargs-desc-type)
   (argc :int)
   (argv (:pointer (:pointer :char)))
   (max-args :int)
   (buf-size :int)
-  (allocator (:struct sargs-allocator)))
+  (allocator (:struct %sargs-allocator)))
+
+(defstruct sargs-desc
+  (argc 0)
+  (argv nil)
+  (max-args 0)
+  (buf-size 0)
+  (allocator nil))
 
 (defcfun (sargs-setup "sargs_setup") :void
-  (desc (:pointer (:struct sargs-desc))))
+  (desc (:pointer (:struct %sargs-desc))))
 
 (defcfun (sargs-shutdown "sargs_shutdown") :void)
 
@@ -2405,28 +3209,51 @@
   (:sfetch-logitem-clamping-num-channels-to-max-channels 12)
   (:sfetch-logitem-request-pool-exhausted 13))
 
-(defcstruct sfetch-logger-t
+(defcstruct (%sfetch-logger-t :class sfetch-logger-t-type)
   (func :pointer)
   (user-data (:pointer :void)))
 
-(defcstruct sfetch-range-t
+(defstruct sfetch-logger-t
+  (func nil)
+  (user-data nil))
+
+(defcstruct (%sfetch-range-t :class sfetch-range-t-type)
   (ptr (:pointer :void))
   (size :unsigned-long))
 
-(defcstruct sfetch-allocator-t
+(defstruct sfetch-range-t
+  (ptr nil)
+  (size 0))
+
+(defcstruct (%sfetch-allocator-t :class sfetch-allocator-t-type)
   (alloc-fn :pointer)
   (free-fn :pointer)
   (user-data (:pointer :void)))
 
-(defcstruct sfetch-desc-t
+(defstruct sfetch-allocator-t
+  (alloc-fn nil)
+  (free-fn nil)
+  (user-data nil))
+
+(defcstruct (%sfetch-desc-t :class sfetch-desc-t-type)
   (max-requests :unsigned-int)
   (num-channels :unsigned-int)
   (num-lanes :unsigned-int)
-  (allocator (:struct sfetch-allocator-t))
-  (logger (:struct sfetch-logger-t)))
+  (allocator (:struct %sfetch-allocator-t))
+  (logger (:struct %sfetch-logger-t)))
 
-(defcstruct sfetch-handle-t
+(defstruct sfetch-desc-t
+  (max-requests 0)
+  (num-channels 0)
+  (num-lanes 0)
+  (allocator nil)
+  (logger nil))
+
+(defcstruct (%sfetch-handle-t :class sfetch-handle-t-type)
   (id :unsigned-int))
+
+(defstruct sfetch-handle-t
+  (id 0))
 
 (defcenum sfetch-error-t
   (:sfetch-error-no-error 0)
@@ -2437,8 +3264,8 @@
   (:sfetch-error-invalid-http-status 5)
   (:sfetch-error-cancelled 6))
 
-(defcstruct sfetch-response-t
-  (handle (:struct sfetch-handle-t))
+(defcstruct (%sfetch-response-t :class sfetch-response-t-type)
+  (handle (:struct %sfetch-handle-t))
   (dispatched :int)
   (fetched :int)
   (paused :int)
@@ -2451,52 +3278,77 @@
   (path (:pointer :char))
   (user-data (:pointer :void))
   (data-offset :unsigned-int)
-  (data (:struct sfetch-range-t))
-  (buffer (:struct sfetch-range-t)))
+  (data (:struct %sfetch-range-t))
+  (buffer (:struct %sfetch-range-t)))
 
-(defcstruct sfetch-request-t
+(defstruct sfetch-response-t
+  (handle nil)
+  (dispatched nil)
+  (fetched nil)
+  (paused nil)
+  (finished nil)
+  (failed nil)
+  (cancelled nil)
+  (error-code nil)
+  (channel 0)
+  (lane 0)
+  (path nil)
+  (user-data nil)
+  (data-offset 0)
+  (data nil)
+  (buffer nil))
+
+(defcstruct (%sfetch-request-t :class sfetch-request-t-type)
   (channel :unsigned-int)
   (path (:pointer :char))
   (callback :pointer)
   (chunk-size :unsigned-int)
-  (buffer (:struct sfetch-range-t))
-  (user-data (:struct sfetch-range-t)))
+  (buffer (:struct %sfetch-range-t))
+  (user-data (:struct %sfetch-range-t)))
+
+(defstruct sfetch-request-t
+  (channel 0)
+  (path nil)
+  (callback nil)
+  (chunk-size 0)
+  (buffer nil)
+  (user-data nil))
 
 (defcfun (sfetch-setup "sfetch_setup") :void
-  (desc (:pointer (:struct sfetch-desc-t))))
+  (desc (:pointer (:struct %sfetch-desc-t))))
 
 (defcfun (sfetch-shutdown "sfetch_shutdown") :void)
 
 (defcfun (sfetch-valid "sfetch_valid") :int)
 
-(defcfun (sfetch-desc "sfetch_desc") (:struct sfetch-desc-t))
+(defcfun (sfetch-desc "sfetch_desc") (:struct %sfetch-desc-t))
 
 (defcfun (sfetch-max-userdata-bytes "sfetch_max_userdata_bytes") :int)
 
 (defcfun (sfetch-max-path "sfetch_max_path") :int)
 
-(defcfun (sfetch-send "sfetch_send") (:struct sfetch-handle-t)
-  (request (:pointer (:struct sfetch-request-t))))
+(defcfun (sfetch-send "sfetch_send") (:struct %sfetch-handle-t)
+  (request (:pointer (:struct %sfetch-request-t))))
 
 (defcfun (sfetch-handle-valid "sfetch_handle_valid") :int
-  (h (:struct sfetch-handle-t)))
+  (h (:struct %sfetch-handle-t)))
 
 (defcfun (sfetch-dowork "sfetch_dowork") :void)
 
 (defcfun (sfetch-bind-buffer "sfetch_bind_buffer") :void
-  (h (:struct sfetch-handle-t))
-  (buffer (:struct sfetch-range-t)))
+  (h (:struct %sfetch-handle-t))
+  (buffer (:struct %sfetch-range-t)))
 
 (defcfun (sfetch-unbind-buffer "sfetch_unbind_buffer") (:pointer :void)
-  (h (:struct sfetch-handle-t)))
+  (h (:struct %sfetch-handle-t)))
 
 (defcfun (sfetch-cancel "sfetch_cancel") :void
-  (h (:struct sfetch-handle-t)))
+  (h (:struct %sfetch-handle-t)))
 
 (defcfun (sfetch-pause "sfetch_pause") :void
-  (h (:struct sfetch-handle-t)))
+  (h (:struct %sfetch-handle-t)))
 
 (defcfun (sfetch-continue "sfetch_continue") :void
-  (h (:struct sfetch-handle-t)))
+  (h (:struct %sfetch-handle-t)))
 
-(defcfun (sokol-default-sgdesc "sokol_default_sgdesc") (:pointer (:struct sg-desc)))
+(defcfun (sokol-default-sgdesc "sokol_default_sgdesc") (:pointer (:struct %sg-desc)))
