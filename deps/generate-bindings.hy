@@ -95,15 +95,16 @@
         (setv ~g (+ ~g ~a)))
       ~g)))
 
-(defn default-value [tree]
-  (let [tag (get (get tree "type") "tag")]
-    (cond 
-      (= tag ":float") "0.0"
-      (= tag ":array") f"(make-array {(get (get tree "type") "size")})"
-      (in tag ["uint32_t" "uint64_t" "uint8_t" ":int" "size_t" "uintptr_t"]) "0"
-      (in tag [":pointer" ":function-pointer" ":_Bool"]) "nil"
-      (in (translate-name tag) f"(make-{(translate-name tag)})"
-      True "nil")))
+; (defn c-to-lisp-symbol [symbol]
+;   (cond
+;     (= symbol ":float") ":single-float"
+;     (or (.startswith symbol "sg")
+;         (in symbol #(":unsigned-int" ":int" ":unsigned-long" ":unsigned-char"))) ":integer"
+;     (.starts-with symbol "(:array") ":vector"
+;     (.starts-with symbol "(:struct") symbol
+;     True (do
+;            (print f"Unknown symbol: {symbol}")
+;            "UNKNOWN")))
 
 (defn generate-translation-wrapper [tree]
   (let [struct-name (translate-name (get tree "name"))
@@ -123,9 +124,19 @@
                     ")))")
                   ))))
 
+(defn default-value [tree]
+  (let [tag (get (get tree "type") "tag")]
+    (cond 
+      (= tag ":float") "0.0"
+      (= tag ":array") f"(make-array {(get (get tree "type") "size")})"
+      (in tag ["uint32_t" "uint64_t" "uint8_t" ":int" "size_t" "uintptr_t"]) "0"
+      (in tag [":pointer" ":function-pointer" ":_Bool"]) "nil"
+      ; (in (translate-name tag) **struct-symbols**) f"(make-{(translate-name tag)})"
+      True "nil")))
+      
 (defn translate-wrapper-struct [tree]
   (let [struct-name (translate-name (get tree "name"))
-        fields (lfor field (get tree "fields") f"({(translate-name (get field "name"))} {(default-value field)} :type {(re.sub "%" "" (translate-symbol (get field "type")))})")]
+        fields (lfor field (get tree "fields") f"({(translate-name (get field "name"))} {(default-value field)})")]
     (if (.startswith struct-name "-")
         None
         (reduce
