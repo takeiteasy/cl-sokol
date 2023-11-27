@@ -20,19 +20,13 @@
   (n :size))
 
 (defcallback init-cb-wrapper :void ()
-  (with-foreign-object (desc '(:struct %sg-desc))
-    (with-foreign-slots (((context %sokol::context)) desc (:struct %sg-desc))
-      ))
+  (let ((desc (%sokol:sokol-default-sgdesc)))
+    (unwind-protect
+         (sg-setup desc)
+      (foreign-free desc)))
   (init-cb))
 
 (defcallback frame-cb-wrapper :void ()
-  ;; (let ((pass-action (foreign-alloc '(:struct %sg-pass-action))))
-  ;;   (unwind-protect
-  ;;        (progn
-  ;;          (sg-begin-default-pass pass-action (sapp-width) sapp-height))
-  ;;          (sg-end-pass)
-  ;;          sg-commit))
-  ;;     (foreign-free pass-action)))
   (frame-cb))
 
 (defcallback event-cb-wrapper :void ((event :pointer))
