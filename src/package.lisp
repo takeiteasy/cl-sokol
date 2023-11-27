@@ -438,7 +438,6 @@
    #:sg-gl-query-sampler-info
    #:sg-gl-query-shader-info
    #:sg-gl-query-pass-info
-   #:sokol-main
    #:sapp-isvalid
    #:sapp-width
    #:sapp-widthf
@@ -495,7 +494,6 @@
    #:sapp-wgpu-get-resolve-view
    #:sapp-wgpu-get-depth-stencil-view
    #:sapp-android-get-native-activity
-   #:sapp-sgcontext
    #:saudio-setup
    #:saudio-shutdown
    #:saudio-isvalid

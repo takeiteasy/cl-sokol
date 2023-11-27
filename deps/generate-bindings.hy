@@ -106,43 +106,40 @@
 ;            (print f"Unknown symbol: {symbol}")
 ;            "UNKNOWN")))
 
-(defn generate-translation-wrapper [tree]
-  (let [struct-name (translate-name (get tree "name"))
-        fields (lfor field (get tree "fields") f"{(translate-name (get field "name"))}")]
-    (.join "\n" #(f"(defmethod translate-from-foreign (ptr (type {struct-name}-type))"
-                  f"  (with-foreign-slots (({(.join " " fields)}) ptr (:struct %{struct-name}))"
-                  f"    (make-{struct-name} {(.join " " (lfor field fields f":{field} {field}"))})))"
-                  f"(defmethod expand-from-foreign (ptr (type {struct-name}-type))"
-                  f"  `(with-foreign-slots (({(.join " " fields)}) ,ptr (:struct %{struct-name}))"
-                  f"    (make-{struct-name} {(.join " " (lfor field fields f":{field} {field}"))})))"
-                  f"(defmethod translate-into-foreign-memory (value (type {struct-name}-type) ptr)"
-                  f"  (with-foreign-slots (({(.join " " fields)}) ptr (:struct %{struct-name}))"
-                  f"    (setf "
-                  (reduce
-                    "      "
-                    (.join "\n      " (lfor field fields f"{field} ({struct-name}-{field} value)"))
-                    ")))")
-                  ))))
+;; (defn generate-translation-wrapper [tree]
+;;   (let [struct-name (translate-name (get tree "name"))
+;;         fields (lfor field (get tree "fields") f"{(translate-name (get field "name"))}")]
+;;     (.join "\n" #(f"(defmethod translate-from-foreign (ptr (type {struct-name}-type))"
+;;                   f"  (with-foreign-slots (({(.join " " fields)}) ptr (:struct %{struct-name}))"
+;;                   f"    (make-{struct-name} {(.join " " (lfor field fields f":{field} {field}"))})))"
+;;                   f"(defmethod expand-from-foreign (ptr (type {struct-name}-type))"
+;;                   f"  `(with-foreign-slots (({(.join " " fields)}) ,ptr (:struct %{struct-name}))"
+;;                   f"    (make-{struct-name} {(.join " " (lfor field fields f":{field} {field}"))})))"
+;;                   f"(defmethod translate-into-foreign-memory (value (type {struct-name}-type) ptr)"
+;;                   f"  (with-foreign-slots (({(.join " " fields)}) ptr (:struct %{struct-name}))"
+;;                   f"    (setf "
+;;                   (reduce
+;;                     "      "
+;;                     (.join "\n      " (lfor field fields f"{field} ({struct-name}-{field} value)"))
+;;                     ")))")
+;;                   ))))
 
-(defn default-value [tree]
-  (let [tag (get (get tree "type") "tag")]
-    (cond 
-      (= tag ":float") "0.0"
-      (= tag ":array") f"(make-array {(get (get tree "type") "size")})"
-      (in tag ["uint32_t" "uint64_t" "uint8_t" ":int" "size_t" "uintptr_t"]) "0"
-      (in tag [":pointer" ":function-pointer" ":_Bool"]) "nil"
-      ; (in (translate-name tag) **struct-symbols**) f"(make-{(translate-name tag)})"
-      True "nil")))
-      
-(defn translate-wrapper-struct [tree]
-  (let [struct-name (translate-name (get tree "name"))
-        fields (lfor field (get tree "fields") f"({(translate-name (get field "name"))} {(default-value field)})")]
-    (if (.startswith struct-name "-")
-        None
-        (reduce
-          f"(defstruct {struct-name}\n  {(.join "\n  " fields)})"
-          "\n\n"
-          (generate-translation-wrapper tree)))))
+;; (defn default-value [tree]
+;;   (let [tag (get (get tree "type") "tag")]
+;;     (cond
+;;       (= tag ":float") "0.0"
+;;       (= tag ":array") f"(make-array {(get (get tree "type") "size")})"
+;;       (in tag ["uint32_t" "uint64_t" "uint8_t" ":int" "size_t" "uintptr_t"]) "0"
+;;       (in tag [":pointer" ":function-pointer" ":_Bool"]) "nil"
+;;       ; (in (translate-name tag) **struct-symbols**) f"(make-{(translate-name tag)})"
+;;       True "nil")))
+
+;; (defn translate-wrapper-struct [tree]
+;;   (let [struct-name (translate-name (get tree "name"))
+;;         fields (lfor field (get tree "fields") f"({(translate-name (get field "name"))} {(default-value field)})")]
+;;     (if (.startswith struct-name "-")
+;;         None
+;;         f"(defstruct {struct-name}\n  {(.join "\n  " fields)})")))
 
 (defn translate-struct [tree]
   (let [struct-name (translate-name (get tree "name"))
@@ -152,9 +149,7 @@
       (return None))
     (unless (in struct-name **struct-symbols**)
       (.append **struct-symbols** struct-name))
-    (reduce f"(defcstruct (%{struct-name} :class {struct-name}-type)\n  {(.join "\n  " fields)})"
-            "\n\n"
-            (translate-wrapper-struct tree))))
+    f"(defcstruct (%{struct-name} :class {struct-name}-type)\n  {(.join "\n  " fields)})"))
 
 (defn translate-enum [tree]
   (let [enum-name (translate-name (get tree "name"))
@@ -174,21 +169,30 @@
               (.append result f"(defconstant {anon-name} {(get field 1)})")))
           (.join "\n" result)))))
 
+(setv **c-wrap-functions** [])
+(setv **ignore-functions** ["sokol_main"])
+
 (defn translate-function [tree]
   (let [orig-function-name (get tree "name")
         function-name (translate-name orig-function-name)
         function-ret (translate-symbol (get tree "return-type"))
+        return-type (translate-name (get (get tree "return-type") "tag"))
         function-params (lfor param (get tree "parameters")
                               #((get param "name") (translate-symbol (get param "type"))))]
+    (when (in orig-function-name **ignore-functions**)
+        (return None))
+    (when (not (.startswith return-type ":"))
+      (when (in return-type **struct-symbols**)
+        (.append **c-wrap-functions** tree)))
     (unless (in function-name **function-symbols**)
       (.append **function-symbols** function-name))
     f"(defcfun ({function-name} \"{orig-function-name}\") {function-ret}{(if function-params (+ "\n  " (.join "\n  " (lfor p function-params f"({(get p 0)} {(get p 1)})"))) "")})"))
 
-(defmacro remove-when [src body]
+(defmacro remove-when [src condition]
   (let [g (hy.gensym)]
     `(let [~g []]
       (for [*test* ~src]
-        (when ~body
+        (when ~condition
           (.append ~g *test*)))
       ~g)))
 
@@ -232,3 +236,38 @@
       (package-out.close))))
 
 (dump-symbols)
+
+(defn reconstruct-param [param var-name]
+  (let [tag (get (get param "type") "tag")
+        already-ptr False]
+    (when (= tag ":pointer")
+      (setv tag (get (get (get param "type") "type") "tag")
+            already-ptr True))
+    f"{tag}* {(if already-ptr "_" "")}{var-name}"))
+
+(defn to-alphabet [idx]
+  (chr (+ (ord "a") idx)))
+
+(defn generate-func-wrapper [tree]
+  (let [func-name (get tree "name")
+        return-type (get (get tree "return-type") "tag")
+        params-raw (get tree "parameters")
+        params (if (not params-raw)
+                   "void"
+                   (.join ", " (lfor [i p] (enumerate params-raw) (reconstruct-param p (to-alphabet i)))))
+        out-params (if (not params-raw)
+                       "void"
+                       (.join ", " (lfor [i p] (enumerate params-raw)
+                                         (let [c (to-alphabet i)]
+                                           (if (= (get (get p "type") "tag") ":pointer")
+                                               (str c)
+                                               f"*{c}")))))]
+    (.join "\n" [f"{return-type}* {func-name}_ptr({params});"
+                 (+ f"{return-type}* {func-name}_ptr({params}) " "{")
+                 f"    {return-type}* result = malloc(sizeof({return-type}));"
+                 f"    {return-type} tmp = {func-name}({out-params})"
+                 "    return result;"
+                 "}"])))
+
+(for [tree **c-wrap-functions**]
+  (print (generate-func-wrapper tree)))

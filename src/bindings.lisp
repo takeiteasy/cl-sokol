@@ -12,141 +12,27 @@
 (defcstruct (%sg-buffer :class sg-buffer-type)
   (id :unsigned-int))
 
-(defstruct sg-buffer
-  (id 0))
-
-(defmethod translate-from-foreign (ptr (type sg-buffer-type))
-  (with-foreign-slots ((id) ptr (:struct %sg-buffer))
-    (make-sg-buffer :id id)))
-(defmethod expand-from-foreign (ptr (type sg-buffer-type))
-  `(with-foreign-slots ((id) ,ptr (:struct %sg-buffer))
-    (make-sg-buffer :id id)))
-(defmethod translate-into-foreign-memory (value (type sg-buffer-type) ptr)
-  (with-foreign-slots ((id) ptr (:struct %sg-buffer))
-    (setf 
-      id (sg-buffer-id value))))
-
 (defcstruct (%sg-image :class sg-image-type)
   (id :unsigned-int))
-
-(defstruct sg-image
-  (id 0))
-
-(defmethod translate-from-foreign (ptr (type sg-image-type))
-  (with-foreign-slots ((id) ptr (:struct %sg-image))
-    (make-sg-image :id id)))
-(defmethod expand-from-foreign (ptr (type sg-image-type))
-  `(with-foreign-slots ((id) ,ptr (:struct %sg-image))
-    (make-sg-image :id id)))
-(defmethod translate-into-foreign-memory (value (type sg-image-type) ptr)
-  (with-foreign-slots ((id) ptr (:struct %sg-image))
-    (setf 
-      id (sg-image-id value))))
 
 (defcstruct (%sg-sampler :class sg-sampler-type)
   (id :unsigned-int))
 
-(defstruct sg-sampler
-  (id 0))
-
-(defmethod translate-from-foreign (ptr (type sg-sampler-type))
-  (with-foreign-slots ((id) ptr (:struct %sg-sampler))
-    (make-sg-sampler :id id)))
-(defmethod expand-from-foreign (ptr (type sg-sampler-type))
-  `(with-foreign-slots ((id) ,ptr (:struct %sg-sampler))
-    (make-sg-sampler :id id)))
-(defmethod translate-into-foreign-memory (value (type sg-sampler-type) ptr)
-  (with-foreign-slots ((id) ptr (:struct %sg-sampler))
-    (setf 
-      id (sg-sampler-id value))))
-
 (defcstruct (%sg-shader :class sg-shader-type)
   (id :unsigned-int))
-
-(defstruct sg-shader
-  (id 0))
-
-(defmethod translate-from-foreign (ptr (type sg-shader-type))
-  (with-foreign-slots ((id) ptr (:struct %sg-shader))
-    (make-sg-shader :id id)))
-(defmethod expand-from-foreign (ptr (type sg-shader-type))
-  `(with-foreign-slots ((id) ,ptr (:struct %sg-shader))
-    (make-sg-shader :id id)))
-(defmethod translate-into-foreign-memory (value (type sg-shader-type) ptr)
-  (with-foreign-slots ((id) ptr (:struct %sg-shader))
-    (setf 
-      id (sg-shader-id value))))
 
 (defcstruct (%sg-pipeline :class sg-pipeline-type)
   (id :unsigned-int))
 
-(defstruct sg-pipeline
-  (id 0))
-
-(defmethod translate-from-foreign (ptr (type sg-pipeline-type))
-  (with-foreign-slots ((id) ptr (:struct %sg-pipeline))
-    (make-sg-pipeline :id id)))
-(defmethod expand-from-foreign (ptr (type sg-pipeline-type))
-  `(with-foreign-slots ((id) ,ptr (:struct %sg-pipeline))
-    (make-sg-pipeline :id id)))
-(defmethod translate-into-foreign-memory (value (type sg-pipeline-type) ptr)
-  (with-foreign-slots ((id) ptr (:struct %sg-pipeline))
-    (setf 
-      id (sg-pipeline-id value))))
-
 (defcstruct (%sg-pass :class sg-pass-type)
   (id :unsigned-int))
-
-(defstruct sg-pass
-  (id 0))
-
-(defmethod translate-from-foreign (ptr (type sg-pass-type))
-  (with-foreign-slots ((id) ptr (:struct %sg-pass))
-    (make-sg-pass :id id)))
-(defmethod expand-from-foreign (ptr (type sg-pass-type))
-  `(with-foreign-slots ((id) ,ptr (:struct %sg-pass))
-    (make-sg-pass :id id)))
-(defmethod translate-into-foreign-memory (value (type sg-pass-type) ptr)
-  (with-foreign-slots ((id) ptr (:struct %sg-pass))
-    (setf 
-      id (sg-pass-id value))))
 
 (defcstruct (%sg-context :class sg-context-type)
   (id :unsigned-int))
 
-(defstruct sg-context
-  (id 0))
-
-(defmethod translate-from-foreign (ptr (type sg-context-type))
-  (with-foreign-slots ((id) ptr (:struct %sg-context))
-    (make-sg-context :id id)))
-(defmethod expand-from-foreign (ptr (type sg-context-type))
-  `(with-foreign-slots ((id) ,ptr (:struct %sg-context))
-    (make-sg-context :id id)))
-(defmethod translate-into-foreign-memory (value (type sg-context-type) ptr)
-  (with-foreign-slots ((id) ptr (:struct %sg-context))
-    (setf 
-      id (sg-context-id value))))
-
 (defcstruct (%sg-range :class sg-range-type)
   (ptr (:pointer :void))
   (size :unsigned-long))
-
-(defstruct sg-range
-  (ptr nil)
-  (size 0))
-
-(defmethod translate-from-foreign (ptr (type sg-range-type))
-  (with-foreign-slots ((ptr size) ptr (:struct %sg-range))
-    (make-sg-range :ptr ptr :size size)))
-(defmethod expand-from-foreign (ptr (type sg-range-type))
-  `(with-foreign-slots ((ptr size) ,ptr (:struct %sg-range))
-    (make-sg-range :ptr ptr :size size)))
-(defmethod translate-into-foreign-memory (value (type sg-range-type) ptr)
-  (with-foreign-slots ((ptr size) ptr (:struct %sg-range))
-    (setf 
-      ptr (sg-range-ptr value)
-      size (sg-range-size value))))
 
 (defconstant +sg-invalid-id+ 0)
 (defconstant +sg-num-shader-stages+ 2)
@@ -167,26 +53,6 @@
   (g :float)
   (b :float)
   (a :float))
-
-(defstruct sg-color
-  (r 0.0)
-  (g 0.0)
-  (b 0.0)
-  (a 0.0))
-
-(defmethod translate-from-foreign (ptr (type sg-color-type))
-  (with-foreign-slots ((r g b a) ptr (:struct %sg-color))
-    (make-sg-color :r r :g g :b b :a a)))
-(defmethod expand-from-foreign (ptr (type sg-color-type))
-  `(with-foreign-slots ((r g b a) ,ptr (:struct %sg-color))
-    (make-sg-color :r r :g g :b b :a a)))
-(defmethod translate-into-foreign-memory (value (type sg-color-type) ptr)
-  (with-foreign-slots ((r g b a) ptr (:struct %sg-color))
-    (setf 
-      r (sg-color-r value)
-      g (sg-color-g value)
-      b (sg-color-b value)
-      a (sg-color-a value))))
 
 (defcenum sg-backend
   (:sg-backend-glcore33 0)
@@ -274,55 +140,11 @@
   (msaa :int)
   (depth :int))
 
-(defstruct sg-pixelformat-info
-  (sample nil)
-  (filter nil)
-  (render nil)
-  (blend nil)
-  (msaa nil)
-  (depth nil))
-
-(defmethod translate-from-foreign (ptr (type sg-pixelformat-info-type))
-  (with-foreign-slots ((sample filter render blend msaa depth) ptr (:struct %sg-pixelformat-info))
-    (make-sg-pixelformat-info :sample sample :filter filter :render render :blend blend :msaa msaa :depth depth)))
-(defmethod expand-from-foreign (ptr (type sg-pixelformat-info-type))
-  `(with-foreign-slots ((sample filter render blend msaa depth) ,ptr (:struct %sg-pixelformat-info))
-    (make-sg-pixelformat-info :sample sample :filter filter :render render :blend blend :msaa msaa :depth depth)))
-(defmethod translate-into-foreign-memory (value (type sg-pixelformat-info-type) ptr)
-  (with-foreign-slots ((sample filter render blend msaa depth) ptr (:struct %sg-pixelformat-info))
-    (setf 
-      sample (sg-pixelformat-info-sample value)
-      filter (sg-pixelformat-info-filter value)
-      render (sg-pixelformat-info-render value)
-      blend (sg-pixelformat-info-blend value)
-      msaa (sg-pixelformat-info-msaa value)
-      depth (sg-pixelformat-info-depth value))))
-
 (defcstruct (%sg-features :class sg-features-type)
   (origin-top-left :int)
   (image-clamp-to-border :int)
   (mrt-independent-blend-state :int)
   (mrt-independent-write-mask :int))
-
-(defstruct sg-features
-  (origin-top-left nil)
-  (image-clamp-to-border nil)
-  (mrt-independent-blend-state nil)
-  (mrt-independent-write-mask nil))
-
-(defmethod translate-from-foreign (ptr (type sg-features-type))
-  (with-foreign-slots ((origin-top-left image-clamp-to-border mrt-independent-blend-state mrt-independent-write-mask) ptr (:struct %sg-features))
-    (make-sg-features :origin-top-left origin-top-left :image-clamp-to-border image-clamp-to-border :mrt-independent-blend-state mrt-independent-blend-state :mrt-independent-write-mask mrt-independent-write-mask)))
-(defmethod expand-from-foreign (ptr (type sg-features-type))
-  `(with-foreign-slots ((origin-top-left image-clamp-to-border mrt-independent-blend-state mrt-independent-write-mask) ,ptr (:struct %sg-features))
-    (make-sg-features :origin-top-left origin-top-left :image-clamp-to-border image-clamp-to-border :mrt-independent-blend-state mrt-independent-blend-state :mrt-independent-write-mask mrt-independent-write-mask)))
-(defmethod translate-into-foreign-memory (value (type sg-features-type) ptr)
-  (with-foreign-slots ((origin-top-left image-clamp-to-border mrt-independent-blend-state mrt-independent-write-mask) ptr (:struct %sg-features))
-    (setf 
-      origin-top-left (sg-features-origin-top-left value)
-      image-clamp-to-border (sg-features-image-clamp-to-border value)
-      mrt-independent-blend-state (sg-features-mrt-independent-blend-state value)
-      mrt-independent-write-mask (sg-features-mrt-independent-write-mask value))))
 
 (defcstruct (%sg-limits :class sg-limits-type)
   (max-image-size-2d :int)
@@ -333,34 +155,6 @@
   (max-vertex-attrs :int)
   (gl-max-vertex-uniform-vectors :int)
   (gl-max-combined-texture-image-units :int))
-
-(defstruct sg-limits
-  (max-image-size-2d 0)
-  (max-image-size-cube 0)
-  (max-image-size-3d 0)
-  (max-image-size-array 0)
-  (max-image-array-layers 0)
-  (max-vertex-attrs 0)
-  (gl-max-vertex-uniform-vectors 0)
-  (gl-max-combined-texture-image-units 0))
-
-(defmethod translate-from-foreign (ptr (type sg-limits-type))
-  (with-foreign-slots ((max-image-size-2d max-image-size-cube max-image-size-3d max-image-size-array max-image-array-layers max-vertex-attrs gl-max-vertex-uniform-vectors gl-max-combined-texture-image-units) ptr (:struct %sg-limits))
-    (make-sg-limits :max-image-size-2d max-image-size-2d :max-image-size-cube max-image-size-cube :max-image-size-3d max-image-size-3d :max-image-size-array max-image-size-array :max-image-array-layers max-image-array-layers :max-vertex-attrs max-vertex-attrs :gl-max-vertex-uniform-vectors gl-max-vertex-uniform-vectors :gl-max-combined-texture-image-units gl-max-combined-texture-image-units)))
-(defmethod expand-from-foreign (ptr (type sg-limits-type))
-  `(with-foreign-slots ((max-image-size-2d max-image-size-cube max-image-size-3d max-image-size-array max-image-array-layers max-vertex-attrs gl-max-vertex-uniform-vectors gl-max-combined-texture-image-units) ,ptr (:struct %sg-limits))
-    (make-sg-limits :max-image-size-2d max-image-size-2d :max-image-size-cube max-image-size-cube :max-image-size-3d max-image-size-3d :max-image-size-array max-image-size-array :max-image-array-layers max-image-array-layers :max-vertex-attrs max-vertex-attrs :gl-max-vertex-uniform-vectors gl-max-vertex-uniform-vectors :gl-max-combined-texture-image-units gl-max-combined-texture-image-units)))
-(defmethod translate-into-foreign-memory (value (type sg-limits-type) ptr)
-  (with-foreign-slots ((max-image-size-2d max-image-size-cube max-image-size-3d max-image-size-array max-image-array-layers max-vertex-attrs gl-max-vertex-uniform-vectors gl-max-combined-texture-image-units) ptr (:struct %sg-limits))
-    (setf 
-      max-image-size-2d (sg-limits-max-image-size-2d value)
-      max-image-size-cube (sg-limits-max-image-size-cube value)
-      max-image-size-3d (sg-limits-max-image-size-3d value)
-      max-image-size-array (sg-limits-max-image-size-array value)
-      max-image-array-layers (sg-limits-max-image-array-layers value)
-      max-vertex-attrs (sg-limits-max-vertex-attrs value)
-      gl-max-vertex-uniform-vectors (sg-limits-gl-max-vertex-uniform-vectors value)
-      gl-max-combined-texture-image-units (sg-limits-gl-max-combined-texture-image-units value))))
 
 (defcenum sg-resource-state
   (:sg-resourcestate-initial 0)
@@ -627,69 +421,15 @@
   (store-action sg-store-action)
   (clear-value (:struct %sg-color)))
 
-(defstruct sg-color-attachment-action
-  (load-action nil)
-  (store-action nil)
-  (clear-value nil))
-
-(defmethod translate-from-foreign (ptr (type sg-color-attachment-action-type))
-  (with-foreign-slots ((load-action store-action clear-value) ptr (:struct %sg-color-attachment-action))
-    (make-sg-color-attachment-action :load-action load-action :store-action store-action :clear-value clear-value)))
-(defmethod expand-from-foreign (ptr (type sg-color-attachment-action-type))
-  `(with-foreign-slots ((load-action store-action clear-value) ,ptr (:struct %sg-color-attachment-action))
-    (make-sg-color-attachment-action :load-action load-action :store-action store-action :clear-value clear-value)))
-(defmethod translate-into-foreign-memory (value (type sg-color-attachment-action-type) ptr)
-  (with-foreign-slots ((load-action store-action clear-value) ptr (:struct %sg-color-attachment-action))
-    (setf 
-      load-action (sg-color-attachment-action-load-action value)
-      store-action (sg-color-attachment-action-store-action value)
-      clear-value (sg-color-attachment-action-clear-value value))))
-
 (defcstruct (%sg-depth-attachment-action :class sg-depth-attachment-action-type)
   (load-action sg-load-action)
   (store-action sg-store-action)
   (clear-value :float))
 
-(defstruct sg-depth-attachment-action
-  (load-action nil)
-  (store-action nil)
-  (clear-value 0.0))
-
-(defmethod translate-from-foreign (ptr (type sg-depth-attachment-action-type))
-  (with-foreign-slots ((load-action store-action clear-value) ptr (:struct %sg-depth-attachment-action))
-    (make-sg-depth-attachment-action :load-action load-action :store-action store-action :clear-value clear-value)))
-(defmethod expand-from-foreign (ptr (type sg-depth-attachment-action-type))
-  `(with-foreign-slots ((load-action store-action clear-value) ,ptr (:struct %sg-depth-attachment-action))
-    (make-sg-depth-attachment-action :load-action load-action :store-action store-action :clear-value clear-value)))
-(defmethod translate-into-foreign-memory (value (type sg-depth-attachment-action-type) ptr)
-  (with-foreign-slots ((load-action store-action clear-value) ptr (:struct %sg-depth-attachment-action))
-    (setf 
-      load-action (sg-depth-attachment-action-load-action value)
-      store-action (sg-depth-attachment-action-store-action value)
-      clear-value (sg-depth-attachment-action-clear-value value))))
-
 (defcstruct (%sg-stencil-attachment-action :class sg-stencil-attachment-action-type)
   (load-action sg-load-action)
   (store-action sg-store-action)
   (clear-value :unsigned-char))
-
-(defstruct sg-stencil-attachment-action
-  (load-action nil)
-  (store-action nil)
-  (clear-value 0))
-
-(defmethod translate-from-foreign (ptr (type sg-stencil-attachment-action-type))
-  (with-foreign-slots ((load-action store-action clear-value) ptr (:struct %sg-stencil-attachment-action))
-    (make-sg-stencil-attachment-action :load-action load-action :store-action store-action :clear-value clear-value)))
-(defmethod expand-from-foreign (ptr (type sg-stencil-attachment-action-type))
-  `(with-foreign-slots ((load-action store-action clear-value) ,ptr (:struct %sg-stencil-attachment-action))
-    (make-sg-stencil-attachment-action :load-action load-action :store-action store-action :clear-value clear-value)))
-(defmethod translate-into-foreign-memory (value (type sg-stencil-attachment-action-type) ptr)
-  (with-foreign-slots ((load-action store-action clear-value) ptr (:struct %sg-stencil-attachment-action))
-    (setf 
-      load-action (sg-stencil-attachment-action-load-action value)
-      store-action (sg-stencil-attachment-action-store-action value)
-      clear-value (sg-stencil-attachment-action-clear-value value))))
 
 (defcstruct (%sg-pass-action :class sg-pass-action-type)
   (-start-canary :unsigned-int)
@@ -698,47 +438,9 @@
   (stencil (:struct %sg-stencil-attachment-action))
   (-end-canary :unsigned-int))
 
-(defstruct sg-pass-action
-  (-start-canary 0)
-  (colors (make-array 4))
-  (depth nil)
-  (stencil nil)
-  (-end-canary 0))
-
-(defmethod translate-from-foreign (ptr (type sg-pass-action-type))
-  (with-foreign-slots ((-start-canary colors depth stencil -end-canary) ptr (:struct %sg-pass-action))
-    (make-sg-pass-action :-start-canary -start-canary :colors colors :depth depth :stencil stencil :-end-canary -end-canary)))
-(defmethod expand-from-foreign (ptr (type sg-pass-action-type))
-  `(with-foreign-slots ((-start-canary colors depth stencil -end-canary) ,ptr (:struct %sg-pass-action))
-    (make-sg-pass-action :-start-canary -start-canary :colors colors :depth depth :stencil stencil :-end-canary -end-canary)))
-(defmethod translate-into-foreign-memory (value (type sg-pass-action-type) ptr)
-  (with-foreign-slots ((-start-canary colors depth stencil -end-canary) ptr (:struct %sg-pass-action))
-    (setf 
-      -start-canary (sg-pass-action--start-canary value)
-      colors (sg-pass-action-colors value)
-      depth (sg-pass-action-depth value)
-      stencil (sg-pass-action-stencil value)
-      -end-canary (sg-pass-action--end-canary value))))
-
 (defcstruct (%sg-stage-bindings :class sg-stage-bindings-type)
   (images (:array (:struct %sg-image) 12))
   (samplers (:array (:struct %sg-sampler) 8)))
-
-(defstruct sg-stage-bindings
-  (images (make-array 12))
-  (samplers (make-array 8)))
-
-(defmethod translate-from-foreign (ptr (type sg-stage-bindings-type))
-  (with-foreign-slots ((images samplers) ptr (:struct %sg-stage-bindings))
-    (make-sg-stage-bindings :images images :samplers samplers)))
-(defmethod expand-from-foreign (ptr (type sg-stage-bindings-type))
-  `(with-foreign-slots ((images samplers) ,ptr (:struct %sg-stage-bindings))
-    (make-sg-stage-bindings :images images :samplers samplers)))
-(defmethod translate-into-foreign-memory (value (type sg-stage-bindings-type) ptr)
-  (with-foreign-slots ((images samplers) ptr (:struct %sg-stage-bindings))
-    (setf 
-      images (sg-stage-bindings-images value)
-      samplers (sg-stage-bindings-samplers value))))
 
 (defcstruct (%sg-bindings :class sg-bindings-type)
   (-start-canary :unsigned-int)
@@ -749,34 +451,6 @@
   (vs (:struct %sg-stage-bindings))
   (fs (:struct %sg-stage-bindings))
   (-end-canary :unsigned-int))
-
-(defstruct sg-bindings
-  (-start-canary 0)
-  (vertex-buffers (make-array 8))
-  (vertex-buffer-offsets (make-array 8))
-  (index-buffer nil)
-  (index-buffer-offset 0)
-  (vs nil)
-  (fs nil)
-  (-end-canary 0))
-
-(defmethod translate-from-foreign (ptr (type sg-bindings-type))
-  (with-foreign-slots ((-start-canary vertex-buffers vertex-buffer-offsets index-buffer index-buffer-offset vs fs -end-canary) ptr (:struct %sg-bindings))
-    (make-sg-bindings :-start-canary -start-canary :vertex-buffers vertex-buffers :vertex-buffer-offsets vertex-buffer-offsets :index-buffer index-buffer :index-buffer-offset index-buffer-offset :vs vs :fs fs :-end-canary -end-canary)))
-(defmethod expand-from-foreign (ptr (type sg-bindings-type))
-  `(with-foreign-slots ((-start-canary vertex-buffers vertex-buffer-offsets index-buffer index-buffer-offset vs fs -end-canary) ,ptr (:struct %sg-bindings))
-    (make-sg-bindings :-start-canary -start-canary :vertex-buffers vertex-buffers :vertex-buffer-offsets vertex-buffer-offsets :index-buffer index-buffer :index-buffer-offset index-buffer-offset :vs vs :fs fs :-end-canary -end-canary)))
-(defmethod translate-into-foreign-memory (value (type sg-bindings-type) ptr)
-  (with-foreign-slots ((-start-canary vertex-buffers vertex-buffer-offsets index-buffer index-buffer-offset vs fs -end-canary) ptr (:struct %sg-bindings))
-    (setf 
-      -start-canary (sg-bindings--start-canary value)
-      vertex-buffers (sg-bindings-vertex-buffers value)
-      vertex-buffer-offsets (sg-bindings-vertex-buffer-offsets value)
-      index-buffer (sg-bindings-index-buffer value)
-      index-buffer-offset (sg-bindings-index-buffer-offset value)
-      vs (sg-bindings-vs value)
-      fs (sg-bindings-fs value)
-      -end-canary (sg-bindings--end-canary value))))
 
 (defcstruct (%sg-buffer-desc :class sg-buffer-desc-type)
   (-start-canary :unsigned-int)
@@ -791,56 +465,8 @@
   (wgpu-buffer (:pointer :void))
   (-end-canary :unsigned-int))
 
-(defstruct sg-buffer-desc
-  (-start-canary 0)
-  (size 0)
-  (type nil)
-  (usage nil)
-  (data nil)
-  (label nil)
-  (gl-buffers (make-array 2))
-  (mtl-buffers (make-array 2))
-  (d3d11-buffer nil)
-  (wgpu-buffer nil)
-  (-end-canary 0))
-
-(defmethod translate-from-foreign (ptr (type sg-buffer-desc-type))
-  (with-foreign-slots ((-start-canary size type usage data label gl-buffers mtl-buffers d3d11-buffer wgpu-buffer -end-canary) ptr (:struct %sg-buffer-desc))
-    (make-sg-buffer-desc :-start-canary -start-canary :size size :type type :usage usage :data data :label label :gl-buffers gl-buffers :mtl-buffers mtl-buffers :d3d11-buffer d3d11-buffer :wgpu-buffer wgpu-buffer :-end-canary -end-canary)))
-(defmethod expand-from-foreign (ptr (type sg-buffer-desc-type))
-  `(with-foreign-slots ((-start-canary size type usage data label gl-buffers mtl-buffers d3d11-buffer wgpu-buffer -end-canary) ,ptr (:struct %sg-buffer-desc))
-    (make-sg-buffer-desc :-start-canary -start-canary :size size :type type :usage usage :data data :label label :gl-buffers gl-buffers :mtl-buffers mtl-buffers :d3d11-buffer d3d11-buffer :wgpu-buffer wgpu-buffer :-end-canary -end-canary)))
-(defmethod translate-into-foreign-memory (value (type sg-buffer-desc-type) ptr)
-  (with-foreign-slots ((-start-canary size type usage data label gl-buffers mtl-buffers d3d11-buffer wgpu-buffer -end-canary) ptr (:struct %sg-buffer-desc))
-    (setf 
-      -start-canary (sg-buffer-desc--start-canary value)
-      size (sg-buffer-desc-size value)
-      type (sg-buffer-desc-type value)
-      usage (sg-buffer-desc-usage value)
-      data (sg-buffer-desc-data value)
-      label (sg-buffer-desc-label value)
-      gl-buffers (sg-buffer-desc-gl-buffers value)
-      mtl-buffers (sg-buffer-desc-mtl-buffers value)
-      d3d11-buffer (sg-buffer-desc-d3d11-buffer value)
-      wgpu-buffer (sg-buffer-desc-wgpu-buffer value)
-      -end-canary (sg-buffer-desc--end-canary value))))
-
 (defcstruct (%sg-image-data :class sg-image-data-type)
   (subimage (:array (:array (:struct %sg-range) 16) 6)))
-
-(defstruct sg-image-data
-  (subimage (make-array 6)))
-
-(defmethod translate-from-foreign (ptr (type sg-image-data-type))
-  (with-foreign-slots ((subimage) ptr (:struct %sg-image-data))
-    (make-sg-image-data :subimage subimage)))
-(defmethod expand-from-foreign (ptr (type sg-image-data-type))
-  `(with-foreign-slots ((subimage) ,ptr (:struct %sg-image-data))
-    (make-sg-image-data :subimage subimage)))
-(defmethod translate-into-foreign-memory (value (type sg-image-data-type) ptr)
-  (with-foreign-slots ((subimage) ptr (:struct %sg-image-data))
-    (setf 
-      subimage (sg-image-data-subimage value))))
 
 (defcstruct (%sg-image-desc :class sg-image-desc-type)
   (-start-canary :unsigned-int)
@@ -864,58 +490,6 @@
   (wgpu-texture-view (:pointer :void))
   (-end-canary :unsigned-int))
 
-(defstruct sg-image-desc
-  (-start-canary 0)
-  (type nil)
-  (render-target nil)
-  (width 0)
-  (height 0)
-  (num-slices 0)
-  (num-mipmaps 0)
-  (usage nil)
-  (pixel-format nil)
-  (sample-count 0)
-  (data nil)
-  (label nil)
-  (gl-textures (make-array 2))
-  (gl-texture-target 0)
-  (mtl-textures (make-array 2))
-  (d3d11-texture nil)
-  (d3d11-shader-resource-view nil)
-  (wgpu-texture nil)
-  (wgpu-texture-view nil)
-  (-end-canary 0))
-
-(defmethod translate-from-foreign (ptr (type sg-image-desc-type))
-  (with-foreign-slots ((-start-canary type render-target width height num-slices num-mipmaps usage pixel-format sample-count data label gl-textures gl-texture-target mtl-textures d3d11-texture d3d11-shader-resource-view wgpu-texture wgpu-texture-view -end-canary) ptr (:struct %sg-image-desc))
-    (make-sg-image-desc :-start-canary -start-canary :type type :render-target render-target :width width :height height :num-slices num-slices :num-mipmaps num-mipmaps :usage usage :pixel-format pixel-format :sample-count sample-count :data data :label label :gl-textures gl-textures :gl-texture-target gl-texture-target :mtl-textures mtl-textures :d3d11-texture d3d11-texture :d3d11-shader-resource-view d3d11-shader-resource-view :wgpu-texture wgpu-texture :wgpu-texture-view wgpu-texture-view :-end-canary -end-canary)))
-(defmethod expand-from-foreign (ptr (type sg-image-desc-type))
-  `(with-foreign-slots ((-start-canary type render-target width height num-slices num-mipmaps usage pixel-format sample-count data label gl-textures gl-texture-target mtl-textures d3d11-texture d3d11-shader-resource-view wgpu-texture wgpu-texture-view -end-canary) ,ptr (:struct %sg-image-desc))
-    (make-sg-image-desc :-start-canary -start-canary :type type :render-target render-target :width width :height height :num-slices num-slices :num-mipmaps num-mipmaps :usage usage :pixel-format pixel-format :sample-count sample-count :data data :label label :gl-textures gl-textures :gl-texture-target gl-texture-target :mtl-textures mtl-textures :d3d11-texture d3d11-texture :d3d11-shader-resource-view d3d11-shader-resource-view :wgpu-texture wgpu-texture :wgpu-texture-view wgpu-texture-view :-end-canary -end-canary)))
-(defmethod translate-into-foreign-memory (value (type sg-image-desc-type) ptr)
-  (with-foreign-slots ((-start-canary type render-target width height num-slices num-mipmaps usage pixel-format sample-count data label gl-textures gl-texture-target mtl-textures d3d11-texture d3d11-shader-resource-view wgpu-texture wgpu-texture-view -end-canary) ptr (:struct %sg-image-desc))
-    (setf 
-      -start-canary (sg-image-desc--start-canary value)
-      type (sg-image-desc-type value)
-      render-target (sg-image-desc-render-target value)
-      width (sg-image-desc-width value)
-      height (sg-image-desc-height value)
-      num-slices (sg-image-desc-num-slices value)
-      num-mipmaps (sg-image-desc-num-mipmaps value)
-      usage (sg-image-desc-usage value)
-      pixel-format (sg-image-desc-pixel-format value)
-      sample-count (sg-image-desc-sample-count value)
-      data (sg-image-desc-data value)
-      label (sg-image-desc-label value)
-      gl-textures (sg-image-desc-gl-textures value)
-      gl-texture-target (sg-image-desc-gl-texture-target value)
-      mtl-textures (sg-image-desc-mtl-textures value)
-      d3d11-texture (sg-image-desc-d3d11-texture value)
-      d3d11-shader-resource-view (sg-image-desc-d3d11-shader-resource-view value)
-      wgpu-texture (sg-image-desc-wgpu-texture value)
-      wgpu-texture-view (sg-image-desc-wgpu-texture-view value)
-      -end-canary (sg-image-desc--end-canary value))))
-
 (defcstruct (%sg-sampler-desc :class sg-sampler-desc-type)
   (-start-canary :unsigned-int)
   (min-filter sg-filter)
@@ -936,122 +510,20 @@
   (wgpu-sampler (:pointer :void))
   (-end-canary :unsigned-int))
 
-(defstruct sg-sampler-desc
-  (-start-canary 0)
-  (min-filter nil)
-  (mag-filter nil)
-  (mipmap-filter nil)
-  (wrap-u nil)
-  (wrap-v nil)
-  (wrap-w nil)
-  (min-lod 0.0)
-  (max-lod 0.0)
-  (border-color nil)
-  (compare nil)
-  (max-anisotropy 0)
-  (label nil)
-  (gl-sampler 0)
-  (mtl-sampler nil)
-  (d3d11-sampler nil)
-  (wgpu-sampler nil)
-  (-end-canary 0))
-
-(defmethod translate-from-foreign (ptr (type sg-sampler-desc-type))
-  (with-foreign-slots ((-start-canary min-filter mag-filter mipmap-filter wrap-u wrap-v wrap-w min-lod max-lod border-color compare max-anisotropy label gl-sampler mtl-sampler d3d11-sampler wgpu-sampler -end-canary) ptr (:struct %sg-sampler-desc))
-    (make-sg-sampler-desc :-start-canary -start-canary :min-filter min-filter :mag-filter mag-filter :mipmap-filter mipmap-filter :wrap-u wrap-u :wrap-v wrap-v :wrap-w wrap-w :min-lod min-lod :max-lod max-lod :border-color border-color :compare compare :max-anisotropy max-anisotropy :label label :gl-sampler gl-sampler :mtl-sampler mtl-sampler :d3d11-sampler d3d11-sampler :wgpu-sampler wgpu-sampler :-end-canary -end-canary)))
-(defmethod expand-from-foreign (ptr (type sg-sampler-desc-type))
-  `(with-foreign-slots ((-start-canary min-filter mag-filter mipmap-filter wrap-u wrap-v wrap-w min-lod max-lod border-color compare max-anisotropy label gl-sampler mtl-sampler d3d11-sampler wgpu-sampler -end-canary) ,ptr (:struct %sg-sampler-desc))
-    (make-sg-sampler-desc :-start-canary -start-canary :min-filter min-filter :mag-filter mag-filter :mipmap-filter mipmap-filter :wrap-u wrap-u :wrap-v wrap-v :wrap-w wrap-w :min-lod min-lod :max-lod max-lod :border-color border-color :compare compare :max-anisotropy max-anisotropy :label label :gl-sampler gl-sampler :mtl-sampler mtl-sampler :d3d11-sampler d3d11-sampler :wgpu-sampler wgpu-sampler :-end-canary -end-canary)))
-(defmethod translate-into-foreign-memory (value (type sg-sampler-desc-type) ptr)
-  (with-foreign-slots ((-start-canary min-filter mag-filter mipmap-filter wrap-u wrap-v wrap-w min-lod max-lod border-color compare max-anisotropy label gl-sampler mtl-sampler d3d11-sampler wgpu-sampler -end-canary) ptr (:struct %sg-sampler-desc))
-    (setf 
-      -start-canary (sg-sampler-desc--start-canary value)
-      min-filter (sg-sampler-desc-min-filter value)
-      mag-filter (sg-sampler-desc-mag-filter value)
-      mipmap-filter (sg-sampler-desc-mipmap-filter value)
-      wrap-u (sg-sampler-desc-wrap-u value)
-      wrap-v (sg-sampler-desc-wrap-v value)
-      wrap-w (sg-sampler-desc-wrap-w value)
-      min-lod (sg-sampler-desc-min-lod value)
-      max-lod (sg-sampler-desc-max-lod value)
-      border-color (sg-sampler-desc-border-color value)
-      compare (sg-sampler-desc-compare value)
-      max-anisotropy (sg-sampler-desc-max-anisotropy value)
-      label (sg-sampler-desc-label value)
-      gl-sampler (sg-sampler-desc-gl-sampler value)
-      mtl-sampler (sg-sampler-desc-mtl-sampler value)
-      d3d11-sampler (sg-sampler-desc-d3d11-sampler value)
-      wgpu-sampler (sg-sampler-desc-wgpu-sampler value)
-      -end-canary (sg-sampler-desc--end-canary value))))
-
 (defcstruct (%sg-shader-attr-desc :class sg-shader-attr-desc-type)
   (name (:pointer :char))
   (sem-name (:pointer :char))
   (sem-index :int))
-
-(defstruct sg-shader-attr-desc
-  (name nil)
-  (sem-name nil)
-  (sem-index 0))
-
-(defmethod translate-from-foreign (ptr (type sg-shader-attr-desc-type))
-  (with-foreign-slots ((name sem-name sem-index) ptr (:struct %sg-shader-attr-desc))
-    (make-sg-shader-attr-desc :name name :sem-name sem-name :sem-index sem-index)))
-(defmethod expand-from-foreign (ptr (type sg-shader-attr-desc-type))
-  `(with-foreign-slots ((name sem-name sem-index) ,ptr (:struct %sg-shader-attr-desc))
-    (make-sg-shader-attr-desc :name name :sem-name sem-name :sem-index sem-index)))
-(defmethod translate-into-foreign-memory (value (type sg-shader-attr-desc-type) ptr)
-  (with-foreign-slots ((name sem-name sem-index) ptr (:struct %sg-shader-attr-desc))
-    (setf 
-      name (sg-shader-attr-desc-name value)
-      sem-name (sg-shader-attr-desc-sem-name value)
-      sem-index (sg-shader-attr-desc-sem-index value))))
 
 (defcstruct (%sg-shader-uniform-desc :class sg-shader-uniform-desc-type)
   (name (:pointer :char))
   (type sg-uniform-type)
   (array-count :int))
 
-(defstruct sg-shader-uniform-desc
-  (name nil)
-  (type nil)
-  (array-count 0))
-
-(defmethod translate-from-foreign (ptr (type sg-shader-uniform-desc-type))
-  (with-foreign-slots ((name type array-count) ptr (:struct %sg-shader-uniform-desc))
-    (make-sg-shader-uniform-desc :name name :type type :array-count array-count)))
-(defmethod expand-from-foreign (ptr (type sg-shader-uniform-desc-type))
-  `(with-foreign-slots ((name type array-count) ,ptr (:struct %sg-shader-uniform-desc))
-    (make-sg-shader-uniform-desc :name name :type type :array-count array-count)))
-(defmethod translate-into-foreign-memory (value (type sg-shader-uniform-desc-type) ptr)
-  (with-foreign-slots ((name type array-count) ptr (:struct %sg-shader-uniform-desc))
-    (setf 
-      name (sg-shader-uniform-desc-name value)
-      type (sg-shader-uniform-desc-type value)
-      array-count (sg-shader-uniform-desc-array-count value))))
-
 (defcstruct (%sg-shader-uniform-block-desc :class sg-shader-uniform-block-desc-type)
   (size :unsigned-long)
   (layout sg-uniform-layout)
   (uniforms (:array (:struct %sg-shader-uniform-desc) 16)))
-
-(defstruct sg-shader-uniform-block-desc
-  (size 0)
-  (layout nil)
-  (uniforms (make-array 16)))
-
-(defmethod translate-from-foreign (ptr (type sg-shader-uniform-block-desc-type))
-  (with-foreign-slots ((size layout uniforms) ptr (:struct %sg-shader-uniform-block-desc))
-    (make-sg-shader-uniform-block-desc :size size :layout layout :uniforms uniforms)))
-(defmethod expand-from-foreign (ptr (type sg-shader-uniform-block-desc-type))
-  `(with-foreign-slots ((size layout uniforms) ,ptr (:struct %sg-shader-uniform-block-desc))
-    (make-sg-shader-uniform-block-desc :size size :layout layout :uniforms uniforms)))
-(defmethod translate-into-foreign-memory (value (type sg-shader-uniform-block-desc-type) ptr)
-  (with-foreign-slots ((size layout uniforms) ptr (:struct %sg-shader-uniform-block-desc))
-    (setf 
-      size (sg-shader-uniform-block-desc-size value)
-      layout (sg-shader-uniform-block-desc-layout value)
-      uniforms (sg-shader-uniform-block-desc-uniforms value))))
 
 (defcstruct (%sg-shader-image-desc :class sg-shader-image-desc-type)
   (used :int)
@@ -1059,71 +531,15 @@
   (image-type sg-image-type)
   (sample-type sg-image-sample-type))
 
-(defstruct sg-shader-image-desc
-  (used nil)
-  (multisampled nil)
-  (image-type nil)
-  (sample-type nil))
-
-(defmethod translate-from-foreign (ptr (type sg-shader-image-desc-type))
-  (with-foreign-slots ((used multisampled image-type sample-type) ptr (:struct %sg-shader-image-desc))
-    (make-sg-shader-image-desc :used used :multisampled multisampled :image-type image-type :sample-type sample-type)))
-(defmethod expand-from-foreign (ptr (type sg-shader-image-desc-type))
-  `(with-foreign-slots ((used multisampled image-type sample-type) ,ptr (:struct %sg-shader-image-desc))
-    (make-sg-shader-image-desc :used used :multisampled multisampled :image-type image-type :sample-type sample-type)))
-(defmethod translate-into-foreign-memory (value (type sg-shader-image-desc-type) ptr)
-  (with-foreign-slots ((used multisampled image-type sample-type) ptr (:struct %sg-shader-image-desc))
-    (setf 
-      used (sg-shader-image-desc-used value)
-      multisampled (sg-shader-image-desc-multisampled value)
-      image-type (sg-shader-image-desc-image-type value)
-      sample-type (sg-shader-image-desc-sample-type value))))
-
 (defcstruct (%sg-shader-sampler-desc :class sg-shader-sampler-desc-type)
   (used :int)
   (sampler-type sg-sampler-type))
-
-(defstruct sg-shader-sampler-desc
-  (used nil)
-  (sampler-type nil))
-
-(defmethod translate-from-foreign (ptr (type sg-shader-sampler-desc-type))
-  (with-foreign-slots ((used sampler-type) ptr (:struct %sg-shader-sampler-desc))
-    (make-sg-shader-sampler-desc :used used :sampler-type sampler-type)))
-(defmethod expand-from-foreign (ptr (type sg-shader-sampler-desc-type))
-  `(with-foreign-slots ((used sampler-type) ,ptr (:struct %sg-shader-sampler-desc))
-    (make-sg-shader-sampler-desc :used used :sampler-type sampler-type)))
-(defmethod translate-into-foreign-memory (value (type sg-shader-sampler-desc-type) ptr)
-  (with-foreign-slots ((used sampler-type) ptr (:struct %sg-shader-sampler-desc))
-    (setf 
-      used (sg-shader-sampler-desc-used value)
-      sampler-type (sg-shader-sampler-desc-sampler-type value))))
 
 (defcstruct (%sg-shader-image-sampler-pair-desc :class sg-shader-image-sampler-pair-desc-type)
   (used :int)
   (image-slot :int)
   (sampler-slot :int)
   (glsl-name (:pointer :char)))
-
-(defstruct sg-shader-image-sampler-pair-desc
-  (used nil)
-  (image-slot 0)
-  (sampler-slot 0)
-  (glsl-name nil))
-
-(defmethod translate-from-foreign (ptr (type sg-shader-image-sampler-pair-desc-type))
-  (with-foreign-slots ((used image-slot sampler-slot glsl-name) ptr (:struct %sg-shader-image-sampler-pair-desc))
-    (make-sg-shader-image-sampler-pair-desc :used used :image-slot image-slot :sampler-slot sampler-slot :glsl-name glsl-name)))
-(defmethod expand-from-foreign (ptr (type sg-shader-image-sampler-pair-desc-type))
-  `(with-foreign-slots ((used image-slot sampler-slot glsl-name) ,ptr (:struct %sg-shader-image-sampler-pair-desc))
-    (make-sg-shader-image-sampler-pair-desc :used used :image-slot image-slot :sampler-slot sampler-slot :glsl-name glsl-name)))
-(defmethod translate-into-foreign-memory (value (type sg-shader-image-sampler-pair-desc-type) ptr)
-  (with-foreign-slots ((used image-slot sampler-slot glsl-name) ptr (:struct %sg-shader-image-sampler-pair-desc))
-    (setf 
-      used (sg-shader-image-sampler-pair-desc-used value)
-      image-slot (sg-shader-image-sampler-pair-desc-image-slot value)
-      sampler-slot (sg-shader-image-sampler-pair-desc-sampler-slot value)
-      glsl-name (sg-shader-image-sampler-pair-desc-glsl-name value))))
 
 (defcstruct (%sg-shader-stage-desc :class sg-shader-stage-desc-type)
   (source (:pointer :char))
@@ -1135,34 +551,6 @@
   (samplers (:array (:struct %sg-shader-sampler-desc) 8))
   (image-sampler-pairs (:array (:struct %sg-shader-image-sampler-pair-desc) 12)))
 
-(defstruct sg-shader-stage-desc
-  (source nil)
-  (bytecode nil)
-  (entry nil)
-  (d3d11-target nil)
-  (uniform-blocks (make-array 4))
-  (images (make-array 12))
-  (samplers (make-array 8))
-  (image-sampler-pairs (make-array 12)))
-
-(defmethod translate-from-foreign (ptr (type sg-shader-stage-desc-type))
-  (with-foreign-slots ((source bytecode entry d3d11-target uniform-blocks images samplers image-sampler-pairs) ptr (:struct %sg-shader-stage-desc))
-    (make-sg-shader-stage-desc :source source :bytecode bytecode :entry entry :d3d11-target d3d11-target :uniform-blocks uniform-blocks :images images :samplers samplers :image-sampler-pairs image-sampler-pairs)))
-(defmethod expand-from-foreign (ptr (type sg-shader-stage-desc-type))
-  `(with-foreign-slots ((source bytecode entry d3d11-target uniform-blocks images samplers image-sampler-pairs) ,ptr (:struct %sg-shader-stage-desc))
-    (make-sg-shader-stage-desc :source source :bytecode bytecode :entry entry :d3d11-target d3d11-target :uniform-blocks uniform-blocks :images images :samplers samplers :image-sampler-pairs image-sampler-pairs)))
-(defmethod translate-into-foreign-memory (value (type sg-shader-stage-desc-type) ptr)
-  (with-foreign-slots ((source bytecode entry d3d11-target uniform-blocks images samplers image-sampler-pairs) ptr (:struct %sg-shader-stage-desc))
-    (setf 
-      source (sg-shader-stage-desc-source value)
-      bytecode (sg-shader-stage-desc-bytecode value)
-      entry (sg-shader-stage-desc-entry value)
-      d3d11-target (sg-shader-stage-desc-d3d11-target value)
-      uniform-blocks (sg-shader-stage-desc-uniform-blocks value)
-      images (sg-shader-stage-desc-images value)
-      samplers (sg-shader-stage-desc-samplers value)
-      image-sampler-pairs (sg-shader-stage-desc-image-sampler-pairs value))))
-
 (defcstruct (%sg-shader-desc :class sg-shader-desc-type)
   (-start-canary :unsigned-int)
   (attrs (:array (:struct %sg-shader-attr-desc) 16))
@@ -1171,121 +559,25 @@
   (label (:pointer :char))
   (-end-canary :unsigned-int))
 
-(defstruct sg-shader-desc
-  (-start-canary 0)
-  (attrs (make-array 16))
-  (vs nil)
-  (fs nil)
-  (label nil)
-  (-end-canary 0))
-
-(defmethod translate-from-foreign (ptr (type sg-shader-desc-type))
-  (with-foreign-slots ((-start-canary attrs vs fs label -end-canary) ptr (:struct %sg-shader-desc))
-    (make-sg-shader-desc :-start-canary -start-canary :attrs attrs :vs vs :fs fs :label label :-end-canary -end-canary)))
-(defmethod expand-from-foreign (ptr (type sg-shader-desc-type))
-  `(with-foreign-slots ((-start-canary attrs vs fs label -end-canary) ,ptr (:struct %sg-shader-desc))
-    (make-sg-shader-desc :-start-canary -start-canary :attrs attrs :vs vs :fs fs :label label :-end-canary -end-canary)))
-(defmethod translate-into-foreign-memory (value (type sg-shader-desc-type) ptr)
-  (with-foreign-slots ((-start-canary attrs vs fs label -end-canary) ptr (:struct %sg-shader-desc))
-    (setf 
-      -start-canary (sg-shader-desc--start-canary value)
-      attrs (sg-shader-desc-attrs value)
-      vs (sg-shader-desc-vs value)
-      fs (sg-shader-desc-fs value)
-      label (sg-shader-desc-label value)
-      -end-canary (sg-shader-desc--end-canary value))))
-
 (defcstruct (%sg-vertex-buffer-layout-state :class sg-vertex-buffer-layout-state-type)
   (stride :int)
   (step-func sg-vertex-step)
   (step-rate :int))
-
-(defstruct sg-vertex-buffer-layout-state
-  (stride 0)
-  (step-func nil)
-  (step-rate 0))
-
-(defmethod translate-from-foreign (ptr (type sg-vertex-buffer-layout-state-type))
-  (with-foreign-slots ((stride step-func step-rate) ptr (:struct %sg-vertex-buffer-layout-state))
-    (make-sg-vertex-buffer-layout-state :stride stride :step-func step-func :step-rate step-rate)))
-(defmethod expand-from-foreign (ptr (type sg-vertex-buffer-layout-state-type))
-  `(with-foreign-slots ((stride step-func step-rate) ,ptr (:struct %sg-vertex-buffer-layout-state))
-    (make-sg-vertex-buffer-layout-state :stride stride :step-func step-func :step-rate step-rate)))
-(defmethod translate-into-foreign-memory (value (type sg-vertex-buffer-layout-state-type) ptr)
-  (with-foreign-slots ((stride step-func step-rate) ptr (:struct %sg-vertex-buffer-layout-state))
-    (setf 
-      stride (sg-vertex-buffer-layout-state-stride value)
-      step-func (sg-vertex-buffer-layout-state-step-func value)
-      step-rate (sg-vertex-buffer-layout-state-step-rate value))))
 
 (defcstruct (%sg-vertex-attr-state :class sg-vertex-attr-state-type)
   (buffer-index :int)
   (offset :int)
   (format sg-vertex-format))
 
-(defstruct sg-vertex-attr-state
-  (buffer-index 0)
-  (offset 0)
-  (format nil))
-
-(defmethod translate-from-foreign (ptr (type sg-vertex-attr-state-type))
-  (with-foreign-slots ((buffer-index offset format) ptr (:struct %sg-vertex-attr-state))
-    (make-sg-vertex-attr-state :buffer-index buffer-index :offset offset :format format)))
-(defmethod expand-from-foreign (ptr (type sg-vertex-attr-state-type))
-  `(with-foreign-slots ((buffer-index offset format) ,ptr (:struct %sg-vertex-attr-state))
-    (make-sg-vertex-attr-state :buffer-index buffer-index :offset offset :format format)))
-(defmethod translate-into-foreign-memory (value (type sg-vertex-attr-state-type) ptr)
-  (with-foreign-slots ((buffer-index offset format) ptr (:struct %sg-vertex-attr-state))
-    (setf 
-      buffer-index (sg-vertex-attr-state-buffer-index value)
-      offset (sg-vertex-attr-state-offset value)
-      format (sg-vertex-attr-state-format value))))
-
 (defcstruct (%sg-vertex-layout-state :class sg-vertex-layout-state-type)
   (buffers (:array (:struct %sg-vertex-buffer-layout-state) 8))
   (attrs (:array (:struct %sg-vertex-attr-state) 16)))
-
-(defstruct sg-vertex-layout-state
-  (buffers (make-array 8))
-  (attrs (make-array 16)))
-
-(defmethod translate-from-foreign (ptr (type sg-vertex-layout-state-type))
-  (with-foreign-slots ((buffers attrs) ptr (:struct %sg-vertex-layout-state))
-    (make-sg-vertex-layout-state :buffers buffers :attrs attrs)))
-(defmethod expand-from-foreign (ptr (type sg-vertex-layout-state-type))
-  `(with-foreign-slots ((buffers attrs) ,ptr (:struct %sg-vertex-layout-state))
-    (make-sg-vertex-layout-state :buffers buffers :attrs attrs)))
-(defmethod translate-into-foreign-memory (value (type sg-vertex-layout-state-type) ptr)
-  (with-foreign-slots ((buffers attrs) ptr (:struct %sg-vertex-layout-state))
-    (setf 
-      buffers (sg-vertex-layout-state-buffers value)
-      attrs (sg-vertex-layout-state-attrs value))))
 
 (defcstruct (%sg-stencil-face-state :class sg-stencil-face-state-type)
   (compare sg-compare-func)
   (fail-op sg-stencil-op)
   (depth-fail-op sg-stencil-op)
   (pass-op sg-stencil-op))
-
-(defstruct sg-stencil-face-state
-  (compare nil)
-  (fail-op nil)
-  (depth-fail-op nil)
-  (pass-op nil))
-
-(defmethod translate-from-foreign (ptr (type sg-stencil-face-state-type))
-  (with-foreign-slots ((compare fail-op depth-fail-op pass-op) ptr (:struct %sg-stencil-face-state))
-    (make-sg-stencil-face-state :compare compare :fail-op fail-op :depth-fail-op depth-fail-op :pass-op pass-op)))
-(defmethod expand-from-foreign (ptr (type sg-stencil-face-state-type))
-  `(with-foreign-slots ((compare fail-op depth-fail-op pass-op) ,ptr (:struct %sg-stencil-face-state))
-    (make-sg-stencil-face-state :compare compare :fail-op fail-op :depth-fail-op depth-fail-op :pass-op pass-op)))
-(defmethod translate-into-foreign-memory (value (type sg-stencil-face-state-type) ptr)
-  (with-foreign-slots ((compare fail-op depth-fail-op pass-op) ptr (:struct %sg-stencil-face-state))
-    (setf 
-      compare (sg-stencil-face-state-compare value)
-      fail-op (sg-stencil-face-state-fail-op value)
-      depth-fail-op (sg-stencil-face-state-depth-fail-op value)
-      pass-op (sg-stencil-face-state-pass-op value))))
 
 (defcstruct (%sg-stencil-state :class sg-stencil-state-type)
   (enabled :int)
@@ -1295,30 +587,6 @@
   (write-mask :unsigned-char)
   (ref :unsigned-char))
 
-(defstruct sg-stencil-state
-  (enabled nil)
-  (front nil)
-  (back nil)
-  (read-mask 0)
-  (write-mask 0)
-  (ref 0))
-
-(defmethod translate-from-foreign (ptr (type sg-stencil-state-type))
-  (with-foreign-slots ((enabled front back read-mask write-mask ref) ptr (:struct %sg-stencil-state))
-    (make-sg-stencil-state :enabled enabled :front front :back back :read-mask read-mask :write-mask write-mask :ref ref)))
-(defmethod expand-from-foreign (ptr (type sg-stencil-state-type))
-  `(with-foreign-slots ((enabled front back read-mask write-mask ref) ,ptr (:struct %sg-stencil-state))
-    (make-sg-stencil-state :enabled enabled :front front :back back :read-mask read-mask :write-mask write-mask :ref ref)))
-(defmethod translate-into-foreign-memory (value (type sg-stencil-state-type) ptr)
-  (with-foreign-slots ((enabled front back read-mask write-mask ref) ptr (:struct %sg-stencil-state))
-    (setf 
-      enabled (sg-stencil-state-enabled value)
-      front (sg-stencil-state-front value)
-      back (sg-stencil-state-back value)
-      read-mask (sg-stencil-state-read-mask value)
-      write-mask (sg-stencil-state-write-mask value)
-      ref (sg-stencil-state-ref value))))
-
 (defcstruct (%sg-depth-state :class sg-depth-state-type)
   (pixel-format sg-pixel-format)
   (compare sg-compare-func)
@@ -1326,30 +594,6 @@
   (bias :float)
   (bias-slope-scale :float)
   (bias-clamp :float))
-
-(defstruct sg-depth-state
-  (pixel-format nil)
-  (compare nil)
-  (write-enabled nil)
-  (bias 0.0)
-  (bias-slope-scale 0.0)
-  (bias-clamp 0.0))
-
-(defmethod translate-from-foreign (ptr (type sg-depth-state-type))
-  (with-foreign-slots ((pixel-format compare write-enabled bias bias-slope-scale bias-clamp) ptr (:struct %sg-depth-state))
-    (make-sg-depth-state :pixel-format pixel-format :compare compare :write-enabled write-enabled :bias bias :bias-slope-scale bias-slope-scale :bias-clamp bias-clamp)))
-(defmethod expand-from-foreign (ptr (type sg-depth-state-type))
-  `(with-foreign-slots ((pixel-format compare write-enabled bias bias-slope-scale bias-clamp) ,ptr (:struct %sg-depth-state))
-    (make-sg-depth-state :pixel-format pixel-format :compare compare :write-enabled write-enabled :bias bias :bias-slope-scale bias-slope-scale :bias-clamp bias-clamp)))
-(defmethod translate-into-foreign-memory (value (type sg-depth-state-type) ptr)
-  (with-foreign-slots ((pixel-format compare write-enabled bias bias-slope-scale bias-clamp) ptr (:struct %sg-depth-state))
-    (setf 
-      pixel-format (sg-depth-state-pixel-format value)
-      compare (sg-depth-state-compare value)
-      write-enabled (sg-depth-state-write-enabled value)
-      bias (sg-depth-state-bias value)
-      bias-slope-scale (sg-depth-state-bias-slope-scale value)
-      bias-clamp (sg-depth-state-bias-clamp value))))
 
 (defcstruct (%sg-blend-state :class sg-blend-state-type)
   (enabled :int)
@@ -1360,54 +604,10 @@
   (dst-factor-alpha sg-blend-factor)
   (op-alpha sg-blend-op))
 
-(defstruct sg-blend-state
-  (enabled nil)
-  (src-factor-rgb nil)
-  (dst-factor-rgb nil)
-  (op-rgb nil)
-  (src-factor-alpha nil)
-  (dst-factor-alpha nil)
-  (op-alpha nil))
-
-(defmethod translate-from-foreign (ptr (type sg-blend-state-type))
-  (with-foreign-slots ((enabled src-factor-rgb dst-factor-rgb op-rgb src-factor-alpha dst-factor-alpha op-alpha) ptr (:struct %sg-blend-state))
-    (make-sg-blend-state :enabled enabled :src-factor-rgb src-factor-rgb :dst-factor-rgb dst-factor-rgb :op-rgb op-rgb :src-factor-alpha src-factor-alpha :dst-factor-alpha dst-factor-alpha :op-alpha op-alpha)))
-(defmethod expand-from-foreign (ptr (type sg-blend-state-type))
-  `(with-foreign-slots ((enabled src-factor-rgb dst-factor-rgb op-rgb src-factor-alpha dst-factor-alpha op-alpha) ,ptr (:struct %sg-blend-state))
-    (make-sg-blend-state :enabled enabled :src-factor-rgb src-factor-rgb :dst-factor-rgb dst-factor-rgb :op-rgb op-rgb :src-factor-alpha src-factor-alpha :dst-factor-alpha dst-factor-alpha :op-alpha op-alpha)))
-(defmethod translate-into-foreign-memory (value (type sg-blend-state-type) ptr)
-  (with-foreign-slots ((enabled src-factor-rgb dst-factor-rgb op-rgb src-factor-alpha dst-factor-alpha op-alpha) ptr (:struct %sg-blend-state))
-    (setf 
-      enabled (sg-blend-state-enabled value)
-      src-factor-rgb (sg-blend-state-src-factor-rgb value)
-      dst-factor-rgb (sg-blend-state-dst-factor-rgb value)
-      op-rgb (sg-blend-state-op-rgb value)
-      src-factor-alpha (sg-blend-state-src-factor-alpha value)
-      dst-factor-alpha (sg-blend-state-dst-factor-alpha value)
-      op-alpha (sg-blend-state-op-alpha value))))
-
 (defcstruct (%sg-color-target-state :class sg-color-target-state-type)
   (pixel-format sg-pixel-format)
   (write-mask sg-color-mask)
   (blend (:struct %sg-blend-state)))
-
-(defstruct sg-color-target-state
-  (pixel-format nil)
-  (write-mask nil)
-  (blend nil))
-
-(defmethod translate-from-foreign (ptr (type sg-color-target-state-type))
-  (with-foreign-slots ((pixel-format write-mask blend) ptr (:struct %sg-color-target-state))
-    (make-sg-color-target-state :pixel-format pixel-format :write-mask write-mask :blend blend)))
-(defmethod expand-from-foreign (ptr (type sg-color-target-state-type))
-  `(with-foreign-slots ((pixel-format write-mask blend) ,ptr (:struct %sg-color-target-state))
-    (make-sg-color-target-state :pixel-format pixel-format :write-mask write-mask :blend blend)))
-(defmethod translate-into-foreign-memory (value (type sg-color-target-state-type) ptr)
-  (with-foreign-slots ((pixel-format write-mask blend) ptr (:struct %sg-color-target-state))
-    (setf 
-      pixel-format (sg-color-target-state-pixel-format value)
-      write-mask (sg-color-target-state-write-mask value)
-      blend (sg-color-target-state-blend value))))
 
 (defcstruct (%sg-pipeline-desc :class sg-pipeline-desc-type)
   (-start-canary :unsigned-int)
@@ -1427,72 +627,10 @@
   (label (:pointer :char))
   (-end-canary :unsigned-int))
 
-(defstruct sg-pipeline-desc
-  (-start-canary 0)
-  (shader nil)
-  (layout nil)
-  (depth nil)
-  (stencil nil)
-  (color-count 0)
-  (colors (make-array 4))
-  (primitive-type nil)
-  (index-type nil)
-  (cull-mode nil)
-  (face-winding nil)
-  (sample-count 0)
-  (blend-color nil)
-  (alpha-to-coverage-enabled nil)
-  (label nil)
-  (-end-canary 0))
-
-(defmethod translate-from-foreign (ptr (type sg-pipeline-desc-type))
-  (with-foreign-slots ((-start-canary shader layout depth stencil color-count colors primitive-type index-type cull-mode face-winding sample-count blend-color alpha-to-coverage-enabled label -end-canary) ptr (:struct %sg-pipeline-desc))
-    (make-sg-pipeline-desc :-start-canary -start-canary :shader shader :layout layout :depth depth :stencil stencil :color-count color-count :colors colors :primitive-type primitive-type :index-type index-type :cull-mode cull-mode :face-winding face-winding :sample-count sample-count :blend-color blend-color :alpha-to-coverage-enabled alpha-to-coverage-enabled :label label :-end-canary -end-canary)))
-(defmethod expand-from-foreign (ptr (type sg-pipeline-desc-type))
-  `(with-foreign-slots ((-start-canary shader layout depth stencil color-count colors primitive-type index-type cull-mode face-winding sample-count blend-color alpha-to-coverage-enabled label -end-canary) ,ptr (:struct %sg-pipeline-desc))
-    (make-sg-pipeline-desc :-start-canary -start-canary :shader shader :layout layout :depth depth :stencil stencil :color-count color-count :colors colors :primitive-type primitive-type :index-type index-type :cull-mode cull-mode :face-winding face-winding :sample-count sample-count :blend-color blend-color :alpha-to-coverage-enabled alpha-to-coverage-enabled :label label :-end-canary -end-canary)))
-(defmethod translate-into-foreign-memory (value (type sg-pipeline-desc-type) ptr)
-  (with-foreign-slots ((-start-canary shader layout depth stencil color-count colors primitive-type index-type cull-mode face-winding sample-count blend-color alpha-to-coverage-enabled label -end-canary) ptr (:struct %sg-pipeline-desc))
-    (setf 
-      -start-canary (sg-pipeline-desc--start-canary value)
-      shader (sg-pipeline-desc-shader value)
-      layout (sg-pipeline-desc-layout value)
-      depth (sg-pipeline-desc-depth value)
-      stencil (sg-pipeline-desc-stencil value)
-      color-count (sg-pipeline-desc-color-count value)
-      colors (sg-pipeline-desc-colors value)
-      primitive-type (sg-pipeline-desc-primitive-type value)
-      index-type (sg-pipeline-desc-index-type value)
-      cull-mode (sg-pipeline-desc-cull-mode value)
-      face-winding (sg-pipeline-desc-face-winding value)
-      sample-count (sg-pipeline-desc-sample-count value)
-      blend-color (sg-pipeline-desc-blend-color value)
-      alpha-to-coverage-enabled (sg-pipeline-desc-alpha-to-coverage-enabled value)
-      label (sg-pipeline-desc-label value)
-      -end-canary (sg-pipeline-desc--end-canary value))))
-
 (defcstruct (%sg-pass-attachment-desc :class sg-pass-attachment-desc-type)
   (image (:struct %sg-image))
   (mip-level :int)
   (slice :int))
-
-(defstruct sg-pass-attachment-desc
-  (image nil)
-  (mip-level 0)
-  (slice 0))
-
-(defmethod translate-from-foreign (ptr (type sg-pass-attachment-desc-type))
-  (with-foreign-slots ((image mip-level slice) ptr (:struct %sg-pass-attachment-desc))
-    (make-sg-pass-attachment-desc :image image :mip-level mip-level :slice slice)))
-(defmethod expand-from-foreign (ptr (type sg-pass-attachment-desc-type))
-  `(with-foreign-slots ((image mip-level slice) ,ptr (:struct %sg-pass-attachment-desc))
-    (make-sg-pass-attachment-desc :image image :mip-level mip-level :slice slice)))
-(defmethod translate-into-foreign-memory (value (type sg-pass-attachment-desc-type) ptr)
-  (with-foreign-slots ((image mip-level slice) ptr (:struct %sg-pass-attachment-desc))
-    (setf 
-      image (sg-pass-attachment-desc-image value)
-      mip-level (sg-pass-attachment-desc-mip-level value)
-      slice (sg-pass-attachment-desc-slice value))))
 
 (defcstruct (%sg-pass-desc :class sg-pass-desc-type)
   (-start-canary :unsigned-int)
@@ -1501,30 +639,6 @@
   (depth-stencil-attachment (:struct %sg-pass-attachment-desc))
   (label (:pointer :char))
   (-end-canary :unsigned-int))
-
-(defstruct sg-pass-desc
-  (-start-canary 0)
-  (color-attachments (make-array 4))
-  (resolve-attachments (make-array 4))
-  (depth-stencil-attachment nil)
-  (label nil)
-  (-end-canary 0))
-
-(defmethod translate-from-foreign (ptr (type sg-pass-desc-type))
-  (with-foreign-slots ((-start-canary color-attachments resolve-attachments depth-stencil-attachment label -end-canary) ptr (:struct %sg-pass-desc))
-    (make-sg-pass-desc :-start-canary -start-canary :color-attachments color-attachments :resolve-attachments resolve-attachments :depth-stencil-attachment depth-stencil-attachment :label label :-end-canary -end-canary)))
-(defmethod expand-from-foreign (ptr (type sg-pass-desc-type))
-  `(with-foreign-slots ((-start-canary color-attachments resolve-attachments depth-stencil-attachment label -end-canary) ,ptr (:struct %sg-pass-desc))
-    (make-sg-pass-desc :-start-canary -start-canary :color-attachments color-attachments :resolve-attachments resolve-attachments :depth-stencil-attachment depth-stencil-attachment :label label :-end-canary -end-canary)))
-(defmethod translate-into-foreign-memory (value (type sg-pass-desc-type) ptr)
-  (with-foreign-slots ((-start-canary color-attachments resolve-attachments depth-stencil-attachment label -end-canary) ptr (:struct %sg-pass-desc))
-    (setf 
-      -start-canary (sg-pass-desc--start-canary value)
-      color-attachments (sg-pass-desc-color-attachments value)
-      resolve-attachments (sg-pass-desc-resolve-attachments value)
-      depth-stencil-attachment (sg-pass-desc-depth-stencil-attachment value)
-      label (sg-pass-desc-label value)
-      -end-canary (sg-pass-desc--end-canary value))))
 
 (defcstruct (%sg-trace-hooks :class sg-trace-hooks-type)
   (user-data (:pointer :void))
@@ -1587,158 +701,10 @@
   (push-debug-group :pointer)
   (pop-debug-group :pointer))
 
-(defstruct sg-trace-hooks
-  (user-data nil)
-  (reset-state-cache nil)
-  (make-buffer nil)
-  (make-image nil)
-  (make-sampler nil)
-  (make-shader nil)
-  (make-pipeline nil)
-  (make-pass nil)
-  (destroy-buffer nil)
-  (destroy-image nil)
-  (destroy-sampler nil)
-  (destroy-shader nil)
-  (destroy-pipeline nil)
-  (destroy-pass nil)
-  (update-buffer nil)
-  (update-image nil)
-  (append-buffer nil)
-  (begin-default-pass nil)
-  (begin-pass nil)
-  (apply-viewport nil)
-  (apply-scissor-rect nil)
-  (apply-pipeline nil)
-  (apply-bindings nil)
-  (apply-uniforms nil)
-  (draw nil)
-  (end-pass nil)
-  (commit nil)
-  (alloc-buffer nil)
-  (alloc-image nil)
-  (alloc-sampler nil)
-  (alloc-shader nil)
-  (alloc-pipeline nil)
-  (alloc-pass nil)
-  (dealloc-buffer nil)
-  (dealloc-image nil)
-  (dealloc-sampler nil)
-  (dealloc-shader nil)
-  (dealloc-pipeline nil)
-  (dealloc-pass nil)
-  (init-buffer nil)
-  (init-image nil)
-  (init-sampler nil)
-  (init-shader nil)
-  (init-pipeline nil)
-  (init-pass nil)
-  (uninit-buffer nil)
-  (uninit-image nil)
-  (uninit-sampler nil)
-  (uninit-shader nil)
-  (uninit-pipeline nil)
-  (uninit-pass nil)
-  (fail-buffer nil)
-  (fail-image nil)
-  (fail-sampler nil)
-  (fail-shader nil)
-  (fail-pipeline nil)
-  (fail-pass nil)
-  (push-debug-group nil)
-  (pop-debug-group nil))
-
-(defmethod translate-from-foreign (ptr (type sg-trace-hooks-type))
-  (with-foreign-slots ((user-data reset-state-cache make-buffer make-image make-sampler make-shader make-pipeline make-pass destroy-buffer destroy-image destroy-sampler destroy-shader destroy-pipeline destroy-pass update-buffer update-image append-buffer begin-default-pass begin-pass apply-viewport apply-scissor-rect apply-pipeline apply-bindings apply-uniforms draw end-pass commit alloc-buffer alloc-image alloc-sampler alloc-shader alloc-pipeline alloc-pass dealloc-buffer dealloc-image dealloc-sampler dealloc-shader dealloc-pipeline dealloc-pass init-buffer init-image init-sampler init-shader init-pipeline init-pass uninit-buffer uninit-image uninit-sampler uninit-shader uninit-pipeline uninit-pass fail-buffer fail-image fail-sampler fail-shader fail-pipeline fail-pass push-debug-group pop-debug-group) ptr (:struct %sg-trace-hooks))
-    (make-sg-trace-hooks :user-data user-data :reset-state-cache reset-state-cache :make-buffer make-buffer :make-image make-image :make-sampler make-sampler :make-shader make-shader :make-pipeline make-pipeline :make-pass make-pass :destroy-buffer destroy-buffer :destroy-image destroy-image :destroy-sampler destroy-sampler :destroy-shader destroy-shader :destroy-pipeline destroy-pipeline :destroy-pass destroy-pass :update-buffer update-buffer :update-image update-image :append-buffer append-buffer :begin-default-pass begin-default-pass :begin-pass begin-pass :apply-viewport apply-viewport :apply-scissor-rect apply-scissor-rect :apply-pipeline apply-pipeline :apply-bindings apply-bindings :apply-uniforms apply-uniforms :draw draw :end-pass end-pass :commit commit :alloc-buffer alloc-buffer :alloc-image alloc-image :alloc-sampler alloc-sampler :alloc-shader alloc-shader :alloc-pipeline alloc-pipeline :alloc-pass alloc-pass :dealloc-buffer dealloc-buffer :dealloc-image dealloc-image :dealloc-sampler dealloc-sampler :dealloc-shader dealloc-shader :dealloc-pipeline dealloc-pipeline :dealloc-pass dealloc-pass :init-buffer init-buffer :init-image init-image :init-sampler init-sampler :init-shader init-shader :init-pipeline init-pipeline :init-pass init-pass :uninit-buffer uninit-buffer :uninit-image uninit-image :uninit-sampler uninit-sampler :uninit-shader uninit-shader :uninit-pipeline uninit-pipeline :uninit-pass uninit-pass :fail-buffer fail-buffer :fail-image fail-image :fail-sampler fail-sampler :fail-shader fail-shader :fail-pipeline fail-pipeline :fail-pass fail-pass :push-debug-group push-debug-group :pop-debug-group pop-debug-group)))
-(defmethod expand-from-foreign (ptr (type sg-trace-hooks-type))
-  `(with-foreign-slots ((user-data reset-state-cache make-buffer make-image make-sampler make-shader make-pipeline make-pass destroy-buffer destroy-image destroy-sampler destroy-shader destroy-pipeline destroy-pass update-buffer update-image append-buffer begin-default-pass begin-pass apply-viewport apply-scissor-rect apply-pipeline apply-bindings apply-uniforms draw end-pass commit alloc-buffer alloc-image alloc-sampler alloc-shader alloc-pipeline alloc-pass dealloc-buffer dealloc-image dealloc-sampler dealloc-shader dealloc-pipeline dealloc-pass init-buffer init-image init-sampler init-shader init-pipeline init-pass uninit-buffer uninit-image uninit-sampler uninit-shader uninit-pipeline uninit-pass fail-buffer fail-image fail-sampler fail-shader fail-pipeline fail-pass push-debug-group pop-debug-group) ,ptr (:struct %sg-trace-hooks))
-    (make-sg-trace-hooks :user-data user-data :reset-state-cache reset-state-cache :make-buffer make-buffer :make-image make-image :make-sampler make-sampler :make-shader make-shader :make-pipeline make-pipeline :make-pass make-pass :destroy-buffer destroy-buffer :destroy-image destroy-image :destroy-sampler destroy-sampler :destroy-shader destroy-shader :destroy-pipeline destroy-pipeline :destroy-pass destroy-pass :update-buffer update-buffer :update-image update-image :append-buffer append-buffer :begin-default-pass begin-default-pass :begin-pass begin-pass :apply-viewport apply-viewport :apply-scissor-rect apply-scissor-rect :apply-pipeline apply-pipeline :apply-bindings apply-bindings :apply-uniforms apply-uniforms :draw draw :end-pass end-pass :commit commit :alloc-buffer alloc-buffer :alloc-image alloc-image :alloc-sampler alloc-sampler :alloc-shader alloc-shader :alloc-pipeline alloc-pipeline :alloc-pass alloc-pass :dealloc-buffer dealloc-buffer :dealloc-image dealloc-image :dealloc-sampler dealloc-sampler :dealloc-shader dealloc-shader :dealloc-pipeline dealloc-pipeline :dealloc-pass dealloc-pass :init-buffer init-buffer :init-image init-image :init-sampler init-sampler :init-shader init-shader :init-pipeline init-pipeline :init-pass init-pass :uninit-buffer uninit-buffer :uninit-image uninit-image :uninit-sampler uninit-sampler :uninit-shader uninit-shader :uninit-pipeline uninit-pipeline :uninit-pass uninit-pass :fail-buffer fail-buffer :fail-image fail-image :fail-sampler fail-sampler :fail-shader fail-shader :fail-pipeline fail-pipeline :fail-pass fail-pass :push-debug-group push-debug-group :pop-debug-group pop-debug-group)))
-(defmethod translate-into-foreign-memory (value (type sg-trace-hooks-type) ptr)
-  (with-foreign-slots ((user-data reset-state-cache make-buffer make-image make-sampler make-shader make-pipeline make-pass destroy-buffer destroy-image destroy-sampler destroy-shader destroy-pipeline destroy-pass update-buffer update-image append-buffer begin-default-pass begin-pass apply-viewport apply-scissor-rect apply-pipeline apply-bindings apply-uniforms draw end-pass commit alloc-buffer alloc-image alloc-sampler alloc-shader alloc-pipeline alloc-pass dealloc-buffer dealloc-image dealloc-sampler dealloc-shader dealloc-pipeline dealloc-pass init-buffer init-image init-sampler init-shader init-pipeline init-pass uninit-buffer uninit-image uninit-sampler uninit-shader uninit-pipeline uninit-pass fail-buffer fail-image fail-sampler fail-shader fail-pipeline fail-pass push-debug-group pop-debug-group) ptr (:struct %sg-trace-hooks))
-    (setf 
-      user-data (sg-trace-hooks-user-data value)
-      reset-state-cache (sg-trace-hooks-reset-state-cache value)
-      make-buffer (sg-trace-hooks-make-buffer value)
-      make-image (sg-trace-hooks-make-image value)
-      make-sampler (sg-trace-hooks-make-sampler value)
-      make-shader (sg-trace-hooks-make-shader value)
-      make-pipeline (sg-trace-hooks-make-pipeline value)
-      make-pass (sg-trace-hooks-make-pass value)
-      destroy-buffer (sg-trace-hooks-destroy-buffer value)
-      destroy-image (sg-trace-hooks-destroy-image value)
-      destroy-sampler (sg-trace-hooks-destroy-sampler value)
-      destroy-shader (sg-trace-hooks-destroy-shader value)
-      destroy-pipeline (sg-trace-hooks-destroy-pipeline value)
-      destroy-pass (sg-trace-hooks-destroy-pass value)
-      update-buffer (sg-trace-hooks-update-buffer value)
-      update-image (sg-trace-hooks-update-image value)
-      append-buffer (sg-trace-hooks-append-buffer value)
-      begin-default-pass (sg-trace-hooks-begin-default-pass value)
-      begin-pass (sg-trace-hooks-begin-pass value)
-      apply-viewport (sg-trace-hooks-apply-viewport value)
-      apply-scissor-rect (sg-trace-hooks-apply-scissor-rect value)
-      apply-pipeline (sg-trace-hooks-apply-pipeline value)
-      apply-bindings (sg-trace-hooks-apply-bindings value)
-      apply-uniforms (sg-trace-hooks-apply-uniforms value)
-      draw (sg-trace-hooks-draw value)
-      end-pass (sg-trace-hooks-end-pass value)
-      commit (sg-trace-hooks-commit value)
-      alloc-buffer (sg-trace-hooks-alloc-buffer value)
-      alloc-image (sg-trace-hooks-alloc-image value)
-      alloc-sampler (sg-trace-hooks-alloc-sampler value)
-      alloc-shader (sg-trace-hooks-alloc-shader value)
-      alloc-pipeline (sg-trace-hooks-alloc-pipeline value)
-      alloc-pass (sg-trace-hooks-alloc-pass value)
-      dealloc-buffer (sg-trace-hooks-dealloc-buffer value)
-      dealloc-image (sg-trace-hooks-dealloc-image value)
-      dealloc-sampler (sg-trace-hooks-dealloc-sampler value)
-      dealloc-shader (sg-trace-hooks-dealloc-shader value)
-      dealloc-pipeline (sg-trace-hooks-dealloc-pipeline value)
-      dealloc-pass (sg-trace-hooks-dealloc-pass value)
-      init-buffer (sg-trace-hooks-init-buffer value)
-      init-image (sg-trace-hooks-init-image value)
-      init-sampler (sg-trace-hooks-init-sampler value)
-      init-shader (sg-trace-hooks-init-shader value)
-      init-pipeline (sg-trace-hooks-init-pipeline value)
-      init-pass (sg-trace-hooks-init-pass value)
-      uninit-buffer (sg-trace-hooks-uninit-buffer value)
-      uninit-image (sg-trace-hooks-uninit-image value)
-      uninit-sampler (sg-trace-hooks-uninit-sampler value)
-      uninit-shader (sg-trace-hooks-uninit-shader value)
-      uninit-pipeline (sg-trace-hooks-uninit-pipeline value)
-      uninit-pass (sg-trace-hooks-uninit-pass value)
-      fail-buffer (sg-trace-hooks-fail-buffer value)
-      fail-image (sg-trace-hooks-fail-image value)
-      fail-sampler (sg-trace-hooks-fail-sampler value)
-      fail-shader (sg-trace-hooks-fail-shader value)
-      fail-pipeline (sg-trace-hooks-fail-pipeline value)
-      fail-pass (sg-trace-hooks-fail-pass value)
-      push-debug-group (sg-trace-hooks-push-debug-group value)
-      pop-debug-group (sg-trace-hooks-pop-debug-group value))))
-
 (defcstruct (%sg-slot-info :class sg-slot-info-type)
   (state sg-resource-state)
   (res-id :unsigned-int)
   (ctx-id :unsigned-int))
-
-(defstruct sg-slot-info
-  (state nil)
-  (res-id 0)
-  (ctx-id 0))
-
-(defmethod translate-from-foreign (ptr (type sg-slot-info-type))
-  (with-foreign-slots ((state res-id ctx-id) ptr (:struct %sg-slot-info))
-    (make-sg-slot-info :state state :res-id res-id :ctx-id ctx-id)))
-(defmethod expand-from-foreign (ptr (type sg-slot-info-type))
-  `(with-foreign-slots ((state res-id ctx-id) ,ptr (:struct %sg-slot-info))
-    (make-sg-slot-info :state state :res-id res-id :ctx-id ctx-id)))
-(defmethod translate-into-foreign-memory (value (type sg-slot-info-type) ptr)
-  (with-foreign-slots ((state res-id ctx-id) ptr (:struct %sg-slot-info))
-    (setf 
-      state (sg-slot-info-state value)
-      res-id (sg-slot-info-res-id value)
-      ctx-id (sg-slot-info-ctx-id value))))
 
 (defcstruct (%sg-buffer-info :class sg-buffer-info-type)
   (slot (:struct %sg-slot-info))
@@ -1749,125 +715,23 @@
   (num-slots :int)
   (active-slot :int))
 
-(defstruct sg-buffer-info
-  (slot nil)
-  (update-frame-index 0)
-  (append-frame-index 0)
-  (append-pos 0)
-  (append-overflow nil)
-  (num-slots 0)
-  (active-slot 0))
-
-(defmethod translate-from-foreign (ptr (type sg-buffer-info-type))
-  (with-foreign-slots ((slot update-frame-index append-frame-index append-pos append-overflow num-slots active-slot) ptr (:struct %sg-buffer-info))
-    (make-sg-buffer-info :slot slot :update-frame-index update-frame-index :append-frame-index append-frame-index :append-pos append-pos :append-overflow append-overflow :num-slots num-slots :active-slot active-slot)))
-(defmethod expand-from-foreign (ptr (type sg-buffer-info-type))
-  `(with-foreign-slots ((slot update-frame-index append-frame-index append-pos append-overflow num-slots active-slot) ,ptr (:struct %sg-buffer-info))
-    (make-sg-buffer-info :slot slot :update-frame-index update-frame-index :append-frame-index append-frame-index :append-pos append-pos :append-overflow append-overflow :num-slots num-slots :active-slot active-slot)))
-(defmethod translate-into-foreign-memory (value (type sg-buffer-info-type) ptr)
-  (with-foreign-slots ((slot update-frame-index append-frame-index append-pos append-overflow num-slots active-slot) ptr (:struct %sg-buffer-info))
-    (setf 
-      slot (sg-buffer-info-slot value)
-      update-frame-index (sg-buffer-info-update-frame-index value)
-      append-frame-index (sg-buffer-info-append-frame-index value)
-      append-pos (sg-buffer-info-append-pos value)
-      append-overflow (sg-buffer-info-append-overflow value)
-      num-slots (sg-buffer-info-num-slots value)
-      active-slot (sg-buffer-info-active-slot value))))
-
 (defcstruct (%sg-image-info :class sg-image-info-type)
   (slot (:struct %sg-slot-info))
   (upd-frame-index :unsigned-int)
   (num-slots :int)
   (active-slot :int))
 
-(defstruct sg-image-info
-  (slot nil)
-  (upd-frame-index 0)
-  (num-slots 0)
-  (active-slot 0))
-
-(defmethod translate-from-foreign (ptr (type sg-image-info-type))
-  (with-foreign-slots ((slot upd-frame-index num-slots active-slot) ptr (:struct %sg-image-info))
-    (make-sg-image-info :slot slot :upd-frame-index upd-frame-index :num-slots num-slots :active-slot active-slot)))
-(defmethod expand-from-foreign (ptr (type sg-image-info-type))
-  `(with-foreign-slots ((slot upd-frame-index num-slots active-slot) ,ptr (:struct %sg-image-info))
-    (make-sg-image-info :slot slot :upd-frame-index upd-frame-index :num-slots num-slots :active-slot active-slot)))
-(defmethod translate-into-foreign-memory (value (type sg-image-info-type) ptr)
-  (with-foreign-slots ((slot upd-frame-index num-slots active-slot) ptr (:struct %sg-image-info))
-    (setf 
-      slot (sg-image-info-slot value)
-      upd-frame-index (sg-image-info-upd-frame-index value)
-      num-slots (sg-image-info-num-slots value)
-      active-slot (sg-image-info-active-slot value))))
-
 (defcstruct (%sg-sampler-info :class sg-sampler-info-type)
   (slot (:struct %sg-slot-info)))
-
-(defstruct sg-sampler-info
-  (slot nil))
-
-(defmethod translate-from-foreign (ptr (type sg-sampler-info-type))
-  (with-foreign-slots ((slot) ptr (:struct %sg-sampler-info))
-    (make-sg-sampler-info :slot slot)))
-(defmethod expand-from-foreign (ptr (type sg-sampler-info-type))
-  `(with-foreign-slots ((slot) ,ptr (:struct %sg-sampler-info))
-    (make-sg-sampler-info :slot slot)))
-(defmethod translate-into-foreign-memory (value (type sg-sampler-info-type) ptr)
-  (with-foreign-slots ((slot) ptr (:struct %sg-sampler-info))
-    (setf 
-      slot (sg-sampler-info-slot value))))
 
 (defcstruct (%sg-shader-info :class sg-shader-info-type)
   (slot (:struct %sg-slot-info)))
 
-(defstruct sg-shader-info
-  (slot nil))
-
-(defmethod translate-from-foreign (ptr (type sg-shader-info-type))
-  (with-foreign-slots ((slot) ptr (:struct %sg-shader-info))
-    (make-sg-shader-info :slot slot)))
-(defmethod expand-from-foreign (ptr (type sg-shader-info-type))
-  `(with-foreign-slots ((slot) ,ptr (:struct %sg-shader-info))
-    (make-sg-shader-info :slot slot)))
-(defmethod translate-into-foreign-memory (value (type sg-shader-info-type) ptr)
-  (with-foreign-slots ((slot) ptr (:struct %sg-shader-info))
-    (setf 
-      slot (sg-shader-info-slot value))))
-
 (defcstruct (%sg-pipeline-info :class sg-pipeline-info-type)
   (slot (:struct %sg-slot-info)))
 
-(defstruct sg-pipeline-info
-  (slot nil))
-
-(defmethod translate-from-foreign (ptr (type sg-pipeline-info-type))
-  (with-foreign-slots ((slot) ptr (:struct %sg-pipeline-info))
-    (make-sg-pipeline-info :slot slot)))
-(defmethod expand-from-foreign (ptr (type sg-pipeline-info-type))
-  `(with-foreign-slots ((slot) ,ptr (:struct %sg-pipeline-info))
-    (make-sg-pipeline-info :slot slot)))
-(defmethod translate-into-foreign-memory (value (type sg-pipeline-info-type) ptr)
-  (with-foreign-slots ((slot) ptr (:struct %sg-pipeline-info))
-    (setf 
-      slot (sg-pipeline-info-slot value))))
-
 (defcstruct (%sg-pass-info :class sg-pass-info-type)
   (slot (:struct %sg-slot-info)))
-
-(defstruct sg-pass-info
-  (slot nil))
-
-(defmethod translate-from-foreign (ptr (type sg-pass-info-type))
-  (with-foreign-slots ((slot) ptr (:struct %sg-pass-info))
-    (make-sg-pass-info :slot slot)))
-(defmethod expand-from-foreign (ptr (type sg-pass-info-type))
-  `(with-foreign-slots ((slot) ,ptr (:struct %sg-pass-info))
-    (make-sg-pass-info :slot slot)))
-(defmethod translate-into-foreign-memory (value (type sg-pass-info-type) ptr)
-  (with-foreign-slots ((slot) ptr (:struct %sg-pass-info))
-    (setf 
-      slot (sg-pass-info-slot value))))
 
 (defcstruct (%sg-frame-stats-gl :class sg-frame-stats-gl-type)
   (num-bind-buffer :unsigned-int)
@@ -1882,65 +746,11 @@
   (num-disable-vertex-attrib-array :unsigned-int)
   (num-uniform :unsigned-int))
 
-(defstruct sg-frame-stats-gl
-  (num-bind-buffer 0)
-  (num-active-texture 0)
-  (num-bind-texture 0)
-  (num-bind-sampler 0)
-  (num-use-program 0)
-  (num-render-state 0)
-  (num-vertex-attrib-pointer 0)
-  (num-vertex-attrib-divisor 0)
-  (num-enable-vertex-attrib-array 0)
-  (num-disable-vertex-attrib-array 0)
-  (num-uniform 0))
-
-(defmethod translate-from-foreign (ptr (type sg-frame-stats-gl-type))
-  (with-foreign-slots ((num-bind-buffer num-active-texture num-bind-texture num-bind-sampler num-use-program num-render-state num-vertex-attrib-pointer num-vertex-attrib-divisor num-enable-vertex-attrib-array num-disable-vertex-attrib-array num-uniform) ptr (:struct %sg-frame-stats-gl))
-    (make-sg-frame-stats-gl :num-bind-buffer num-bind-buffer :num-active-texture num-active-texture :num-bind-texture num-bind-texture :num-bind-sampler num-bind-sampler :num-use-program num-use-program :num-render-state num-render-state :num-vertex-attrib-pointer num-vertex-attrib-pointer :num-vertex-attrib-divisor num-vertex-attrib-divisor :num-enable-vertex-attrib-array num-enable-vertex-attrib-array :num-disable-vertex-attrib-array num-disable-vertex-attrib-array :num-uniform num-uniform)))
-(defmethod expand-from-foreign (ptr (type sg-frame-stats-gl-type))
-  `(with-foreign-slots ((num-bind-buffer num-active-texture num-bind-texture num-bind-sampler num-use-program num-render-state num-vertex-attrib-pointer num-vertex-attrib-divisor num-enable-vertex-attrib-array num-disable-vertex-attrib-array num-uniform) ,ptr (:struct %sg-frame-stats-gl))
-    (make-sg-frame-stats-gl :num-bind-buffer num-bind-buffer :num-active-texture num-active-texture :num-bind-texture num-bind-texture :num-bind-sampler num-bind-sampler :num-use-program num-use-program :num-render-state num-render-state :num-vertex-attrib-pointer num-vertex-attrib-pointer :num-vertex-attrib-divisor num-vertex-attrib-divisor :num-enable-vertex-attrib-array num-enable-vertex-attrib-array :num-disable-vertex-attrib-array num-disable-vertex-attrib-array :num-uniform num-uniform)))
-(defmethod translate-into-foreign-memory (value (type sg-frame-stats-gl-type) ptr)
-  (with-foreign-slots ((num-bind-buffer num-active-texture num-bind-texture num-bind-sampler num-use-program num-render-state num-vertex-attrib-pointer num-vertex-attrib-divisor num-enable-vertex-attrib-array num-disable-vertex-attrib-array num-uniform) ptr (:struct %sg-frame-stats-gl))
-    (setf 
-      num-bind-buffer (sg-frame-stats-gl-num-bind-buffer value)
-      num-active-texture (sg-frame-stats-gl-num-active-texture value)
-      num-bind-texture (sg-frame-stats-gl-num-bind-texture value)
-      num-bind-sampler (sg-frame-stats-gl-num-bind-sampler value)
-      num-use-program (sg-frame-stats-gl-num-use-program value)
-      num-render-state (sg-frame-stats-gl-num-render-state value)
-      num-vertex-attrib-pointer (sg-frame-stats-gl-num-vertex-attrib-pointer value)
-      num-vertex-attrib-divisor (sg-frame-stats-gl-num-vertex-attrib-divisor value)
-      num-enable-vertex-attrib-array (sg-frame-stats-gl-num-enable-vertex-attrib-array value)
-      num-disable-vertex-attrib-array (sg-frame-stats-gl-num-disable-vertex-attrib-array value)
-      num-uniform (sg-frame-stats-gl-num-uniform value))))
-
 (defcstruct (%sg-frame-stats-d3d11-pass :class sg-frame-stats-d3d11-pass-type)
   (num-om-set-render-targets :unsigned-int)
   (num-clear-render-target-view :unsigned-int)
   (num-clear-depth-stencil-view :unsigned-int)
   (num-resolve-subresource :unsigned-int))
-
-(defstruct sg-frame-stats-d3d11-pass
-  (num-om-set-render-targets 0)
-  (num-clear-render-target-view 0)
-  (num-clear-depth-stencil-view 0)
-  (num-resolve-subresource 0))
-
-(defmethod translate-from-foreign (ptr (type sg-frame-stats-d3d11-pass-type))
-  (with-foreign-slots ((num-om-set-render-targets num-clear-render-target-view num-clear-depth-stencil-view num-resolve-subresource) ptr (:struct %sg-frame-stats-d3d11-pass))
-    (make-sg-frame-stats-d3d11-pass :num-om-set-render-targets num-om-set-render-targets :num-clear-render-target-view num-clear-render-target-view :num-clear-depth-stencil-view num-clear-depth-stencil-view :num-resolve-subresource num-resolve-subresource)))
-(defmethod expand-from-foreign (ptr (type sg-frame-stats-d3d11-pass-type))
-  `(with-foreign-slots ((num-om-set-render-targets num-clear-render-target-view num-clear-depth-stencil-view num-resolve-subresource) ,ptr (:struct %sg-frame-stats-d3d11-pass))
-    (make-sg-frame-stats-d3d11-pass :num-om-set-render-targets num-om-set-render-targets :num-clear-render-target-view num-clear-render-target-view :num-clear-depth-stencil-view num-clear-depth-stencil-view :num-resolve-subresource num-resolve-subresource)))
-(defmethod translate-into-foreign-memory (value (type sg-frame-stats-d3d11-pass-type) ptr)
-  (with-foreign-slots ((num-om-set-render-targets num-clear-render-target-view num-clear-depth-stencil-view num-resolve-subresource) ptr (:struct %sg-frame-stats-d3d11-pass))
-    (setf 
-      num-om-set-render-targets (sg-frame-stats-d3d11-pass-num-om-set-render-targets value)
-      num-clear-render-target-view (sg-frame-stats-d3d11-pass-num-clear-render-target-view value)
-      num-clear-depth-stencil-view (sg-frame-stats-d3d11-pass-num-clear-depth-stencil-view value)
-      num-resolve-subresource (sg-frame-stats-d3d11-pass-num-resolve-subresource value))))
 
 (defcstruct (%sg-frame-stats-d3d11-pipeline :class sg-frame-stats-d3d11-pipeline-type)
   (num-rs-set-state :unsigned-int)
@@ -1953,36 +763,6 @@
   (num-ps-set-shader :unsigned-int)
   (num-ps-set-constant-buffers :unsigned-int))
 
-(defstruct sg-frame-stats-d3d11-pipeline
-  (num-rs-set-state 0)
-  (num-om-set-depth-stencil-state 0)
-  (num-om-set-blend-state 0)
-  (num-ia-set-primitive-topology 0)
-  (num-ia-set-input-layout 0)
-  (num-vs-set-shader 0)
-  (num-vs-set-constant-buffers 0)
-  (num-ps-set-shader 0)
-  (num-ps-set-constant-buffers 0))
-
-(defmethod translate-from-foreign (ptr (type sg-frame-stats-d3d11-pipeline-type))
-  (with-foreign-slots ((num-rs-set-state num-om-set-depth-stencil-state num-om-set-blend-state num-ia-set-primitive-topology num-ia-set-input-layout num-vs-set-shader num-vs-set-constant-buffers num-ps-set-shader num-ps-set-constant-buffers) ptr (:struct %sg-frame-stats-d3d11-pipeline))
-    (make-sg-frame-stats-d3d11-pipeline :num-rs-set-state num-rs-set-state :num-om-set-depth-stencil-state num-om-set-depth-stencil-state :num-om-set-blend-state num-om-set-blend-state :num-ia-set-primitive-topology num-ia-set-primitive-topology :num-ia-set-input-layout num-ia-set-input-layout :num-vs-set-shader num-vs-set-shader :num-vs-set-constant-buffers num-vs-set-constant-buffers :num-ps-set-shader num-ps-set-shader :num-ps-set-constant-buffers num-ps-set-constant-buffers)))
-(defmethod expand-from-foreign (ptr (type sg-frame-stats-d3d11-pipeline-type))
-  `(with-foreign-slots ((num-rs-set-state num-om-set-depth-stencil-state num-om-set-blend-state num-ia-set-primitive-topology num-ia-set-input-layout num-vs-set-shader num-vs-set-constant-buffers num-ps-set-shader num-ps-set-constant-buffers) ,ptr (:struct %sg-frame-stats-d3d11-pipeline))
-    (make-sg-frame-stats-d3d11-pipeline :num-rs-set-state num-rs-set-state :num-om-set-depth-stencil-state num-om-set-depth-stencil-state :num-om-set-blend-state num-om-set-blend-state :num-ia-set-primitive-topology num-ia-set-primitive-topology :num-ia-set-input-layout num-ia-set-input-layout :num-vs-set-shader num-vs-set-shader :num-vs-set-constant-buffers num-vs-set-constant-buffers :num-ps-set-shader num-ps-set-shader :num-ps-set-constant-buffers num-ps-set-constant-buffers)))
-(defmethod translate-into-foreign-memory (value (type sg-frame-stats-d3d11-pipeline-type) ptr)
-  (with-foreign-slots ((num-rs-set-state num-om-set-depth-stencil-state num-om-set-blend-state num-ia-set-primitive-topology num-ia-set-input-layout num-vs-set-shader num-vs-set-constant-buffers num-ps-set-shader num-ps-set-constant-buffers) ptr (:struct %sg-frame-stats-d3d11-pipeline))
-    (setf 
-      num-rs-set-state (sg-frame-stats-d3d11-pipeline-num-rs-set-state value)
-      num-om-set-depth-stencil-state (sg-frame-stats-d3d11-pipeline-num-om-set-depth-stencil-state value)
-      num-om-set-blend-state (sg-frame-stats-d3d11-pipeline-num-om-set-blend-state value)
-      num-ia-set-primitive-topology (sg-frame-stats-d3d11-pipeline-num-ia-set-primitive-topology value)
-      num-ia-set-input-layout (sg-frame-stats-d3d11-pipeline-num-ia-set-input-layout value)
-      num-vs-set-shader (sg-frame-stats-d3d11-pipeline-num-vs-set-shader value)
-      num-vs-set-constant-buffers (sg-frame-stats-d3d11-pipeline-num-vs-set-constant-buffers value)
-      num-ps-set-shader (sg-frame-stats-d3d11-pipeline-num-ps-set-shader value)
-      num-ps-set-constant-buffers (sg-frame-stats-d3d11-pipeline-num-ps-set-constant-buffers value))))
-
 (defcstruct (%sg-frame-stats-d3d11-bindings :class sg-frame-stats-d3d11-bindings-type)
   (num-ia-set-vertex-buffers :unsigned-int)
   (num-ia-set-index-buffer :unsigned-int)
@@ -1991,72 +771,14 @@
   (num-vs-set-samplers :unsigned-int)
   (num-ps-set-samplers :unsigned-int))
 
-(defstruct sg-frame-stats-d3d11-bindings
-  (num-ia-set-vertex-buffers 0)
-  (num-ia-set-index-buffer 0)
-  (num-vs-set-shader-resources 0)
-  (num-ps-set-shader-resources 0)
-  (num-vs-set-samplers 0)
-  (num-ps-set-samplers 0))
-
-(defmethod translate-from-foreign (ptr (type sg-frame-stats-d3d11-bindings-type))
-  (with-foreign-slots ((num-ia-set-vertex-buffers num-ia-set-index-buffer num-vs-set-shader-resources num-ps-set-shader-resources num-vs-set-samplers num-ps-set-samplers) ptr (:struct %sg-frame-stats-d3d11-bindings))
-    (make-sg-frame-stats-d3d11-bindings :num-ia-set-vertex-buffers num-ia-set-vertex-buffers :num-ia-set-index-buffer num-ia-set-index-buffer :num-vs-set-shader-resources num-vs-set-shader-resources :num-ps-set-shader-resources num-ps-set-shader-resources :num-vs-set-samplers num-vs-set-samplers :num-ps-set-samplers num-ps-set-samplers)))
-(defmethod expand-from-foreign (ptr (type sg-frame-stats-d3d11-bindings-type))
-  `(with-foreign-slots ((num-ia-set-vertex-buffers num-ia-set-index-buffer num-vs-set-shader-resources num-ps-set-shader-resources num-vs-set-samplers num-ps-set-samplers) ,ptr (:struct %sg-frame-stats-d3d11-bindings))
-    (make-sg-frame-stats-d3d11-bindings :num-ia-set-vertex-buffers num-ia-set-vertex-buffers :num-ia-set-index-buffer num-ia-set-index-buffer :num-vs-set-shader-resources num-vs-set-shader-resources :num-ps-set-shader-resources num-ps-set-shader-resources :num-vs-set-samplers num-vs-set-samplers :num-ps-set-samplers num-ps-set-samplers)))
-(defmethod translate-into-foreign-memory (value (type sg-frame-stats-d3d11-bindings-type) ptr)
-  (with-foreign-slots ((num-ia-set-vertex-buffers num-ia-set-index-buffer num-vs-set-shader-resources num-ps-set-shader-resources num-vs-set-samplers num-ps-set-samplers) ptr (:struct %sg-frame-stats-d3d11-bindings))
-    (setf 
-      num-ia-set-vertex-buffers (sg-frame-stats-d3d11-bindings-num-ia-set-vertex-buffers value)
-      num-ia-set-index-buffer (sg-frame-stats-d3d11-bindings-num-ia-set-index-buffer value)
-      num-vs-set-shader-resources (sg-frame-stats-d3d11-bindings-num-vs-set-shader-resources value)
-      num-ps-set-shader-resources (sg-frame-stats-d3d11-bindings-num-ps-set-shader-resources value)
-      num-vs-set-samplers (sg-frame-stats-d3d11-bindings-num-vs-set-samplers value)
-      num-ps-set-samplers (sg-frame-stats-d3d11-bindings-num-ps-set-samplers value))))
-
 (defcstruct (%sg-frame-stats-d3d11-uniforms :class sg-frame-stats-d3d11-uniforms-type)
   (num-update-subresource :unsigned-int))
-
-(defstruct sg-frame-stats-d3d11-uniforms
-  (num-update-subresource 0))
-
-(defmethod translate-from-foreign (ptr (type sg-frame-stats-d3d11-uniforms-type))
-  (with-foreign-slots ((num-update-subresource) ptr (:struct %sg-frame-stats-d3d11-uniforms))
-    (make-sg-frame-stats-d3d11-uniforms :num-update-subresource num-update-subresource)))
-(defmethod expand-from-foreign (ptr (type sg-frame-stats-d3d11-uniforms-type))
-  `(with-foreign-slots ((num-update-subresource) ,ptr (:struct %sg-frame-stats-d3d11-uniforms))
-    (make-sg-frame-stats-d3d11-uniforms :num-update-subresource num-update-subresource)))
-(defmethod translate-into-foreign-memory (value (type sg-frame-stats-d3d11-uniforms-type) ptr)
-  (with-foreign-slots ((num-update-subresource) ptr (:struct %sg-frame-stats-d3d11-uniforms))
-    (setf 
-      num-update-subresource (sg-frame-stats-d3d11-uniforms-num-update-subresource value))))
 
 (defcstruct (%sg-frame-stats-d3d11-draw :class sg-frame-stats-d3d11-draw-type)
   (num-draw-indexed-instanced :unsigned-int)
   (num-draw-indexed :unsigned-int)
   (num-draw-instanced :unsigned-int)
   (num-draw :unsigned-int))
-
-(defstruct sg-frame-stats-d3d11-draw
-  (num-draw-indexed-instanced 0)
-  (num-draw-indexed 0)
-  (num-draw-instanced 0)
-  (num-draw 0))
-
-(defmethod translate-from-foreign (ptr (type sg-frame-stats-d3d11-draw-type))
-  (with-foreign-slots ((num-draw-indexed-instanced num-draw-indexed num-draw-instanced num-draw) ptr (:struct %sg-frame-stats-d3d11-draw))
-    (make-sg-frame-stats-d3d11-draw :num-draw-indexed-instanced num-draw-indexed-instanced :num-draw-indexed num-draw-indexed :num-draw-instanced num-draw-instanced :num-draw num-draw)))
-(defmethod expand-from-foreign (ptr (type sg-frame-stats-d3d11-draw-type))
-  `(with-foreign-slots ((num-draw-indexed-instanced num-draw-indexed num-draw-instanced num-draw) ,ptr (:struct %sg-frame-stats-d3d11-draw))
-    (make-sg-frame-stats-d3d11-draw :num-draw-indexed-instanced num-draw-indexed-instanced :num-draw-indexed num-draw-indexed :num-draw-instanced num-draw-instanced :num-draw num-draw)))
-(defmethod translate-into-foreign-memory (value (type sg-frame-stats-d3d11-draw-type) ptr)
-  (with-foreign-slots ((num-draw-indexed-instanced num-draw-indexed num-draw-instanced num-draw) ptr (:struct %sg-frame-stats-d3d11-draw))
-    (setf 
-      num-draw-indexed-instanced (sg-frame-stats-d3d11-draw-num-draw-indexed-instanced value)
-      num-draw-indexed (sg-frame-stats-d3d11-draw-num-draw-indexed value)
-      num-draw-instanced (sg-frame-stats-d3d11-draw-num-draw-instanced value)
-      num-draw (sg-frame-stats-d3d11-draw-num-draw value))))
 
 (defcstruct (%sg-frame-stats-d3d11 :class sg-frame-stats-d3d11-type)
   (pass (:struct %sg-frame-stats-d3d11-pass))
@@ -2067,54 +789,10 @@
   (num-map :unsigned-int)
   (num-unmap :unsigned-int))
 
-(defstruct sg-frame-stats-d3d11
-  (pass nil)
-  (pipeline nil)
-  (bindings nil)
-  (uniforms nil)
-  (draw nil)
-  (num-map 0)
-  (num-unmap 0))
-
-(defmethod translate-from-foreign (ptr (type sg-frame-stats-d3d11-type))
-  (with-foreign-slots ((pass pipeline bindings uniforms draw num-map num-unmap) ptr (:struct %sg-frame-stats-d3d11))
-    (make-sg-frame-stats-d3d11 :pass pass :pipeline pipeline :bindings bindings :uniforms uniforms :draw draw :num-map num-map :num-unmap num-unmap)))
-(defmethod expand-from-foreign (ptr (type sg-frame-stats-d3d11-type))
-  `(with-foreign-slots ((pass pipeline bindings uniforms draw num-map num-unmap) ,ptr (:struct %sg-frame-stats-d3d11))
-    (make-sg-frame-stats-d3d11 :pass pass :pipeline pipeline :bindings bindings :uniforms uniforms :draw draw :num-map num-map :num-unmap num-unmap)))
-(defmethod translate-into-foreign-memory (value (type sg-frame-stats-d3d11-type) ptr)
-  (with-foreign-slots ((pass pipeline bindings uniforms draw num-map num-unmap) ptr (:struct %sg-frame-stats-d3d11))
-    (setf 
-      pass (sg-frame-stats-d3d11-pass value)
-      pipeline (sg-frame-stats-d3d11-pipeline value)
-      bindings (sg-frame-stats-d3d11-bindings value)
-      uniforms (sg-frame-stats-d3d11-uniforms value)
-      draw (sg-frame-stats-d3d11-draw value)
-      num-map (sg-frame-stats-d3d11-num-map value)
-      num-unmap (sg-frame-stats-d3d11-num-unmap value))))
-
 (defcstruct (%sg-frame-stats-metal-idpool :class sg-frame-stats-metal-idpool-type)
   (num-added :unsigned-int)
   (num-released :unsigned-int)
   (num-garbage-collected :unsigned-int))
-
-(defstruct sg-frame-stats-metal-idpool
-  (num-added 0)
-  (num-released 0)
-  (num-garbage-collected 0))
-
-(defmethod translate-from-foreign (ptr (type sg-frame-stats-metal-idpool-type))
-  (with-foreign-slots ((num-added num-released num-garbage-collected) ptr (:struct %sg-frame-stats-metal-idpool))
-    (make-sg-frame-stats-metal-idpool :num-added num-added :num-released num-released :num-garbage-collected num-garbage-collected)))
-(defmethod expand-from-foreign (ptr (type sg-frame-stats-metal-idpool-type))
-  `(with-foreign-slots ((num-added num-released num-garbage-collected) ,ptr (:struct %sg-frame-stats-metal-idpool))
-    (make-sg-frame-stats-metal-idpool :num-added num-added :num-released num-released :num-garbage-collected num-garbage-collected)))
-(defmethod translate-into-foreign-memory (value (type sg-frame-stats-metal-idpool-type) ptr)
-  (with-foreign-slots ((num-added num-released num-garbage-collected) ptr (:struct %sg-frame-stats-metal-idpool))
-    (setf 
-      num-added (sg-frame-stats-metal-idpool-num-added value)
-      num-released (sg-frame-stats-metal-idpool-num-released value)
-      num-garbage-collected (sg-frame-stats-metal-idpool-num-garbage-collected value))))
 
 (defcstruct (%sg-frame-stats-metal-pipeline :class sg-frame-stats-metal-pipeline-type)
   (num-set-blend-color :unsigned-int)
@@ -2125,32 +803,6 @@
   (num-set-render-pipeline-state :unsigned-int)
   (num-set-depth-stencil-state :unsigned-int))
 
-(defstruct sg-frame-stats-metal-pipeline
-  (num-set-blend-color 0)
-  (num-set-cull-mode 0)
-  (num-set-front-facing-winding 0)
-  (num-set-stencil-reference-value 0)
-  (num-set-depth-bias 0)
-  (num-set-render-pipeline-state 0)
-  (num-set-depth-stencil-state 0))
-
-(defmethod translate-from-foreign (ptr (type sg-frame-stats-metal-pipeline-type))
-  (with-foreign-slots ((num-set-blend-color num-set-cull-mode num-set-front-facing-winding num-set-stencil-reference-value num-set-depth-bias num-set-render-pipeline-state num-set-depth-stencil-state) ptr (:struct %sg-frame-stats-metal-pipeline))
-    (make-sg-frame-stats-metal-pipeline :num-set-blend-color num-set-blend-color :num-set-cull-mode num-set-cull-mode :num-set-front-facing-winding num-set-front-facing-winding :num-set-stencil-reference-value num-set-stencil-reference-value :num-set-depth-bias num-set-depth-bias :num-set-render-pipeline-state num-set-render-pipeline-state :num-set-depth-stencil-state num-set-depth-stencil-state)))
-(defmethod expand-from-foreign (ptr (type sg-frame-stats-metal-pipeline-type))
-  `(with-foreign-slots ((num-set-blend-color num-set-cull-mode num-set-front-facing-winding num-set-stencil-reference-value num-set-depth-bias num-set-render-pipeline-state num-set-depth-stencil-state) ,ptr (:struct %sg-frame-stats-metal-pipeline))
-    (make-sg-frame-stats-metal-pipeline :num-set-blend-color num-set-blend-color :num-set-cull-mode num-set-cull-mode :num-set-front-facing-winding num-set-front-facing-winding :num-set-stencil-reference-value num-set-stencil-reference-value :num-set-depth-bias num-set-depth-bias :num-set-render-pipeline-state num-set-render-pipeline-state :num-set-depth-stencil-state num-set-depth-stencil-state)))
-(defmethod translate-into-foreign-memory (value (type sg-frame-stats-metal-pipeline-type) ptr)
-  (with-foreign-slots ((num-set-blend-color num-set-cull-mode num-set-front-facing-winding num-set-stencil-reference-value num-set-depth-bias num-set-render-pipeline-state num-set-depth-stencil-state) ptr (:struct %sg-frame-stats-metal-pipeline))
-    (setf 
-      num-set-blend-color (sg-frame-stats-metal-pipeline-num-set-blend-color value)
-      num-set-cull-mode (sg-frame-stats-metal-pipeline-num-set-cull-mode value)
-      num-set-front-facing-winding (sg-frame-stats-metal-pipeline-num-set-front-facing-winding value)
-      num-set-stencil-reference-value (sg-frame-stats-metal-pipeline-num-set-stencil-reference-value value)
-      num-set-depth-bias (sg-frame-stats-metal-pipeline-num-set-depth-bias value)
-      num-set-render-pipeline-state (sg-frame-stats-metal-pipeline-num-set-render-pipeline-state value)
-      num-set-depth-stencil-state (sg-frame-stats-metal-pipeline-num-set-depth-stencil-state value))))
-
 (defcstruct (%sg-frame-stats-metal-bindings :class sg-frame-stats-metal-bindings-type)
   (num-set-vertex-buffer :unsigned-int)
   (num-set-vertex-texture :unsigned-int)
@@ -2158,47 +810,9 @@
   (num-set-fragment-texture :unsigned-int)
   (num-set-fragment-sampler-state :unsigned-int))
 
-(defstruct sg-frame-stats-metal-bindings
-  (num-set-vertex-buffer 0)
-  (num-set-vertex-texture 0)
-  (num-set-vertex-sampler-state 0)
-  (num-set-fragment-texture 0)
-  (num-set-fragment-sampler-state 0))
-
-(defmethod translate-from-foreign (ptr (type sg-frame-stats-metal-bindings-type))
-  (with-foreign-slots ((num-set-vertex-buffer num-set-vertex-texture num-set-vertex-sampler-state num-set-fragment-texture num-set-fragment-sampler-state) ptr (:struct %sg-frame-stats-metal-bindings))
-    (make-sg-frame-stats-metal-bindings :num-set-vertex-buffer num-set-vertex-buffer :num-set-vertex-texture num-set-vertex-texture :num-set-vertex-sampler-state num-set-vertex-sampler-state :num-set-fragment-texture num-set-fragment-texture :num-set-fragment-sampler-state num-set-fragment-sampler-state)))
-(defmethod expand-from-foreign (ptr (type sg-frame-stats-metal-bindings-type))
-  `(with-foreign-slots ((num-set-vertex-buffer num-set-vertex-texture num-set-vertex-sampler-state num-set-fragment-texture num-set-fragment-sampler-state) ,ptr (:struct %sg-frame-stats-metal-bindings))
-    (make-sg-frame-stats-metal-bindings :num-set-vertex-buffer num-set-vertex-buffer :num-set-vertex-texture num-set-vertex-texture :num-set-vertex-sampler-state num-set-vertex-sampler-state :num-set-fragment-texture num-set-fragment-texture :num-set-fragment-sampler-state num-set-fragment-sampler-state)))
-(defmethod translate-into-foreign-memory (value (type sg-frame-stats-metal-bindings-type) ptr)
-  (with-foreign-slots ((num-set-vertex-buffer num-set-vertex-texture num-set-vertex-sampler-state num-set-fragment-texture num-set-fragment-sampler-state) ptr (:struct %sg-frame-stats-metal-bindings))
-    (setf 
-      num-set-vertex-buffer (sg-frame-stats-metal-bindings-num-set-vertex-buffer value)
-      num-set-vertex-texture (sg-frame-stats-metal-bindings-num-set-vertex-texture value)
-      num-set-vertex-sampler-state (sg-frame-stats-metal-bindings-num-set-vertex-sampler-state value)
-      num-set-fragment-texture (sg-frame-stats-metal-bindings-num-set-fragment-texture value)
-      num-set-fragment-sampler-state (sg-frame-stats-metal-bindings-num-set-fragment-sampler-state value))))
-
 (defcstruct (%sg-frame-stats-metal-uniforms :class sg-frame-stats-metal-uniforms-type)
   (num-set-vertex-buffer-offset :unsigned-int)
   (num-set-fragment-buffer-offset :unsigned-int))
-
-(defstruct sg-frame-stats-metal-uniforms
-  (num-set-vertex-buffer-offset 0)
-  (num-set-fragment-buffer-offset 0))
-
-(defmethod translate-from-foreign (ptr (type sg-frame-stats-metal-uniforms-type))
-  (with-foreign-slots ((num-set-vertex-buffer-offset num-set-fragment-buffer-offset) ptr (:struct %sg-frame-stats-metal-uniforms))
-    (make-sg-frame-stats-metal-uniforms :num-set-vertex-buffer-offset num-set-vertex-buffer-offset :num-set-fragment-buffer-offset num-set-fragment-buffer-offset)))
-(defmethod expand-from-foreign (ptr (type sg-frame-stats-metal-uniforms-type))
-  `(with-foreign-slots ((num-set-vertex-buffer-offset num-set-fragment-buffer-offset) ,ptr (:struct %sg-frame-stats-metal-uniforms))
-    (make-sg-frame-stats-metal-uniforms :num-set-vertex-buffer-offset num-set-vertex-buffer-offset :num-set-fragment-buffer-offset num-set-fragment-buffer-offset)))
-(defmethod translate-into-foreign-memory (value (type sg-frame-stats-metal-uniforms-type) ptr)
-  (with-foreign-slots ((num-set-vertex-buffer-offset num-set-fragment-buffer-offset) ptr (:struct %sg-frame-stats-metal-uniforms))
-    (setf 
-      num-set-vertex-buffer-offset (sg-frame-stats-metal-uniforms-num-set-vertex-buffer-offset value)
-      num-set-fragment-buffer-offset (sg-frame-stats-metal-uniforms-num-set-fragment-buffer-offset value))))
 
 (defcstruct (%sg-frame-stats-metal :class sg-frame-stats-metal-type)
   (idpool (:struct %sg-frame-stats-metal-idpool))
@@ -2206,45 +820,9 @@
   (bindings (:struct %sg-frame-stats-metal-bindings))
   (uniforms (:struct %sg-frame-stats-metal-uniforms)))
 
-(defstruct sg-frame-stats-metal
-  (idpool nil)
-  (pipeline nil)
-  (bindings nil)
-  (uniforms nil))
-
-(defmethod translate-from-foreign (ptr (type sg-frame-stats-metal-type))
-  (with-foreign-slots ((idpool pipeline bindings uniforms) ptr (:struct %sg-frame-stats-metal))
-    (make-sg-frame-stats-metal :idpool idpool :pipeline pipeline :bindings bindings :uniforms uniforms)))
-(defmethod expand-from-foreign (ptr (type sg-frame-stats-metal-type))
-  `(with-foreign-slots ((idpool pipeline bindings uniforms) ,ptr (:struct %sg-frame-stats-metal))
-    (make-sg-frame-stats-metal :idpool idpool :pipeline pipeline :bindings bindings :uniforms uniforms)))
-(defmethod translate-into-foreign-memory (value (type sg-frame-stats-metal-type) ptr)
-  (with-foreign-slots ((idpool pipeline bindings uniforms) ptr (:struct %sg-frame-stats-metal))
-    (setf 
-      idpool (sg-frame-stats-metal-idpool value)
-      pipeline (sg-frame-stats-metal-pipeline value)
-      bindings (sg-frame-stats-metal-bindings value)
-      uniforms (sg-frame-stats-metal-uniforms value))))
-
 (defcstruct (%sg-frame-stats-wgpu-uniforms :class sg-frame-stats-wgpu-uniforms-type)
   (num-set-bindgroup :unsigned-int)
   (size-write-buffer :unsigned-int))
-
-(defstruct sg-frame-stats-wgpu-uniforms
-  (num-set-bindgroup 0)
-  (size-write-buffer 0))
-
-(defmethod translate-from-foreign (ptr (type sg-frame-stats-wgpu-uniforms-type))
-  (with-foreign-slots ((num-set-bindgroup size-write-buffer) ptr (:struct %sg-frame-stats-wgpu-uniforms))
-    (make-sg-frame-stats-wgpu-uniforms :num-set-bindgroup num-set-bindgroup :size-write-buffer size-write-buffer)))
-(defmethod expand-from-foreign (ptr (type sg-frame-stats-wgpu-uniforms-type))
-  `(with-foreign-slots ((num-set-bindgroup size-write-buffer) ,ptr (:struct %sg-frame-stats-wgpu-uniforms))
-    (make-sg-frame-stats-wgpu-uniforms :num-set-bindgroup num-set-bindgroup :size-write-buffer size-write-buffer)))
-(defmethod translate-into-foreign-memory (value (type sg-frame-stats-wgpu-uniforms-type) ptr)
-  (with-foreign-slots ((num-set-bindgroup size-write-buffer) ptr (:struct %sg-frame-stats-wgpu-uniforms))
-    (setf 
-      num-set-bindgroup (sg-frame-stats-wgpu-uniforms-num-set-bindgroup value)
-      size-write-buffer (sg-frame-stats-wgpu-uniforms-size-write-buffer value))))
 
 (defcstruct (%sg-frame-stats-wgpu-bindings :class sg-frame-stats-wgpu-bindings-type)
   (num-set-vertex-buffer :unsigned-int)
@@ -2260,61 +838,9 @@
   (num-bindgroup-cache-collisions :unsigned-int)
   (num-bindgroup-cache-hash-vs-key-mismatch :unsigned-int))
 
-(defstruct sg-frame-stats-wgpu-bindings
-  (num-set-vertex-buffer 0)
-  (num-skip-redundant-vertex-buffer 0)
-  (num-set-index-buffer 0)
-  (num-skip-redundant-index-buffer 0)
-  (num-create-bindgroup 0)
-  (num-discard-bindgroup 0)
-  (num-set-bindgroup 0)
-  (num-skip-redundant-bindgroup 0)
-  (num-bindgroup-cache-hits 0)
-  (num-bindgroup-cache-misses 0)
-  (num-bindgroup-cache-collisions 0)
-  (num-bindgroup-cache-hash-vs-key-mismatch 0))
-
-(defmethod translate-from-foreign (ptr (type sg-frame-stats-wgpu-bindings-type))
-  (with-foreign-slots ((num-set-vertex-buffer num-skip-redundant-vertex-buffer num-set-index-buffer num-skip-redundant-index-buffer num-create-bindgroup num-discard-bindgroup num-set-bindgroup num-skip-redundant-bindgroup num-bindgroup-cache-hits num-bindgroup-cache-misses num-bindgroup-cache-collisions num-bindgroup-cache-hash-vs-key-mismatch) ptr (:struct %sg-frame-stats-wgpu-bindings))
-    (make-sg-frame-stats-wgpu-bindings :num-set-vertex-buffer num-set-vertex-buffer :num-skip-redundant-vertex-buffer num-skip-redundant-vertex-buffer :num-set-index-buffer num-set-index-buffer :num-skip-redundant-index-buffer num-skip-redundant-index-buffer :num-create-bindgroup num-create-bindgroup :num-discard-bindgroup num-discard-bindgroup :num-set-bindgroup num-set-bindgroup :num-skip-redundant-bindgroup num-skip-redundant-bindgroup :num-bindgroup-cache-hits num-bindgroup-cache-hits :num-bindgroup-cache-misses num-bindgroup-cache-misses :num-bindgroup-cache-collisions num-bindgroup-cache-collisions :num-bindgroup-cache-hash-vs-key-mismatch num-bindgroup-cache-hash-vs-key-mismatch)))
-(defmethod expand-from-foreign (ptr (type sg-frame-stats-wgpu-bindings-type))
-  `(with-foreign-slots ((num-set-vertex-buffer num-skip-redundant-vertex-buffer num-set-index-buffer num-skip-redundant-index-buffer num-create-bindgroup num-discard-bindgroup num-set-bindgroup num-skip-redundant-bindgroup num-bindgroup-cache-hits num-bindgroup-cache-misses num-bindgroup-cache-collisions num-bindgroup-cache-hash-vs-key-mismatch) ,ptr (:struct %sg-frame-stats-wgpu-bindings))
-    (make-sg-frame-stats-wgpu-bindings :num-set-vertex-buffer num-set-vertex-buffer :num-skip-redundant-vertex-buffer num-skip-redundant-vertex-buffer :num-set-index-buffer num-set-index-buffer :num-skip-redundant-index-buffer num-skip-redundant-index-buffer :num-create-bindgroup num-create-bindgroup :num-discard-bindgroup num-discard-bindgroup :num-set-bindgroup num-set-bindgroup :num-skip-redundant-bindgroup num-skip-redundant-bindgroup :num-bindgroup-cache-hits num-bindgroup-cache-hits :num-bindgroup-cache-misses num-bindgroup-cache-misses :num-bindgroup-cache-collisions num-bindgroup-cache-collisions :num-bindgroup-cache-hash-vs-key-mismatch num-bindgroup-cache-hash-vs-key-mismatch)))
-(defmethod translate-into-foreign-memory (value (type sg-frame-stats-wgpu-bindings-type) ptr)
-  (with-foreign-slots ((num-set-vertex-buffer num-skip-redundant-vertex-buffer num-set-index-buffer num-skip-redundant-index-buffer num-create-bindgroup num-discard-bindgroup num-set-bindgroup num-skip-redundant-bindgroup num-bindgroup-cache-hits num-bindgroup-cache-misses num-bindgroup-cache-collisions num-bindgroup-cache-hash-vs-key-mismatch) ptr (:struct %sg-frame-stats-wgpu-bindings))
-    (setf 
-      num-set-vertex-buffer (sg-frame-stats-wgpu-bindings-num-set-vertex-buffer value)
-      num-skip-redundant-vertex-buffer (sg-frame-stats-wgpu-bindings-num-skip-redundant-vertex-buffer value)
-      num-set-index-buffer (sg-frame-stats-wgpu-bindings-num-set-index-buffer value)
-      num-skip-redundant-index-buffer (sg-frame-stats-wgpu-bindings-num-skip-redundant-index-buffer value)
-      num-create-bindgroup (sg-frame-stats-wgpu-bindings-num-create-bindgroup value)
-      num-discard-bindgroup (sg-frame-stats-wgpu-bindings-num-discard-bindgroup value)
-      num-set-bindgroup (sg-frame-stats-wgpu-bindings-num-set-bindgroup value)
-      num-skip-redundant-bindgroup (sg-frame-stats-wgpu-bindings-num-skip-redundant-bindgroup value)
-      num-bindgroup-cache-hits (sg-frame-stats-wgpu-bindings-num-bindgroup-cache-hits value)
-      num-bindgroup-cache-misses (sg-frame-stats-wgpu-bindings-num-bindgroup-cache-misses value)
-      num-bindgroup-cache-collisions (sg-frame-stats-wgpu-bindings-num-bindgroup-cache-collisions value)
-      num-bindgroup-cache-hash-vs-key-mismatch (sg-frame-stats-wgpu-bindings-num-bindgroup-cache-hash-vs-key-mismatch value))))
-
 (defcstruct (%sg-frame-stats-wgpu :class sg-frame-stats-wgpu-type)
   (uniforms (:struct %sg-frame-stats-wgpu-uniforms))
   (bindings (:struct %sg-frame-stats-wgpu-bindings)))
-
-(defstruct sg-frame-stats-wgpu
-  (uniforms nil)
-  (bindings nil))
-
-(defmethod translate-from-foreign (ptr (type sg-frame-stats-wgpu-type))
-  (with-foreign-slots ((uniforms bindings) ptr (:struct %sg-frame-stats-wgpu))
-    (make-sg-frame-stats-wgpu :uniforms uniforms :bindings bindings)))
-(defmethod expand-from-foreign (ptr (type sg-frame-stats-wgpu-type))
-  `(with-foreign-slots ((uniforms bindings) ,ptr (:struct %sg-frame-stats-wgpu))
-    (make-sg-frame-stats-wgpu :uniforms uniforms :bindings bindings)))
-(defmethod translate-into-foreign-memory (value (type sg-frame-stats-wgpu-type) ptr)
-  (with-foreign-slots ((uniforms bindings) ptr (:struct %sg-frame-stats-wgpu))
-    (setf 
-      uniforms (sg-frame-stats-wgpu-uniforms value)
-      bindings (sg-frame-stats-wgpu-bindings value))))
 
 (defcstruct (%sg-frame-stats :class sg-frame-stats-type)
   (frame-index :unsigned-int)
@@ -2336,56 +862,6 @@
   (d3d11 (:struct %sg-frame-stats-d3d11))
   (metal (:struct %sg-frame-stats-metal))
   (wgpu (:struct %sg-frame-stats-wgpu)))
-
-(defstruct sg-frame-stats
-  (frame-index 0)
-  (num-passes 0)
-  (num-apply-viewport 0)
-  (num-apply-scissor-rect 0)
-  (num-apply-pipeline 0)
-  (num-apply-bindings 0)
-  (num-apply-uniforms 0)
-  (num-draw 0)
-  (num-update-buffer 0)
-  (num-append-buffer 0)
-  (num-update-image 0)
-  (size-apply-uniforms 0)
-  (size-update-buffer 0)
-  (size-append-buffer 0)
-  (size-update-image 0)
-  (gl nil)
-  (d3d11 nil)
-  (metal nil)
-  (wgpu nil))
-
-(defmethod translate-from-foreign (ptr (type sg-frame-stats-type))
-  (with-foreign-slots ((frame-index num-passes num-apply-viewport num-apply-scissor-rect num-apply-pipeline num-apply-bindings num-apply-uniforms num-draw num-update-buffer num-append-buffer num-update-image size-apply-uniforms size-update-buffer size-append-buffer size-update-image gl d3d11 metal wgpu) ptr (:struct %sg-frame-stats))
-    (make-sg-frame-stats :frame-index frame-index :num-passes num-passes :num-apply-viewport num-apply-viewport :num-apply-scissor-rect num-apply-scissor-rect :num-apply-pipeline num-apply-pipeline :num-apply-bindings num-apply-bindings :num-apply-uniforms num-apply-uniforms :num-draw num-draw :num-update-buffer num-update-buffer :num-append-buffer num-append-buffer :num-update-image num-update-image :size-apply-uniforms size-apply-uniforms :size-update-buffer size-update-buffer :size-append-buffer size-append-buffer :size-update-image size-update-image :gl gl :d3d11 d3d11 :metal metal :wgpu wgpu)))
-(defmethod expand-from-foreign (ptr (type sg-frame-stats-type))
-  `(with-foreign-slots ((frame-index num-passes num-apply-viewport num-apply-scissor-rect num-apply-pipeline num-apply-bindings num-apply-uniforms num-draw num-update-buffer num-append-buffer num-update-image size-apply-uniforms size-update-buffer size-append-buffer size-update-image gl d3d11 metal wgpu) ,ptr (:struct %sg-frame-stats))
-    (make-sg-frame-stats :frame-index frame-index :num-passes num-passes :num-apply-viewport num-apply-viewport :num-apply-scissor-rect num-apply-scissor-rect :num-apply-pipeline num-apply-pipeline :num-apply-bindings num-apply-bindings :num-apply-uniforms num-apply-uniforms :num-draw num-draw :num-update-buffer num-update-buffer :num-append-buffer num-append-buffer :num-update-image num-update-image :size-apply-uniforms size-apply-uniforms :size-update-buffer size-update-buffer :size-append-buffer size-append-buffer :size-update-image size-update-image :gl gl :d3d11 d3d11 :metal metal :wgpu wgpu)))
-(defmethod translate-into-foreign-memory (value (type sg-frame-stats-type) ptr)
-  (with-foreign-slots ((frame-index num-passes num-apply-viewport num-apply-scissor-rect num-apply-pipeline num-apply-bindings num-apply-uniforms num-draw num-update-buffer num-append-buffer num-update-image size-apply-uniforms size-update-buffer size-append-buffer size-update-image gl d3d11 metal wgpu) ptr (:struct %sg-frame-stats))
-    (setf 
-      frame-index (sg-frame-stats-frame-index value)
-      num-passes (sg-frame-stats-num-passes value)
-      num-apply-viewport (sg-frame-stats-num-apply-viewport value)
-      num-apply-scissor-rect (sg-frame-stats-num-apply-scissor-rect value)
-      num-apply-pipeline (sg-frame-stats-num-apply-pipeline value)
-      num-apply-bindings (sg-frame-stats-num-apply-bindings value)
-      num-apply-uniforms (sg-frame-stats-num-apply-uniforms value)
-      num-draw (sg-frame-stats-num-draw value)
-      num-update-buffer (sg-frame-stats-num-update-buffer value)
-      num-append-buffer (sg-frame-stats-num-append-buffer value)
-      num-update-image (sg-frame-stats-num-update-image value)
-      size-apply-uniforms (sg-frame-stats-size-apply-uniforms value)
-      size-update-buffer (sg-frame-stats-size-update-buffer value)
-      size-append-buffer (sg-frame-stats-size-append-buffer value)
-      size-update-image (sg-frame-stats-size-update-image value)
-      gl (sg-frame-stats-gl value)
-      d3d11 (sg-frame-stats-d3d11 value)
-      metal (sg-frame-stats-metal value)
-      wgpu (sg-frame-stats-wgpu value))))
 
 (defcenum sg-log-item
   (:sg-logitem-ok 0)
@@ -2656,30 +1132,6 @@
   (drawable-userdata-cb :pointer)
   (user-data (:pointer :void)))
 
-(defstruct sg-metal-context-desc
-  (device nil)
-  (renderpass-descriptor-cb nil)
-  (renderpass-descriptor-userdata-cb nil)
-  (drawable-cb nil)
-  (drawable-userdata-cb nil)
-  (user-data nil))
-
-(defmethod translate-from-foreign (ptr (type sg-metal-context-desc-type))
-  (with-foreign-slots ((device renderpass-descriptor-cb renderpass-descriptor-userdata-cb drawable-cb drawable-userdata-cb user-data) ptr (:struct %sg-metal-context-desc))
-    (make-sg-metal-context-desc :device device :renderpass-descriptor-cb renderpass-descriptor-cb :renderpass-descriptor-userdata-cb renderpass-descriptor-userdata-cb :drawable-cb drawable-cb :drawable-userdata-cb drawable-userdata-cb :user-data user-data)))
-(defmethod expand-from-foreign (ptr (type sg-metal-context-desc-type))
-  `(with-foreign-slots ((device renderpass-descriptor-cb renderpass-descriptor-userdata-cb drawable-cb drawable-userdata-cb user-data) ,ptr (:struct %sg-metal-context-desc))
-    (make-sg-metal-context-desc :device device :renderpass-descriptor-cb renderpass-descriptor-cb :renderpass-descriptor-userdata-cb renderpass-descriptor-userdata-cb :drawable-cb drawable-cb :drawable-userdata-cb drawable-userdata-cb :user-data user-data)))
-(defmethod translate-into-foreign-memory (value (type sg-metal-context-desc-type) ptr)
-  (with-foreign-slots ((device renderpass-descriptor-cb renderpass-descriptor-userdata-cb drawable-cb drawable-userdata-cb user-data) ptr (:struct %sg-metal-context-desc))
-    (setf 
-      device (sg-metal-context-desc-device value)
-      renderpass-descriptor-cb (sg-metal-context-desc-renderpass-descriptor-cb value)
-      renderpass-descriptor-userdata-cb (sg-metal-context-desc-renderpass-descriptor-userdata-cb value)
-      drawable-cb (sg-metal-context-desc-drawable-cb value)
-      drawable-userdata-cb (sg-metal-context-desc-drawable-userdata-cb value)
-      user-data (sg-metal-context-desc-user-data value))))
-
 (defcstruct (%sg-d3d11-context-desc :class sg-d3d11-context-desc-type)
   (device (:pointer :void))
   (device-context (:pointer :void))
@@ -2688,32 +1140,6 @@
   (depth-stencil-view-cb :pointer)
   (depth-stencil-view-userdata-cb :pointer)
   (user-data (:pointer :void)))
-
-(defstruct sg-d3d11-context-desc
-  (device nil)
-  (device-context nil)
-  (render-target-view-cb nil)
-  (render-target-view-userdata-cb nil)
-  (depth-stencil-view-cb nil)
-  (depth-stencil-view-userdata-cb nil)
-  (user-data nil))
-
-(defmethod translate-from-foreign (ptr (type sg-d3d11-context-desc-type))
-  (with-foreign-slots ((device device-context render-target-view-cb render-target-view-userdata-cb depth-stencil-view-cb depth-stencil-view-userdata-cb user-data) ptr (:struct %sg-d3d11-context-desc))
-    (make-sg-d3d11-context-desc :device device :device-context device-context :render-target-view-cb render-target-view-cb :render-target-view-userdata-cb render-target-view-userdata-cb :depth-stencil-view-cb depth-stencil-view-cb :depth-stencil-view-userdata-cb depth-stencil-view-userdata-cb :user-data user-data)))
-(defmethod expand-from-foreign (ptr (type sg-d3d11-context-desc-type))
-  `(with-foreign-slots ((device device-context render-target-view-cb render-target-view-userdata-cb depth-stencil-view-cb depth-stencil-view-userdata-cb user-data) ,ptr (:struct %sg-d3d11-context-desc))
-    (make-sg-d3d11-context-desc :device device :device-context device-context :render-target-view-cb render-target-view-cb :render-target-view-userdata-cb render-target-view-userdata-cb :depth-stencil-view-cb depth-stencil-view-cb :depth-stencil-view-userdata-cb depth-stencil-view-userdata-cb :user-data user-data)))
-(defmethod translate-into-foreign-memory (value (type sg-d3d11-context-desc-type) ptr)
-  (with-foreign-slots ((device device-context render-target-view-cb render-target-view-userdata-cb depth-stencil-view-cb depth-stencil-view-userdata-cb user-data) ptr (:struct %sg-d3d11-context-desc))
-    (setf 
-      device (sg-d3d11-context-desc-device value)
-      device-context (sg-d3d11-context-desc-device-context value)
-      render-target-view-cb (sg-d3d11-context-desc-render-target-view-cb value)
-      render-target-view-userdata-cb (sg-d3d11-context-desc-render-target-view-userdata-cb value)
-      depth-stencil-view-cb (sg-d3d11-context-desc-depth-stencil-view-cb value)
-      depth-stencil-view-userdata-cb (sg-d3d11-context-desc-depth-stencil-view-userdata-cb value)
-      user-data (sg-d3d11-context-desc-user-data value))))
 
 (defcstruct (%sg-wgpu-context-desc :class sg-wgpu-context-desc-type)
   (device (:pointer :void))
@@ -2725,56 +1151,10 @@
   (depth-stencil-view-userdata-cb :pointer)
   (user-data (:pointer :void)))
 
-(defstruct sg-wgpu-context-desc
-  (device nil)
-  (render-view-cb nil)
-  (render-view-userdata-cb nil)
-  (resolve-view-cb nil)
-  (resolve-view-userdata-cb nil)
-  (depth-stencil-view-cb nil)
-  (depth-stencil-view-userdata-cb nil)
-  (user-data nil))
-
-(defmethod translate-from-foreign (ptr (type sg-wgpu-context-desc-type))
-  (with-foreign-slots ((device render-view-cb render-view-userdata-cb resolve-view-cb resolve-view-userdata-cb depth-stencil-view-cb depth-stencil-view-userdata-cb user-data) ptr (:struct %sg-wgpu-context-desc))
-    (make-sg-wgpu-context-desc :device device :render-view-cb render-view-cb :render-view-userdata-cb render-view-userdata-cb :resolve-view-cb resolve-view-cb :resolve-view-userdata-cb resolve-view-userdata-cb :depth-stencil-view-cb depth-stencil-view-cb :depth-stencil-view-userdata-cb depth-stencil-view-userdata-cb :user-data user-data)))
-(defmethod expand-from-foreign (ptr (type sg-wgpu-context-desc-type))
-  `(with-foreign-slots ((device render-view-cb render-view-userdata-cb resolve-view-cb resolve-view-userdata-cb depth-stencil-view-cb depth-stencil-view-userdata-cb user-data) ,ptr (:struct %sg-wgpu-context-desc))
-    (make-sg-wgpu-context-desc :device device :render-view-cb render-view-cb :render-view-userdata-cb render-view-userdata-cb :resolve-view-cb resolve-view-cb :resolve-view-userdata-cb resolve-view-userdata-cb :depth-stencil-view-cb depth-stencil-view-cb :depth-stencil-view-userdata-cb depth-stencil-view-userdata-cb :user-data user-data)))
-(defmethod translate-into-foreign-memory (value (type sg-wgpu-context-desc-type) ptr)
-  (with-foreign-slots ((device render-view-cb render-view-userdata-cb resolve-view-cb resolve-view-userdata-cb depth-stencil-view-cb depth-stencil-view-userdata-cb user-data) ptr (:struct %sg-wgpu-context-desc))
-    (setf 
-      device (sg-wgpu-context-desc-device value)
-      render-view-cb (sg-wgpu-context-desc-render-view-cb value)
-      render-view-userdata-cb (sg-wgpu-context-desc-render-view-userdata-cb value)
-      resolve-view-cb (sg-wgpu-context-desc-resolve-view-cb value)
-      resolve-view-userdata-cb (sg-wgpu-context-desc-resolve-view-userdata-cb value)
-      depth-stencil-view-cb (sg-wgpu-context-desc-depth-stencil-view-cb value)
-      depth-stencil-view-userdata-cb (sg-wgpu-context-desc-depth-stencil-view-userdata-cb value)
-      user-data (sg-wgpu-context-desc-user-data value))))
-
 (defcstruct (%sg-gl-context-desc :class sg-gl-context-desc-type)
   (default-framebuffer-cb :pointer)
   (default-framebuffer-userdata-cb :pointer)
   (user-data (:pointer :void)))
-
-(defstruct sg-gl-context-desc
-  (default-framebuffer-cb nil)
-  (default-framebuffer-userdata-cb nil)
-  (user-data nil))
-
-(defmethod translate-from-foreign (ptr (type sg-gl-context-desc-type))
-  (with-foreign-slots ((default-framebuffer-cb default-framebuffer-userdata-cb user-data) ptr (:struct %sg-gl-context-desc))
-    (make-sg-gl-context-desc :default-framebuffer-cb default-framebuffer-cb :default-framebuffer-userdata-cb default-framebuffer-userdata-cb :user-data user-data)))
-(defmethod expand-from-foreign (ptr (type sg-gl-context-desc-type))
-  `(with-foreign-slots ((default-framebuffer-cb default-framebuffer-userdata-cb user-data) ,ptr (:struct %sg-gl-context-desc))
-    (make-sg-gl-context-desc :default-framebuffer-cb default-framebuffer-cb :default-framebuffer-userdata-cb default-framebuffer-userdata-cb :user-data user-data)))
-(defmethod translate-into-foreign-memory (value (type sg-gl-context-desc-type) ptr)
-  (with-foreign-slots ((default-framebuffer-cb default-framebuffer-userdata-cb user-data) ptr (:struct %sg-gl-context-desc))
-    (setf 
-      default-framebuffer-cb (sg-gl-context-desc-default-framebuffer-cb value)
-      default-framebuffer-userdata-cb (sg-gl-context-desc-default-framebuffer-userdata-cb value)
-      user-data (sg-gl-context-desc-user-data value))))
 
 (defcstruct (%sg-context-desc :class sg-context-desc-type)
   (color-format sg-pixel-format)
@@ -2785,94 +1165,18 @@
   (wgpu (:struct %sg-wgpu-context-desc))
   (gl (:struct %sg-gl-context-desc)))
 
-(defstruct sg-context-desc
-  (color-format nil)
-  (depth-format nil)
-  (sample-count 0)
-  (metal nil)
-  (d3d11 nil)
-  (wgpu nil)
-  (gl nil))
-
-(defmethod translate-from-foreign (ptr (type sg-context-desc-type))
-  (with-foreign-slots ((color-format depth-format sample-count metal d3d11 wgpu gl) ptr (:struct %sg-context-desc))
-    (make-sg-context-desc :color-format color-format :depth-format depth-format :sample-count sample-count :metal metal :d3d11 d3d11 :wgpu wgpu :gl gl)))
-(defmethod expand-from-foreign (ptr (type sg-context-desc-type))
-  `(with-foreign-slots ((color-format depth-format sample-count metal d3d11 wgpu gl) ,ptr (:struct %sg-context-desc))
-    (make-sg-context-desc :color-format color-format :depth-format depth-format :sample-count sample-count :metal metal :d3d11 d3d11 :wgpu wgpu :gl gl)))
-(defmethod translate-into-foreign-memory (value (type sg-context-desc-type) ptr)
-  (with-foreign-slots ((color-format depth-format sample-count metal d3d11 wgpu gl) ptr (:struct %sg-context-desc))
-    (setf 
-      color-format (sg-context-desc-color-format value)
-      depth-format (sg-context-desc-depth-format value)
-      sample-count (sg-context-desc-sample-count value)
-      metal (sg-context-desc-metal value)
-      d3d11 (sg-context-desc-d3d11 value)
-      wgpu (sg-context-desc-wgpu value)
-      gl (sg-context-desc-gl value))))
-
 (defcstruct (%sg-commit-listener :class sg-commit-listener-type)
   (func :pointer)
   (user-data (:pointer :void)))
-
-(defstruct sg-commit-listener
-  (func nil)
-  (user-data nil))
-
-(defmethod translate-from-foreign (ptr (type sg-commit-listener-type))
-  (with-foreign-slots ((func user-data) ptr (:struct %sg-commit-listener))
-    (make-sg-commit-listener :func func :user-data user-data)))
-(defmethod expand-from-foreign (ptr (type sg-commit-listener-type))
-  `(with-foreign-slots ((func user-data) ,ptr (:struct %sg-commit-listener))
-    (make-sg-commit-listener :func func :user-data user-data)))
-(defmethod translate-into-foreign-memory (value (type sg-commit-listener-type) ptr)
-  (with-foreign-slots ((func user-data) ptr (:struct %sg-commit-listener))
-    (setf 
-      func (sg-commit-listener-func value)
-      user-data (sg-commit-listener-user-data value))))
 
 (defcstruct (%sg-allocator :class sg-allocator-type)
   (alloc-fn :pointer)
   (free-fn :pointer)
   (user-data (:pointer :void)))
 
-(defstruct sg-allocator
-  (alloc-fn nil)
-  (free-fn nil)
-  (user-data nil))
-
-(defmethod translate-from-foreign (ptr (type sg-allocator-type))
-  (with-foreign-slots ((alloc-fn free-fn user-data) ptr (:struct %sg-allocator))
-    (make-sg-allocator :alloc-fn alloc-fn :free-fn free-fn :user-data user-data)))
-(defmethod expand-from-foreign (ptr (type sg-allocator-type))
-  `(with-foreign-slots ((alloc-fn free-fn user-data) ,ptr (:struct %sg-allocator))
-    (make-sg-allocator :alloc-fn alloc-fn :free-fn free-fn :user-data user-data)))
-(defmethod translate-into-foreign-memory (value (type sg-allocator-type) ptr)
-  (with-foreign-slots ((alloc-fn free-fn user-data) ptr (:struct %sg-allocator))
-    (setf 
-      alloc-fn (sg-allocator-alloc-fn value)
-      free-fn (sg-allocator-free-fn value)
-      user-data (sg-allocator-user-data value))))
-
 (defcstruct (%sg-logger :class sg-logger-type)
   (func :pointer)
   (user-data (:pointer :void)))
-
-(defstruct sg-logger
-  (func nil)
-  (user-data nil))
-
-(defmethod translate-from-foreign (ptr (type sg-logger-type))
-  (with-foreign-slots ((func user-data) ptr (:struct %sg-logger))
-    (make-sg-logger :func func :user-data user-data)))
-(defmethod expand-from-foreign (ptr (type sg-logger-type))
-  `(with-foreign-slots ((func user-data) ,ptr (:struct %sg-logger))
-    (make-sg-logger :func func :user-data user-data)))
-(defmethod translate-into-foreign-memory (value (type sg-logger-type) ptr)
-  (with-foreign-slots ((func user-data) ptr (:struct %sg-logger))
-    (setf 
-      func (sg-logger-func value)
-      user-data (sg-logger-user-data value))))
 
 (defcstruct (%sg-desc :class sg-desc-type)
   (-start-canary :unsigned-int)
@@ -2893,54 +1197,6 @@
   (logger (:struct %sg-logger))
   (context (:struct %sg-context-desc))
   (-end-canary :unsigned-int))
-
-(defstruct sg-desc
-  (-start-canary 0)
-  (buffer-pool-size 0)
-  (image-pool-size 0)
-  (sampler-pool-size 0)
-  (shader-pool-size 0)
-  (pipeline-pool-size 0)
-  (pass-pool-size 0)
-  (context-pool-size 0)
-  (uniform-buffer-size 0)
-  (max-commit-listeners 0)
-  (disable-validation nil)
-  (mtl-force-managed-storage-mode nil)
-  (wgpu-disable-bindgroups-cache nil)
-  (wgpu-bindgroups-cache-size 0)
-  (allocator nil)
-  (logger nil)
-  (context nil)
-  (-end-canary 0))
-
-(defmethod translate-from-foreign (ptr (type sg-desc-type))
-  (with-foreign-slots ((-start-canary buffer-pool-size image-pool-size sampler-pool-size shader-pool-size pipeline-pool-size pass-pool-size context-pool-size uniform-buffer-size max-commit-listeners disable-validation mtl-force-managed-storage-mode wgpu-disable-bindgroups-cache wgpu-bindgroups-cache-size allocator logger context -end-canary) ptr (:struct %sg-desc))
-    (make-sg-desc :-start-canary -start-canary :buffer-pool-size buffer-pool-size :image-pool-size image-pool-size :sampler-pool-size sampler-pool-size :shader-pool-size shader-pool-size :pipeline-pool-size pipeline-pool-size :pass-pool-size pass-pool-size :context-pool-size context-pool-size :uniform-buffer-size uniform-buffer-size :max-commit-listeners max-commit-listeners :disable-validation disable-validation :mtl-force-managed-storage-mode mtl-force-managed-storage-mode :wgpu-disable-bindgroups-cache wgpu-disable-bindgroups-cache :wgpu-bindgroups-cache-size wgpu-bindgroups-cache-size :allocator allocator :logger logger :context context :-end-canary -end-canary)))
-(defmethod expand-from-foreign (ptr (type sg-desc-type))
-  `(with-foreign-slots ((-start-canary buffer-pool-size image-pool-size sampler-pool-size shader-pool-size pipeline-pool-size pass-pool-size context-pool-size uniform-buffer-size max-commit-listeners disable-validation mtl-force-managed-storage-mode wgpu-disable-bindgroups-cache wgpu-bindgroups-cache-size allocator logger context -end-canary) ,ptr (:struct %sg-desc))
-    (make-sg-desc :-start-canary -start-canary :buffer-pool-size buffer-pool-size :image-pool-size image-pool-size :sampler-pool-size sampler-pool-size :shader-pool-size shader-pool-size :pipeline-pool-size pipeline-pool-size :pass-pool-size pass-pool-size :context-pool-size context-pool-size :uniform-buffer-size uniform-buffer-size :max-commit-listeners max-commit-listeners :disable-validation disable-validation :mtl-force-managed-storage-mode mtl-force-managed-storage-mode :wgpu-disable-bindgroups-cache wgpu-disable-bindgroups-cache :wgpu-bindgroups-cache-size wgpu-bindgroups-cache-size :allocator allocator :logger logger :context context :-end-canary -end-canary)))
-(defmethod translate-into-foreign-memory (value (type sg-desc-type) ptr)
-  (with-foreign-slots ((-start-canary buffer-pool-size image-pool-size sampler-pool-size shader-pool-size pipeline-pool-size pass-pool-size context-pool-size uniform-buffer-size max-commit-listeners disable-validation mtl-force-managed-storage-mode wgpu-disable-bindgroups-cache wgpu-bindgroups-cache-size allocator logger context -end-canary) ptr (:struct %sg-desc))
-    (setf 
-      -start-canary (sg-desc--start-canary value)
-      buffer-pool-size (sg-desc-buffer-pool-size value)
-      image-pool-size (sg-desc-image-pool-size value)
-      sampler-pool-size (sg-desc-sampler-pool-size value)
-      shader-pool-size (sg-desc-shader-pool-size value)
-      pipeline-pool-size (sg-desc-pipeline-pool-size value)
-      pass-pool-size (sg-desc-pass-pool-size value)
-      context-pool-size (sg-desc-context-pool-size value)
-      uniform-buffer-size (sg-desc-uniform-buffer-size value)
-      max-commit-listeners (sg-desc-max-commit-listeners value)
-      disable-validation (sg-desc-disable-validation value)
-      mtl-force-managed-storage-mode (sg-desc-mtl-force-managed-storage-mode value)
-      wgpu-disable-bindgroups-cache (sg-desc-wgpu-disable-bindgroups-cache value)
-      wgpu-bindgroups-cache-size (sg-desc-wgpu-bindgroups-cache-size value)
-      allocator (sg-desc-allocator value)
-      logger (sg-desc-logger value)
-      context (sg-desc-context value)
-      -end-canary (sg-desc--end-canary value))))
 
 (defcfun (sg-setup "sg_setup") :void
   (desc (:pointer (:struct %sg-desc))))
@@ -3274,62 +1530,14 @@
 (defcstruct (%sg-d3d11-buffer-info :class sg-d3d11-buffer-info-type)
   (buf (:pointer :void)))
 
-(defstruct sg-d3d11-buffer-info
-  (buf nil))
-
-(defmethod translate-from-foreign (ptr (type sg-d3d11-buffer-info-type))
-  (with-foreign-slots ((buf) ptr (:struct %sg-d3d11-buffer-info))
-    (make-sg-d3d11-buffer-info :buf buf)))
-(defmethod expand-from-foreign (ptr (type sg-d3d11-buffer-info-type))
-  `(with-foreign-slots ((buf) ,ptr (:struct %sg-d3d11-buffer-info))
-    (make-sg-d3d11-buffer-info :buf buf)))
-(defmethod translate-into-foreign-memory (value (type sg-d3d11-buffer-info-type) ptr)
-  (with-foreign-slots ((buf) ptr (:struct %sg-d3d11-buffer-info))
-    (setf 
-      buf (sg-d3d11-buffer-info-buf value))))
-
 (defcstruct (%sg-d3d11-image-info :class sg-d3d11-image-info-type)
   (tex2d (:pointer :void))
   (tex3d (:pointer :void))
   (res (:pointer :void))
   (srv (:pointer :void)))
 
-(defstruct sg-d3d11-image-info
-  (tex2d nil)
-  (tex3d nil)
-  (res nil)
-  (srv nil))
-
-(defmethod translate-from-foreign (ptr (type sg-d3d11-image-info-type))
-  (with-foreign-slots ((tex2d tex3d res srv) ptr (:struct %sg-d3d11-image-info))
-    (make-sg-d3d11-image-info :tex2d tex2d :tex3d tex3d :res res :srv srv)))
-(defmethod expand-from-foreign (ptr (type sg-d3d11-image-info-type))
-  `(with-foreign-slots ((tex2d tex3d res srv) ,ptr (:struct %sg-d3d11-image-info))
-    (make-sg-d3d11-image-info :tex2d tex2d :tex3d tex3d :res res :srv srv)))
-(defmethod translate-into-foreign-memory (value (type sg-d3d11-image-info-type) ptr)
-  (with-foreign-slots ((tex2d tex3d res srv) ptr (:struct %sg-d3d11-image-info))
-    (setf 
-      tex2d (sg-d3d11-image-info-tex2d value)
-      tex3d (sg-d3d11-image-info-tex3d value)
-      res (sg-d3d11-image-info-res value)
-      srv (sg-d3d11-image-info-srv value))))
-
 (defcstruct (%sg-d3d11-sampler-info :class sg-d3d11-sampler-info-type)
   (smp (:pointer :void)))
-
-(defstruct sg-d3d11-sampler-info
-  (smp nil))
-
-(defmethod translate-from-foreign (ptr (type sg-d3d11-sampler-info-type))
-  (with-foreign-slots ((smp) ptr (:struct %sg-d3d11-sampler-info))
-    (make-sg-d3d11-sampler-info :smp smp)))
-(defmethod expand-from-foreign (ptr (type sg-d3d11-sampler-info-type))
-  `(with-foreign-slots ((smp) ,ptr (:struct %sg-d3d11-sampler-info))
-    (make-sg-d3d11-sampler-info :smp smp)))
-(defmethod translate-into-foreign-memory (value (type sg-d3d11-sampler-info-type) ptr)
-  (with-foreign-slots ((smp) ptr (:struct %sg-d3d11-sampler-info))
-    (setf 
-      smp (sg-d3d11-sampler-info-smp value))))
 
 (defcstruct (%sg-d3d11-shader-info :class sg-d3d11-shader-info-type)
   (vs-cbufs (:array (:pointer :void) 4))
@@ -3337,131 +1545,27 @@
   (vs (:pointer :void))
   (fs (:pointer :void)))
 
-(defstruct sg-d3d11-shader-info
-  (vs-cbufs (make-array 4))
-  (fs-cbufs (make-array 4))
-  (vs nil)
-  (fs nil))
-
-(defmethod translate-from-foreign (ptr (type sg-d3d11-shader-info-type))
-  (with-foreign-slots ((vs-cbufs fs-cbufs vs fs) ptr (:struct %sg-d3d11-shader-info))
-    (make-sg-d3d11-shader-info :vs-cbufs vs-cbufs :fs-cbufs fs-cbufs :vs vs :fs fs)))
-(defmethod expand-from-foreign (ptr (type sg-d3d11-shader-info-type))
-  `(with-foreign-slots ((vs-cbufs fs-cbufs vs fs) ,ptr (:struct %sg-d3d11-shader-info))
-    (make-sg-d3d11-shader-info :vs-cbufs vs-cbufs :fs-cbufs fs-cbufs :vs vs :fs fs)))
-(defmethod translate-into-foreign-memory (value (type sg-d3d11-shader-info-type) ptr)
-  (with-foreign-slots ((vs-cbufs fs-cbufs vs fs) ptr (:struct %sg-d3d11-shader-info))
-    (setf 
-      vs-cbufs (sg-d3d11-shader-info-vs-cbufs value)
-      fs-cbufs (sg-d3d11-shader-info-fs-cbufs value)
-      vs (sg-d3d11-shader-info-vs value)
-      fs (sg-d3d11-shader-info-fs value))))
-
 (defcstruct (%sg-d3d11-pipeline-info :class sg-d3d11-pipeline-info-type)
   (il (:pointer :void))
   (rs (:pointer :void))
   (dss (:pointer :void))
   (bs (:pointer :void)))
 
-(defstruct sg-d3d11-pipeline-info
-  (il nil)
-  (rs nil)
-  (dss nil)
-  (bs nil))
-
-(defmethod translate-from-foreign (ptr (type sg-d3d11-pipeline-info-type))
-  (with-foreign-slots ((il rs dss bs) ptr (:struct %sg-d3d11-pipeline-info))
-    (make-sg-d3d11-pipeline-info :il il :rs rs :dss dss :bs bs)))
-(defmethod expand-from-foreign (ptr (type sg-d3d11-pipeline-info-type))
-  `(with-foreign-slots ((il rs dss bs) ,ptr (:struct %sg-d3d11-pipeline-info))
-    (make-sg-d3d11-pipeline-info :il il :rs rs :dss dss :bs bs)))
-(defmethod translate-into-foreign-memory (value (type sg-d3d11-pipeline-info-type) ptr)
-  (with-foreign-slots ((il rs dss bs) ptr (:struct %sg-d3d11-pipeline-info))
-    (setf 
-      il (sg-d3d11-pipeline-info-il value)
-      rs (sg-d3d11-pipeline-info-rs value)
-      dss (sg-d3d11-pipeline-info-dss value)
-      bs (sg-d3d11-pipeline-info-bs value))))
-
 (defcstruct (%sg-d3d11-pass-info :class sg-d3d11-pass-info-type)
   (color-rtv (:array (:pointer :void) 4))
   (resolve-rtv (:array (:pointer :void) 4))
   (dsv (:pointer :void)))
 
-(defstruct sg-d3d11-pass-info
-  (color-rtv (make-array 4))
-  (resolve-rtv (make-array 4))
-  (dsv nil))
-
-(defmethod translate-from-foreign (ptr (type sg-d3d11-pass-info-type))
-  (with-foreign-slots ((color-rtv resolve-rtv dsv) ptr (:struct %sg-d3d11-pass-info))
-    (make-sg-d3d11-pass-info :color-rtv color-rtv :resolve-rtv resolve-rtv :dsv dsv)))
-(defmethod expand-from-foreign (ptr (type sg-d3d11-pass-info-type))
-  `(with-foreign-slots ((color-rtv resolve-rtv dsv) ,ptr (:struct %sg-d3d11-pass-info))
-    (make-sg-d3d11-pass-info :color-rtv color-rtv :resolve-rtv resolve-rtv :dsv dsv)))
-(defmethod translate-into-foreign-memory (value (type sg-d3d11-pass-info-type) ptr)
-  (with-foreign-slots ((color-rtv resolve-rtv dsv) ptr (:struct %sg-d3d11-pass-info))
-    (setf 
-      color-rtv (sg-d3d11-pass-info-color-rtv value)
-      resolve-rtv (sg-d3d11-pass-info-resolve-rtv value)
-      dsv (sg-d3d11-pass-info-dsv value))))
-
 (defcstruct (%sg-mtl-buffer-info :class sg-mtl-buffer-info-type)
   (buf (:array (:pointer :void) 2))
   (active-slot :int))
-
-(defstruct sg-mtl-buffer-info
-  (buf (make-array 2))
-  (active-slot 0))
-
-(defmethod translate-from-foreign (ptr (type sg-mtl-buffer-info-type))
-  (with-foreign-slots ((buf active-slot) ptr (:struct %sg-mtl-buffer-info))
-    (make-sg-mtl-buffer-info :buf buf :active-slot active-slot)))
-(defmethod expand-from-foreign (ptr (type sg-mtl-buffer-info-type))
-  `(with-foreign-slots ((buf active-slot) ,ptr (:struct %sg-mtl-buffer-info))
-    (make-sg-mtl-buffer-info :buf buf :active-slot active-slot)))
-(defmethod translate-into-foreign-memory (value (type sg-mtl-buffer-info-type) ptr)
-  (with-foreign-slots ((buf active-slot) ptr (:struct %sg-mtl-buffer-info))
-    (setf 
-      buf (sg-mtl-buffer-info-buf value)
-      active-slot (sg-mtl-buffer-info-active-slot value))))
 
 (defcstruct (%sg-mtl-image-info :class sg-mtl-image-info-type)
   (tex (:array (:pointer :void) 2))
   (active-slot :int))
 
-(defstruct sg-mtl-image-info
-  (tex (make-array 2))
-  (active-slot 0))
-
-(defmethod translate-from-foreign (ptr (type sg-mtl-image-info-type))
-  (with-foreign-slots ((tex active-slot) ptr (:struct %sg-mtl-image-info))
-    (make-sg-mtl-image-info :tex tex :active-slot active-slot)))
-(defmethod expand-from-foreign (ptr (type sg-mtl-image-info-type))
-  `(with-foreign-slots ((tex active-slot) ,ptr (:struct %sg-mtl-image-info))
-    (make-sg-mtl-image-info :tex tex :active-slot active-slot)))
-(defmethod translate-into-foreign-memory (value (type sg-mtl-image-info-type) ptr)
-  (with-foreign-slots ((tex active-slot) ptr (:struct %sg-mtl-image-info))
-    (setf 
-      tex (sg-mtl-image-info-tex value)
-      active-slot (sg-mtl-image-info-active-slot value))))
-
 (defcstruct (%sg-mtl-sampler-info :class sg-mtl-sampler-info-type)
   (smp (:pointer :void)))
-
-(defstruct sg-mtl-sampler-info
-  (smp nil))
-
-(defmethod translate-from-foreign (ptr (type sg-mtl-sampler-info-type))
-  (with-foreign-slots ((smp) ptr (:struct %sg-mtl-sampler-info))
-    (make-sg-mtl-sampler-info :smp smp)))
-(defmethod expand-from-foreign (ptr (type sg-mtl-sampler-info-type))
-  `(with-foreign-slots ((smp) ,ptr (:struct %sg-mtl-sampler-info))
-    (make-sg-mtl-sampler-info :smp smp)))
-(defmethod translate-into-foreign-memory (value (type sg-mtl-sampler-info-type) ptr)
-  (with-foreign-slots ((smp) ptr (:struct %sg-mtl-sampler-info))
-    (setf 
-      smp (sg-mtl-sampler-info-smp value))))
 
 (defcstruct (%sg-mtl-shader-info :class sg-mtl-shader-info-type)
   (vs-lib (:pointer :void))
@@ -3469,182 +1573,36 @@
   (vs-func (:pointer :void))
   (fs-func (:pointer :void)))
 
-(defstruct sg-mtl-shader-info
-  (vs-lib nil)
-  (fs-lib nil)
-  (vs-func nil)
-  (fs-func nil))
-
-(defmethod translate-from-foreign (ptr (type sg-mtl-shader-info-type))
-  (with-foreign-slots ((vs-lib fs-lib vs-func fs-func) ptr (:struct %sg-mtl-shader-info))
-    (make-sg-mtl-shader-info :vs-lib vs-lib :fs-lib fs-lib :vs-func vs-func :fs-func fs-func)))
-(defmethod expand-from-foreign (ptr (type sg-mtl-shader-info-type))
-  `(with-foreign-slots ((vs-lib fs-lib vs-func fs-func) ,ptr (:struct %sg-mtl-shader-info))
-    (make-sg-mtl-shader-info :vs-lib vs-lib :fs-lib fs-lib :vs-func vs-func :fs-func fs-func)))
-(defmethod translate-into-foreign-memory (value (type sg-mtl-shader-info-type) ptr)
-  (with-foreign-slots ((vs-lib fs-lib vs-func fs-func) ptr (:struct %sg-mtl-shader-info))
-    (setf 
-      vs-lib (sg-mtl-shader-info-vs-lib value)
-      fs-lib (sg-mtl-shader-info-fs-lib value)
-      vs-func (sg-mtl-shader-info-vs-func value)
-      fs-func (sg-mtl-shader-info-fs-func value))))
-
 (defcstruct (%sg-mtl-pipeline-info :class sg-mtl-pipeline-info-type)
   (rps (:pointer :void))
   (dss (:pointer :void)))
 
-(defstruct sg-mtl-pipeline-info
-  (rps nil)
-  (dss nil))
-
-(defmethod translate-from-foreign (ptr (type sg-mtl-pipeline-info-type))
-  (with-foreign-slots ((rps dss) ptr (:struct %sg-mtl-pipeline-info))
-    (make-sg-mtl-pipeline-info :rps rps :dss dss)))
-(defmethod expand-from-foreign (ptr (type sg-mtl-pipeline-info-type))
-  `(with-foreign-slots ((rps dss) ,ptr (:struct %sg-mtl-pipeline-info))
-    (make-sg-mtl-pipeline-info :rps rps :dss dss)))
-(defmethod translate-into-foreign-memory (value (type sg-mtl-pipeline-info-type) ptr)
-  (with-foreign-slots ((rps dss) ptr (:struct %sg-mtl-pipeline-info))
-    (setf 
-      rps (sg-mtl-pipeline-info-rps value)
-      dss (sg-mtl-pipeline-info-dss value))))
-
 (defcstruct (%sg-wgpu-buffer-info :class sg-wgpu-buffer-info-type)
   (buf (:pointer :void)))
-
-(defstruct sg-wgpu-buffer-info
-  (buf nil))
-
-(defmethod translate-from-foreign (ptr (type sg-wgpu-buffer-info-type))
-  (with-foreign-slots ((buf) ptr (:struct %sg-wgpu-buffer-info))
-    (make-sg-wgpu-buffer-info :buf buf)))
-(defmethod expand-from-foreign (ptr (type sg-wgpu-buffer-info-type))
-  `(with-foreign-slots ((buf) ,ptr (:struct %sg-wgpu-buffer-info))
-    (make-sg-wgpu-buffer-info :buf buf)))
-(defmethod translate-into-foreign-memory (value (type sg-wgpu-buffer-info-type) ptr)
-  (with-foreign-slots ((buf) ptr (:struct %sg-wgpu-buffer-info))
-    (setf 
-      buf (sg-wgpu-buffer-info-buf value))))
 
 (defcstruct (%sg-wgpu-image-info :class sg-wgpu-image-info-type)
   (tex (:pointer :void))
   (view (:pointer :void)))
 
-(defstruct sg-wgpu-image-info
-  (tex nil)
-  (view nil))
-
-(defmethod translate-from-foreign (ptr (type sg-wgpu-image-info-type))
-  (with-foreign-slots ((tex view) ptr (:struct %sg-wgpu-image-info))
-    (make-sg-wgpu-image-info :tex tex :view view)))
-(defmethod expand-from-foreign (ptr (type sg-wgpu-image-info-type))
-  `(with-foreign-slots ((tex view) ,ptr (:struct %sg-wgpu-image-info))
-    (make-sg-wgpu-image-info :tex tex :view view)))
-(defmethod translate-into-foreign-memory (value (type sg-wgpu-image-info-type) ptr)
-  (with-foreign-slots ((tex view) ptr (:struct %sg-wgpu-image-info))
-    (setf 
-      tex (sg-wgpu-image-info-tex value)
-      view (sg-wgpu-image-info-view value))))
-
 (defcstruct (%sg-wgpu-sampler-info :class sg-wgpu-sampler-info-type)
   (smp (:pointer :void)))
-
-(defstruct sg-wgpu-sampler-info
-  (smp nil))
-
-(defmethod translate-from-foreign (ptr (type sg-wgpu-sampler-info-type))
-  (with-foreign-slots ((smp) ptr (:struct %sg-wgpu-sampler-info))
-    (make-sg-wgpu-sampler-info :smp smp)))
-(defmethod expand-from-foreign (ptr (type sg-wgpu-sampler-info-type))
-  `(with-foreign-slots ((smp) ,ptr (:struct %sg-wgpu-sampler-info))
-    (make-sg-wgpu-sampler-info :smp smp)))
-(defmethod translate-into-foreign-memory (value (type sg-wgpu-sampler-info-type) ptr)
-  (with-foreign-slots ((smp) ptr (:struct %sg-wgpu-sampler-info))
-    (setf 
-      smp (sg-wgpu-sampler-info-smp value))))
 
 (defcstruct (%sg-wgpu-shader-info :class sg-wgpu-shader-info-type)
   (vs-mod (:pointer :void))
   (fs-mod (:pointer :void))
   (bgl (:pointer :void)))
 
-(defstruct sg-wgpu-shader-info
-  (vs-mod nil)
-  (fs-mod nil)
-  (bgl nil))
-
-(defmethod translate-from-foreign (ptr (type sg-wgpu-shader-info-type))
-  (with-foreign-slots ((vs-mod fs-mod bgl) ptr (:struct %sg-wgpu-shader-info))
-    (make-sg-wgpu-shader-info :vs-mod vs-mod :fs-mod fs-mod :bgl bgl)))
-(defmethod expand-from-foreign (ptr (type sg-wgpu-shader-info-type))
-  `(with-foreign-slots ((vs-mod fs-mod bgl) ,ptr (:struct %sg-wgpu-shader-info))
-    (make-sg-wgpu-shader-info :vs-mod vs-mod :fs-mod fs-mod :bgl bgl)))
-(defmethod translate-into-foreign-memory (value (type sg-wgpu-shader-info-type) ptr)
-  (with-foreign-slots ((vs-mod fs-mod bgl) ptr (:struct %sg-wgpu-shader-info))
-    (setf 
-      vs-mod (sg-wgpu-shader-info-vs-mod value)
-      fs-mod (sg-wgpu-shader-info-fs-mod value)
-      bgl (sg-wgpu-shader-info-bgl value))))
-
 (defcstruct (%sg-wgpu-pipeline-info :class sg-wgpu-pipeline-info-type)
   (pip (:pointer :void)))
-
-(defstruct sg-wgpu-pipeline-info
-  (pip nil))
-
-(defmethod translate-from-foreign (ptr (type sg-wgpu-pipeline-info-type))
-  (with-foreign-slots ((pip) ptr (:struct %sg-wgpu-pipeline-info))
-    (make-sg-wgpu-pipeline-info :pip pip)))
-(defmethod expand-from-foreign (ptr (type sg-wgpu-pipeline-info-type))
-  `(with-foreign-slots ((pip) ,ptr (:struct %sg-wgpu-pipeline-info))
-    (make-sg-wgpu-pipeline-info :pip pip)))
-(defmethod translate-into-foreign-memory (value (type sg-wgpu-pipeline-info-type) ptr)
-  (with-foreign-slots ((pip) ptr (:struct %sg-wgpu-pipeline-info))
-    (setf 
-      pip (sg-wgpu-pipeline-info-pip value))))
 
 (defcstruct (%sg-wgpu-pass-info :class sg-wgpu-pass-info-type)
   (color-view (:array (:pointer :void) 4))
   (resolve-view (:array (:pointer :void) 4))
   (ds-view (:pointer :void)))
 
-(defstruct sg-wgpu-pass-info
-  (color-view (make-array 4))
-  (resolve-view (make-array 4))
-  (ds-view nil))
-
-(defmethod translate-from-foreign (ptr (type sg-wgpu-pass-info-type))
-  (with-foreign-slots ((color-view resolve-view ds-view) ptr (:struct %sg-wgpu-pass-info))
-    (make-sg-wgpu-pass-info :color-view color-view :resolve-view resolve-view :ds-view ds-view)))
-(defmethod expand-from-foreign (ptr (type sg-wgpu-pass-info-type))
-  `(with-foreign-slots ((color-view resolve-view ds-view) ,ptr (:struct %sg-wgpu-pass-info))
-    (make-sg-wgpu-pass-info :color-view color-view :resolve-view resolve-view :ds-view ds-view)))
-(defmethod translate-into-foreign-memory (value (type sg-wgpu-pass-info-type) ptr)
-  (with-foreign-slots ((color-view resolve-view ds-view) ptr (:struct %sg-wgpu-pass-info))
-    (setf 
-      color-view (sg-wgpu-pass-info-color-view value)
-      resolve-view (sg-wgpu-pass-info-resolve-view value)
-      ds-view (sg-wgpu-pass-info-ds-view value))))
-
 (defcstruct (%sg-gl-buffer-info :class sg-gl-buffer-info-type)
   (buf (:array :unsigned-int 2))
   (active-slot :int))
-
-(defstruct sg-gl-buffer-info
-  (buf (make-array 2))
-  (active-slot 0))
-
-(defmethod translate-from-foreign (ptr (type sg-gl-buffer-info-type))
-  (with-foreign-slots ((buf active-slot) ptr (:struct %sg-gl-buffer-info))
-    (make-sg-gl-buffer-info :buf buf :active-slot active-slot)))
-(defmethod expand-from-foreign (ptr (type sg-gl-buffer-info-type))
-  `(with-foreign-slots ((buf active-slot) ,ptr (:struct %sg-gl-buffer-info))
-    (make-sg-gl-buffer-info :buf buf :active-slot active-slot)))
-(defmethod translate-into-foreign-memory (value (type sg-gl-buffer-info-type) ptr)
-  (with-foreign-slots ((buf active-slot) ptr (:struct %sg-gl-buffer-info))
-    (setf 
-      buf (sg-gl-buffer-info-buf value)
-      active-slot (sg-gl-buffer-info-active-slot value))))
 
 (defcstruct (%sg-gl-image-info :class sg-gl-image-info-type)
   (tex (:array :unsigned-int 2))
@@ -3652,79 +1610,15 @@
   (msaa-render-buffer :unsigned-int)
   (active-slot :int))
 
-(defstruct sg-gl-image-info
-  (tex (make-array 2))
-  (tex-target 0)
-  (msaa-render-buffer 0)
-  (active-slot 0))
-
-(defmethod translate-from-foreign (ptr (type sg-gl-image-info-type))
-  (with-foreign-slots ((tex tex-target msaa-render-buffer active-slot) ptr (:struct %sg-gl-image-info))
-    (make-sg-gl-image-info :tex tex :tex-target tex-target :msaa-render-buffer msaa-render-buffer :active-slot active-slot)))
-(defmethod expand-from-foreign (ptr (type sg-gl-image-info-type))
-  `(with-foreign-slots ((tex tex-target msaa-render-buffer active-slot) ,ptr (:struct %sg-gl-image-info))
-    (make-sg-gl-image-info :tex tex :tex-target tex-target :msaa-render-buffer msaa-render-buffer :active-slot active-slot)))
-(defmethod translate-into-foreign-memory (value (type sg-gl-image-info-type) ptr)
-  (with-foreign-slots ((tex tex-target msaa-render-buffer active-slot) ptr (:struct %sg-gl-image-info))
-    (setf 
-      tex (sg-gl-image-info-tex value)
-      tex-target (sg-gl-image-info-tex-target value)
-      msaa-render-buffer (sg-gl-image-info-msaa-render-buffer value)
-      active-slot (sg-gl-image-info-active-slot value))))
-
 (defcstruct (%sg-gl-sampler-info :class sg-gl-sampler-info-type)
   (smp :unsigned-int))
-
-(defstruct sg-gl-sampler-info
-  (smp 0))
-
-(defmethod translate-from-foreign (ptr (type sg-gl-sampler-info-type))
-  (with-foreign-slots ((smp) ptr (:struct %sg-gl-sampler-info))
-    (make-sg-gl-sampler-info :smp smp)))
-(defmethod expand-from-foreign (ptr (type sg-gl-sampler-info-type))
-  `(with-foreign-slots ((smp) ,ptr (:struct %sg-gl-sampler-info))
-    (make-sg-gl-sampler-info :smp smp)))
-(defmethod translate-into-foreign-memory (value (type sg-gl-sampler-info-type) ptr)
-  (with-foreign-slots ((smp) ptr (:struct %sg-gl-sampler-info))
-    (setf 
-      smp (sg-gl-sampler-info-smp value))))
 
 (defcstruct (%sg-gl-shader-info :class sg-gl-shader-info-type)
   (prog :unsigned-int))
 
-(defstruct sg-gl-shader-info
-  (prog 0))
-
-(defmethod translate-from-foreign (ptr (type sg-gl-shader-info-type))
-  (with-foreign-slots ((prog) ptr (:struct %sg-gl-shader-info))
-    (make-sg-gl-shader-info :prog prog)))
-(defmethod expand-from-foreign (ptr (type sg-gl-shader-info-type))
-  `(with-foreign-slots ((prog) ,ptr (:struct %sg-gl-shader-info))
-    (make-sg-gl-shader-info :prog prog)))
-(defmethod translate-into-foreign-memory (value (type sg-gl-shader-info-type) ptr)
-  (with-foreign-slots ((prog) ptr (:struct %sg-gl-shader-info))
-    (setf 
-      prog (sg-gl-shader-info-prog value))))
-
 (defcstruct (%sg-gl-pass-info :class sg-gl-pass-info-type)
   (frame-buffer :unsigned-int)
   (msaa-resolve-framebuffer (:array :unsigned-int 4)))
-
-(defstruct sg-gl-pass-info
-  (frame-buffer 0)
-  (msaa-resolve-framebuffer (make-array 4)))
-
-(defmethod translate-from-foreign (ptr (type sg-gl-pass-info-type))
-  (with-foreign-slots ((frame-buffer msaa-resolve-framebuffer) ptr (:struct %sg-gl-pass-info))
-    (make-sg-gl-pass-info :frame-buffer frame-buffer :msaa-resolve-framebuffer msaa-resolve-framebuffer)))
-(defmethod expand-from-foreign (ptr (type sg-gl-pass-info-type))
-  `(with-foreign-slots ((frame-buffer msaa-resolve-framebuffer) ,ptr (:struct %sg-gl-pass-info))
-    (make-sg-gl-pass-info :frame-buffer frame-buffer :msaa-resolve-framebuffer msaa-resolve-framebuffer)))
-(defmethod translate-into-foreign-memory (value (type sg-gl-pass-info-type) ptr)
-  (with-foreign-slots ((frame-buffer msaa-resolve-framebuffer) ptr (:struct %sg-gl-pass-info))
-    (setf 
-      frame-buffer (sg-gl-pass-info-frame-buffer value)
-      msaa-resolve-framebuffer (sg-gl-pass-info-msaa-resolve-framebuffer value))))
 
 (defcfun (sg-d3d11-device "sg_d3d11_device") (:pointer :void))
 
@@ -3977,28 +1871,6 @@
   (android-tooltype sapp-android-tooltype)
   (changed :int))
 
-(defstruct sapp-touchpoint
-  (identifier 0)
-  (pos-x 0.0)
-  (pos-y 0.0)
-  (android-tooltype nil)
-  (changed nil))
-
-(defmethod translate-from-foreign (ptr (type sapp-touchpoint-type))
-  (with-foreign-slots ((identifier pos-x pos-y android-tooltype changed) ptr (:struct %sapp-touchpoint))
-    (make-sapp-touchpoint :identifier identifier :pos-x pos-x :pos-y pos-y :android-tooltype android-tooltype :changed changed)))
-(defmethod expand-from-foreign (ptr (type sapp-touchpoint-type))
-  `(with-foreign-slots ((identifier pos-x pos-y android-tooltype changed) ,ptr (:struct %sapp-touchpoint))
-    (make-sapp-touchpoint :identifier identifier :pos-x pos-x :pos-y pos-y :android-tooltype android-tooltype :changed changed)))
-(defmethod translate-into-foreign-memory (value (type sapp-touchpoint-type) ptr)
-  (with-foreign-slots ((identifier pos-x pos-y android-tooltype changed) ptr (:struct %sapp-touchpoint))
-    (setf 
-      identifier (sapp-touchpoint-identifier value)
-      pos-x (sapp-touchpoint-pos-x value)
-      pos-y (sapp-touchpoint-pos-y value)
-      android-tooltype (sapp-touchpoint-android-tooltype value)
-      changed (sapp-touchpoint-changed value))))
-
 (defcenum sapp-mousebutton
   (:sapp-mousebutton-left 0)
   (:sapp-mousebutton-right 1)
@@ -4034,141 +1906,23 @@
   (framebuffer-width :int)
   (framebuffer-height :int))
 
-(defstruct sapp-event
-  (frame-count 0)
-  (type nil)
-  (key-code nil)
-  (char-code 0)
-  (key-repeat nil)
-  (modifiers 0)
-  (mouse-button nil)
-  (mouse-x 0.0)
-  (mouse-y 0.0)
-  (mouse-dx 0.0)
-  (mouse-dy 0.0)
-  (scroll-x 0.0)
-  (scroll-y 0.0)
-  (num-touches 0)
-  (touches (make-array 8))
-  (window-width 0)
-  (window-height 0)
-  (framebuffer-width 0)
-  (framebuffer-height 0))
-
-(defmethod translate-from-foreign (ptr (type sapp-event-type))
-  (with-foreign-slots ((frame-count type key-code char-code key-repeat modifiers mouse-button mouse-x mouse-y mouse-dx mouse-dy scroll-x scroll-y num-touches touches window-width window-height framebuffer-width framebuffer-height) ptr (:struct %sapp-event))
-    (make-sapp-event :frame-count frame-count :type type :key-code key-code :char-code char-code :key-repeat key-repeat :modifiers modifiers :mouse-button mouse-button :mouse-x mouse-x :mouse-y mouse-y :mouse-dx mouse-dx :mouse-dy mouse-dy :scroll-x scroll-x :scroll-y scroll-y :num-touches num-touches :touches touches :window-width window-width :window-height window-height :framebuffer-width framebuffer-width :framebuffer-height framebuffer-height)))
-(defmethod expand-from-foreign (ptr (type sapp-event-type))
-  `(with-foreign-slots ((frame-count type key-code char-code key-repeat modifiers mouse-button mouse-x mouse-y mouse-dx mouse-dy scroll-x scroll-y num-touches touches window-width window-height framebuffer-width framebuffer-height) ,ptr (:struct %sapp-event))
-    (make-sapp-event :frame-count frame-count :type type :key-code key-code :char-code char-code :key-repeat key-repeat :modifiers modifiers :mouse-button mouse-button :mouse-x mouse-x :mouse-y mouse-y :mouse-dx mouse-dx :mouse-dy mouse-dy :scroll-x scroll-x :scroll-y scroll-y :num-touches num-touches :touches touches :window-width window-width :window-height window-height :framebuffer-width framebuffer-width :framebuffer-height framebuffer-height)))
-(defmethod translate-into-foreign-memory (value (type sapp-event-type) ptr)
-  (with-foreign-slots ((frame-count type key-code char-code key-repeat modifiers mouse-button mouse-x mouse-y mouse-dx mouse-dy scroll-x scroll-y num-touches touches window-width window-height framebuffer-width framebuffer-height) ptr (:struct %sapp-event))
-    (setf 
-      frame-count (sapp-event-frame-count value)
-      type (sapp-event-type value)
-      key-code (sapp-event-key-code value)
-      char-code (sapp-event-char-code value)
-      key-repeat (sapp-event-key-repeat value)
-      modifiers (sapp-event-modifiers value)
-      mouse-button (sapp-event-mouse-button value)
-      mouse-x (sapp-event-mouse-x value)
-      mouse-y (sapp-event-mouse-y value)
-      mouse-dx (sapp-event-mouse-dx value)
-      mouse-dy (sapp-event-mouse-dy value)
-      scroll-x (sapp-event-scroll-x value)
-      scroll-y (sapp-event-scroll-y value)
-      num-touches (sapp-event-num-touches value)
-      touches (sapp-event-touches value)
-      window-width (sapp-event-window-width value)
-      window-height (sapp-event-window-height value)
-      framebuffer-width (sapp-event-framebuffer-width value)
-      framebuffer-height (sapp-event-framebuffer-height value))))
-
 (defcstruct (%sapp-range :class sapp-range-type)
   (ptr (:pointer :void))
   (size :unsigned-long))
-
-(defstruct sapp-range
-  (ptr nil)
-  (size 0))
-
-(defmethod translate-from-foreign (ptr (type sapp-range-type))
-  (with-foreign-slots ((ptr size) ptr (:struct %sapp-range))
-    (make-sapp-range :ptr ptr :size size)))
-(defmethod expand-from-foreign (ptr (type sapp-range-type))
-  `(with-foreign-slots ((ptr size) ,ptr (:struct %sapp-range))
-    (make-sapp-range :ptr ptr :size size)))
-(defmethod translate-into-foreign-memory (value (type sapp-range-type) ptr)
-  (with-foreign-slots ((ptr size) ptr (:struct %sapp-range))
-    (setf 
-      ptr (sapp-range-ptr value)
-      size (sapp-range-size value))))
 
 (defcstruct (%sapp-image-desc :class sapp-image-desc-type)
   (width :int)
   (height :int)
   (pixels (:struct %sapp-range)))
 
-(defstruct sapp-image-desc
-  (width 0)
-  (height 0)
-  (pixels nil))
-
-(defmethod translate-from-foreign (ptr (type sapp-image-desc-type))
-  (with-foreign-slots ((width height pixels) ptr (:struct %sapp-image-desc))
-    (make-sapp-image-desc :width width :height height :pixels pixels)))
-(defmethod expand-from-foreign (ptr (type sapp-image-desc-type))
-  `(with-foreign-slots ((width height pixels) ,ptr (:struct %sapp-image-desc))
-    (make-sapp-image-desc :width width :height height :pixels pixels)))
-(defmethod translate-into-foreign-memory (value (type sapp-image-desc-type) ptr)
-  (with-foreign-slots ((width height pixels) ptr (:struct %sapp-image-desc))
-    (setf 
-      width (sapp-image-desc-width value)
-      height (sapp-image-desc-height value)
-      pixels (sapp-image-desc-pixels value))))
-
 (defcstruct (%sapp-icon-desc :class sapp-icon-desc-type)
   (sokol-default :int)
   (images (:array (:struct %sapp-image-desc) 8)))
-
-(defstruct sapp-icon-desc
-  (sokol-default nil)
-  (images (make-array 8)))
-
-(defmethod translate-from-foreign (ptr (type sapp-icon-desc-type))
-  (with-foreign-slots ((sokol-default images) ptr (:struct %sapp-icon-desc))
-    (make-sapp-icon-desc :sokol-default sokol-default :images images)))
-(defmethod expand-from-foreign (ptr (type sapp-icon-desc-type))
-  `(with-foreign-slots ((sokol-default images) ,ptr (:struct %sapp-icon-desc))
-    (make-sapp-icon-desc :sokol-default sokol-default :images images)))
-(defmethod translate-into-foreign-memory (value (type sapp-icon-desc-type) ptr)
-  (with-foreign-slots ((sokol-default images) ptr (:struct %sapp-icon-desc))
-    (setf 
-      sokol-default (sapp-icon-desc-sokol-default value)
-      images (sapp-icon-desc-images value))))
 
 (defcstruct (%sapp-allocator :class sapp-allocator-type)
   (alloc-fn :pointer)
   (free-fn :pointer)
   (user-data (:pointer :void)))
-
-(defstruct sapp-allocator
-  (alloc-fn nil)
-  (free-fn nil)
-  (user-data nil))
-
-(defmethod translate-from-foreign (ptr (type sapp-allocator-type))
-  (with-foreign-slots ((alloc-fn free-fn user-data) ptr (:struct %sapp-allocator))
-    (make-sapp-allocator :alloc-fn alloc-fn :free-fn free-fn :user-data user-data)))
-(defmethod expand-from-foreign (ptr (type sapp-allocator-type))
-  `(with-foreign-slots ((alloc-fn free-fn user-data) ,ptr (:struct %sapp-allocator))
-    (make-sapp-allocator :alloc-fn alloc-fn :free-fn free-fn :user-data user-data)))
-(defmethod translate-into-foreign-memory (value (type sapp-allocator-type) ptr)
-  (with-foreign-slots ((alloc-fn free-fn user-data) ptr (:struct %sapp-allocator))
-    (setf 
-      alloc-fn (sapp-allocator-alloc-fn value)
-      free-fn (sapp-allocator-free-fn value)
-      user-data (sapp-allocator-user-data value))))
 
 (defcenum sapp-log-item
   (:sapp-logitem-ok 0)
@@ -4274,22 +2028,6 @@
   (func :pointer)
   (user-data (:pointer :void)))
 
-(defstruct sapp-logger
-  (func nil)
-  (user-data nil))
-
-(defmethod translate-from-foreign (ptr (type sapp-logger-type))
-  (with-foreign-slots ((func user-data) ptr (:struct %sapp-logger))
-    (make-sapp-logger :func func :user-data user-data)))
-(defmethod expand-from-foreign (ptr (type sapp-logger-type))
-  `(with-foreign-slots ((func user-data) ,ptr (:struct %sapp-logger))
-    (make-sapp-logger :func func :user-data user-data)))
-(defmethod translate-into-foreign-memory (value (type sapp-logger-type) ptr)
-  (with-foreign-slots ((func user-data) ptr (:struct %sapp-logger))
-    (setf 
-      func (sapp-logger-func value)
-      user-data (sapp-logger-user-data value))))
-
 (defcstruct (%sapp-desc :class sapp-desc-type)
   (init-cb :pointer)
   (frame-cb :pointer)
@@ -4328,90 +2066,6 @@
   (html5-ask-leave-site :int)
   (ios-keyboard-resizes-canvas :int))
 
-(defstruct sapp-desc
-  (init-cb nil)
-  (frame-cb nil)
-  (cleanup-cb nil)
-  (event-cb nil)
-  (user-data nil)
-  (init-userdata-cb nil)
-  (frame-userdata-cb nil)
-  (cleanup-userdata-cb nil)
-  (event-userdata-cb nil)
-  (width 0)
-  (height 0)
-  (sample-count 0)
-  (swap-interval 0)
-  (high-dpi nil)
-  (fullscreen nil)
-  (alpha nil)
-  (window-title nil)
-  (enable-clipboard nil)
-  (clipboard-size 0)
-  (enable-dragndrop nil)
-  (max-dropped-files 0)
-  (max-dropped-file-path-length 0)
-  (icon nil)
-  (allocator nil)
-  (logger nil)
-  (gl-major-version 0)
-  (gl-minor-version 0)
-  (win32-console-utf8 nil)
-  (win32-console-create nil)
-  (win32-console-attach nil)
-  (html5-canvas-name nil)
-  (html5-canvas-resize nil)
-  (html5-preserve-drawing-buffer nil)
-  (html5-premultiplied-alpha nil)
-  (html5-ask-leave-site nil)
-  (ios-keyboard-resizes-canvas nil))
-
-(defmethod translate-from-foreign (ptr (type sapp-desc-type))
-  (with-foreign-slots ((init-cb frame-cb cleanup-cb event-cb user-data init-userdata-cb frame-userdata-cb cleanup-userdata-cb event-userdata-cb width height sample-count swap-interval high-dpi fullscreen alpha window-title enable-clipboard clipboard-size enable-dragndrop max-dropped-files max-dropped-file-path-length icon allocator logger gl-major-version gl-minor-version win32-console-utf8 win32-console-create win32-console-attach html5-canvas-name html5-canvas-resize html5-preserve-drawing-buffer html5-premultiplied-alpha html5-ask-leave-site ios-keyboard-resizes-canvas) ptr (:struct %sapp-desc))
-    (make-sapp-desc :init-cb init-cb :frame-cb frame-cb :cleanup-cb cleanup-cb :event-cb event-cb :user-data user-data :init-userdata-cb init-userdata-cb :frame-userdata-cb frame-userdata-cb :cleanup-userdata-cb cleanup-userdata-cb :event-userdata-cb event-userdata-cb :width width :height height :sample-count sample-count :swap-interval swap-interval :high-dpi high-dpi :fullscreen fullscreen :alpha alpha :window-title window-title :enable-clipboard enable-clipboard :clipboard-size clipboard-size :enable-dragndrop enable-dragndrop :max-dropped-files max-dropped-files :max-dropped-file-path-length max-dropped-file-path-length :icon icon :allocator allocator :logger logger :gl-major-version gl-major-version :gl-minor-version gl-minor-version :win32-console-utf8 win32-console-utf8 :win32-console-create win32-console-create :win32-console-attach win32-console-attach :html5-canvas-name html5-canvas-name :html5-canvas-resize html5-canvas-resize :html5-preserve-drawing-buffer html5-preserve-drawing-buffer :html5-premultiplied-alpha html5-premultiplied-alpha :html5-ask-leave-site html5-ask-leave-site :ios-keyboard-resizes-canvas ios-keyboard-resizes-canvas)))
-(defmethod expand-from-foreign (ptr (type sapp-desc-type))
-  `(with-foreign-slots ((init-cb frame-cb cleanup-cb event-cb user-data init-userdata-cb frame-userdata-cb cleanup-userdata-cb event-userdata-cb width height sample-count swap-interval high-dpi fullscreen alpha window-title enable-clipboard clipboard-size enable-dragndrop max-dropped-files max-dropped-file-path-length icon allocator logger gl-major-version gl-minor-version win32-console-utf8 win32-console-create win32-console-attach html5-canvas-name html5-canvas-resize html5-preserve-drawing-buffer html5-premultiplied-alpha html5-ask-leave-site ios-keyboard-resizes-canvas) ,ptr (:struct %sapp-desc))
-    (make-sapp-desc :init-cb init-cb :frame-cb frame-cb :cleanup-cb cleanup-cb :event-cb event-cb :user-data user-data :init-userdata-cb init-userdata-cb :frame-userdata-cb frame-userdata-cb :cleanup-userdata-cb cleanup-userdata-cb :event-userdata-cb event-userdata-cb :width width :height height :sample-count sample-count :swap-interval swap-interval :high-dpi high-dpi :fullscreen fullscreen :alpha alpha :window-title window-title :enable-clipboard enable-clipboard :clipboard-size clipboard-size :enable-dragndrop enable-dragndrop :max-dropped-files max-dropped-files :max-dropped-file-path-length max-dropped-file-path-length :icon icon :allocator allocator :logger logger :gl-major-version gl-major-version :gl-minor-version gl-minor-version :win32-console-utf8 win32-console-utf8 :win32-console-create win32-console-create :win32-console-attach win32-console-attach :html5-canvas-name html5-canvas-name :html5-canvas-resize html5-canvas-resize :html5-preserve-drawing-buffer html5-preserve-drawing-buffer :html5-premultiplied-alpha html5-premultiplied-alpha :html5-ask-leave-site html5-ask-leave-site :ios-keyboard-resizes-canvas ios-keyboard-resizes-canvas)))
-(defmethod translate-into-foreign-memory (value (type sapp-desc-type) ptr)
-  (with-foreign-slots ((init-cb frame-cb cleanup-cb event-cb user-data init-userdata-cb frame-userdata-cb cleanup-userdata-cb event-userdata-cb width height sample-count swap-interval high-dpi fullscreen alpha window-title enable-clipboard clipboard-size enable-dragndrop max-dropped-files max-dropped-file-path-length icon allocator logger gl-major-version gl-minor-version win32-console-utf8 win32-console-create win32-console-attach html5-canvas-name html5-canvas-resize html5-preserve-drawing-buffer html5-premultiplied-alpha html5-ask-leave-site ios-keyboard-resizes-canvas) ptr (:struct %sapp-desc))
-    (setf 
-      init-cb (sapp-desc-init-cb value)
-      frame-cb (sapp-desc-frame-cb value)
-      cleanup-cb (sapp-desc-cleanup-cb value)
-      event-cb (sapp-desc-event-cb value)
-      user-data (sapp-desc-user-data value)
-      init-userdata-cb (sapp-desc-init-userdata-cb value)
-      frame-userdata-cb (sapp-desc-frame-userdata-cb value)
-      cleanup-userdata-cb (sapp-desc-cleanup-userdata-cb value)
-      event-userdata-cb (sapp-desc-event-userdata-cb value)
-      width (sapp-desc-width value)
-      height (sapp-desc-height value)
-      sample-count (sapp-desc-sample-count value)
-      swap-interval (sapp-desc-swap-interval value)
-      high-dpi (sapp-desc-high-dpi value)
-      fullscreen (sapp-desc-fullscreen value)
-      alpha (sapp-desc-alpha value)
-      window-title (sapp-desc-window-title value)
-      enable-clipboard (sapp-desc-enable-clipboard value)
-      clipboard-size (sapp-desc-clipboard-size value)
-      enable-dragndrop (sapp-desc-enable-dragndrop value)
-      max-dropped-files (sapp-desc-max-dropped-files value)
-      max-dropped-file-path-length (sapp-desc-max-dropped-file-path-length value)
-      icon (sapp-desc-icon value)
-      allocator (sapp-desc-allocator value)
-      logger (sapp-desc-logger value)
-      gl-major-version (sapp-desc-gl-major-version value)
-      gl-minor-version (sapp-desc-gl-minor-version value)
-      win32-console-utf8 (sapp-desc-win32-console-utf8 value)
-      win32-console-create (sapp-desc-win32-console-create value)
-      win32-console-attach (sapp-desc-win32-console-attach value)
-      html5-canvas-name (sapp-desc-html5-canvas-name value)
-      html5-canvas-resize (sapp-desc-html5-canvas-resize value)
-      html5-preserve-drawing-buffer (sapp-desc-html5-preserve-drawing-buffer value)
-      html5-premultiplied-alpha (sapp-desc-html5-premultiplied-alpha value)
-      html5-ask-leave-site (sapp-desc-html5-ask-leave-site value)
-      ios-keyboard-resizes-canvas (sapp-desc-ios-keyboard-resizes-canvas value))))
-
 (defcenum sapp-html5-fetch-error
   (:sapp-html5-fetch-error-no-error 0)
   (:sapp-html5-fetch-error-buffer-too-small 1)
@@ -4425,55 +2079,11 @@
   (buffer (:struct %sapp-range))
   (user-data (:pointer :void)))
 
-(defstruct sapp-html5-fetch-response
-  (succeeded nil)
-  (error-code nil)
-  (file-index 0)
-  (data nil)
-  (buffer nil)
-  (user-data nil))
-
-(defmethod translate-from-foreign (ptr (type sapp-html5-fetch-response-type))
-  (with-foreign-slots ((succeeded error-code file-index data buffer user-data) ptr (:struct %sapp-html5-fetch-response))
-    (make-sapp-html5-fetch-response :succeeded succeeded :error-code error-code :file-index file-index :data data :buffer buffer :user-data user-data)))
-(defmethod expand-from-foreign (ptr (type sapp-html5-fetch-response-type))
-  `(with-foreign-slots ((succeeded error-code file-index data buffer user-data) ,ptr (:struct %sapp-html5-fetch-response))
-    (make-sapp-html5-fetch-response :succeeded succeeded :error-code error-code :file-index file-index :data data :buffer buffer :user-data user-data)))
-(defmethod translate-into-foreign-memory (value (type sapp-html5-fetch-response-type) ptr)
-  (with-foreign-slots ((succeeded error-code file-index data buffer user-data) ptr (:struct %sapp-html5-fetch-response))
-    (setf 
-      succeeded (sapp-html5-fetch-response-succeeded value)
-      error-code (sapp-html5-fetch-response-error-code value)
-      file-index (sapp-html5-fetch-response-file-index value)
-      data (sapp-html5-fetch-response-data value)
-      buffer (sapp-html5-fetch-response-buffer value)
-      user-data (sapp-html5-fetch-response-user-data value))))
-
 (defcstruct (%sapp-html5-fetch-request :class sapp-html5-fetch-request-type)
   (dropped-file-index :int)
   (callback :pointer)
   (buffer (:struct %sapp-range))
   (user-data (:pointer :void)))
-
-(defstruct sapp-html5-fetch-request
-  (dropped-file-index 0)
-  (callback nil)
-  (buffer nil)
-  (user-data nil))
-
-(defmethod translate-from-foreign (ptr (type sapp-html5-fetch-request-type))
-  (with-foreign-slots ((dropped-file-index callback buffer user-data) ptr (:struct %sapp-html5-fetch-request))
-    (make-sapp-html5-fetch-request :dropped-file-index dropped-file-index :callback callback :buffer buffer :user-data user-data)))
-(defmethod expand-from-foreign (ptr (type sapp-html5-fetch-request-type))
-  `(with-foreign-slots ((dropped-file-index callback buffer user-data) ,ptr (:struct %sapp-html5-fetch-request))
-    (make-sapp-html5-fetch-request :dropped-file-index dropped-file-index :callback callback :buffer buffer :user-data user-data)))
-(defmethod translate-into-foreign-memory (value (type sapp-html5-fetch-request-type) ptr)
-  (with-foreign-slots ((dropped-file-index callback buffer user-data) ptr (:struct %sapp-html5-fetch-request))
-    (setf 
-      dropped-file-index (sapp-html5-fetch-request-dropped-file-index value)
-      callback (sapp-html5-fetch-request-callback value)
-      buffer (sapp-html5-fetch-request-buffer value)
-      user-data (sapp-html5-fetch-request-user-data value))))
 
 (defcenum sapp-mouse-cursor
   (:sapp-mousecursor-default 0)
@@ -4488,10 +2098,6 @@
   (:sapp-mousecursor-resize-all 9)
   (:sapp-mousecursor-not-allowed 10)
   (:-sapp-mousecursor-num 11))
-
-(defcfun (sokol-main "sokol_main") (:struct %sapp-desc)
-  (argc :int)
-  (argv (:pointer (:pointer :char))))
 
 (defcfun (sapp-isvalid "sapp_isvalid") :int)
 
@@ -4617,8 +2223,6 @@
 
 (defcfun (sapp-android-get-native-activity "sapp_android_get_native_activity") (:pointer :void))
 
-(defcfun (sapp-sgcontext "sapp_sgcontext") (:struct %sg-context-desc))
-
 (defcenum saudio-log-item
   (:saudio-logitem-ok 0)
   (:saudio-logitem-malloc-failed 1)
@@ -4661,44 +2265,10 @@
   (func :pointer)
   (user-data (:pointer :void)))
 
-(defstruct saudio-logger
-  (func nil)
-  (user-data nil))
-
-(defmethod translate-from-foreign (ptr (type saudio-logger-type))
-  (with-foreign-slots ((func user-data) ptr (:struct %saudio-logger))
-    (make-saudio-logger :func func :user-data user-data)))
-(defmethod expand-from-foreign (ptr (type saudio-logger-type))
-  `(with-foreign-slots ((func user-data) ,ptr (:struct %saudio-logger))
-    (make-saudio-logger :func func :user-data user-data)))
-(defmethod translate-into-foreign-memory (value (type saudio-logger-type) ptr)
-  (with-foreign-slots ((func user-data) ptr (:struct %saudio-logger))
-    (setf 
-      func (saudio-logger-func value)
-      user-data (saudio-logger-user-data value))))
-
 (defcstruct (%saudio-allocator :class saudio-allocator-type)
   (alloc-fn :pointer)
   (free-fn :pointer)
   (user-data (:pointer :void)))
-
-(defstruct saudio-allocator
-  (alloc-fn nil)
-  (free-fn nil)
-  (user-data nil))
-
-(defmethod translate-from-foreign (ptr (type saudio-allocator-type))
-  (with-foreign-slots ((alloc-fn free-fn user-data) ptr (:struct %saudio-allocator))
-    (make-saudio-allocator :alloc-fn alloc-fn :free-fn free-fn :user-data user-data)))
-(defmethod expand-from-foreign (ptr (type saudio-allocator-type))
-  `(with-foreign-slots ((alloc-fn free-fn user-data) ,ptr (:struct %saudio-allocator))
-    (make-saudio-allocator :alloc-fn alloc-fn :free-fn free-fn :user-data user-data)))
-(defmethod translate-into-foreign-memory (value (type saudio-allocator-type) ptr)
-  (with-foreign-slots ((alloc-fn free-fn user-data) ptr (:struct %saudio-allocator))
-    (setf 
-      alloc-fn (saudio-allocator-alloc-fn value)
-      free-fn (saudio-allocator-free-fn value)
-      user-data (saudio-allocator-user-data value))))
 
 (defcstruct (%saudio-desc :class saudio-desc-type)
   (sample-rate :int)
@@ -4711,38 +2281,6 @@
   (user-data (:pointer :void))
   (allocator (:struct %saudio-allocator))
   (logger (:struct %saudio-logger)))
-
-(defstruct saudio-desc
-  (sample-rate 0)
-  (num-channels 0)
-  (buffer-frames 0)
-  (packet-frames 0)
-  (num-packets 0)
-  (stream-cb nil)
-  (stream-userdata-cb nil)
-  (user-data nil)
-  (allocator nil)
-  (logger nil))
-
-(defmethod translate-from-foreign (ptr (type saudio-desc-type))
-  (with-foreign-slots ((sample-rate num-channels buffer-frames packet-frames num-packets stream-cb stream-userdata-cb user-data allocator logger) ptr (:struct %saudio-desc))
-    (make-saudio-desc :sample-rate sample-rate :num-channels num-channels :buffer-frames buffer-frames :packet-frames packet-frames :num-packets num-packets :stream-cb stream-cb :stream-userdata-cb stream-userdata-cb :user-data user-data :allocator allocator :logger logger)))
-(defmethod expand-from-foreign (ptr (type saudio-desc-type))
-  `(with-foreign-slots ((sample-rate num-channels buffer-frames packet-frames num-packets stream-cb stream-userdata-cb user-data allocator logger) ,ptr (:struct %saudio-desc))
-    (make-saudio-desc :sample-rate sample-rate :num-channels num-channels :buffer-frames buffer-frames :packet-frames packet-frames :num-packets num-packets :stream-cb stream-cb :stream-userdata-cb stream-userdata-cb :user-data user-data :allocator allocator :logger logger)))
-(defmethod translate-into-foreign-memory (value (type saudio-desc-type) ptr)
-  (with-foreign-slots ((sample-rate num-channels buffer-frames packet-frames num-packets stream-cb stream-userdata-cb user-data allocator logger) ptr (:struct %saudio-desc))
-    (setf 
-      sample-rate (saudio-desc-sample-rate value)
-      num-channels (saudio-desc-num-channels value)
-      buffer-frames (saudio-desc-buffer-frames value)
-      packet-frames (saudio-desc-packet-frames value)
-      num-packets (saudio-desc-num-packets value)
-      stream-cb (saudio-desc-stream-cb value)
-      stream-userdata-cb (saudio-desc-stream-userdata-cb value)
-      user-data (saudio-desc-user-data value)
-      allocator (saudio-desc-allocator value)
-      logger (saudio-desc-logger value))))
 
 (defcfun (saudio-setup "saudio_setup") :void
   (desc (:pointer (:struct %saudio-desc))))
@@ -4803,52 +2341,12 @@
   (free-fn :pointer)
   (user-data (:pointer :void)))
 
-(defstruct sargs-allocator
-  (alloc-fn nil)
-  (free-fn nil)
-  (user-data nil))
-
-(defmethod translate-from-foreign (ptr (type sargs-allocator-type))
-  (with-foreign-slots ((alloc-fn free-fn user-data) ptr (:struct %sargs-allocator))
-    (make-sargs-allocator :alloc-fn alloc-fn :free-fn free-fn :user-data user-data)))
-(defmethod expand-from-foreign (ptr (type sargs-allocator-type))
-  `(with-foreign-slots ((alloc-fn free-fn user-data) ,ptr (:struct %sargs-allocator))
-    (make-sargs-allocator :alloc-fn alloc-fn :free-fn free-fn :user-data user-data)))
-(defmethod translate-into-foreign-memory (value (type sargs-allocator-type) ptr)
-  (with-foreign-slots ((alloc-fn free-fn user-data) ptr (:struct %sargs-allocator))
-    (setf 
-      alloc-fn (sargs-allocator-alloc-fn value)
-      free-fn (sargs-allocator-free-fn value)
-      user-data (sargs-allocator-user-data value))))
-
 (defcstruct (%sargs-desc :class sargs-desc-type)
   (argc :int)
   (argv (:pointer (:pointer :char)))
   (max-args :int)
   (buf-size :int)
   (allocator (:struct %sargs-allocator)))
-
-(defstruct sargs-desc
-  (argc 0)
-  (argv nil)
-  (max-args 0)
-  (buf-size 0)
-  (allocator nil))
-
-(defmethod translate-from-foreign (ptr (type sargs-desc-type))
-  (with-foreign-slots ((argc argv max-args buf-size allocator) ptr (:struct %sargs-desc))
-    (make-sargs-desc :argc argc :argv argv :max-args max-args :buf-size buf-size :allocator allocator)))
-(defmethod expand-from-foreign (ptr (type sargs-desc-type))
-  `(with-foreign-slots ((argc argv max-args buf-size allocator) ,ptr (:struct %sargs-desc))
-    (make-sargs-desc :argc argc :argv argv :max-args max-args :buf-size buf-size :allocator allocator)))
-(defmethod translate-into-foreign-memory (value (type sargs-desc-type) ptr)
-  (with-foreign-slots ((argc argv max-args buf-size allocator) ptr (:struct %sargs-desc))
-    (setf 
-      argc (sargs-desc-argc value)
-      argv (sargs-desc-argv value)
-      max-args (sargs-desc-max-args value)
-      buf-size (sargs-desc-buf-size value)
-      allocator (sargs-desc-allocator value))))
 
 (defcfun (sargs-setup "sargs_setup") :void
   (desc (:pointer (:struct %sargs-desc))))
@@ -4905,64 +2403,14 @@
   (func :pointer)
   (user-data (:pointer :void)))
 
-(defstruct sfetch-logger-t
-  (func nil)
-  (user-data nil))
-
-(defmethod translate-from-foreign (ptr (type sfetch-logger-t-type))
-  (with-foreign-slots ((func user-data) ptr (:struct %sfetch-logger-t))
-    (make-sfetch-logger-t :func func :user-data user-data)))
-(defmethod expand-from-foreign (ptr (type sfetch-logger-t-type))
-  `(with-foreign-slots ((func user-data) ,ptr (:struct %sfetch-logger-t))
-    (make-sfetch-logger-t :func func :user-data user-data)))
-(defmethod translate-into-foreign-memory (value (type sfetch-logger-t-type) ptr)
-  (with-foreign-slots ((func user-data) ptr (:struct %sfetch-logger-t))
-    (setf 
-      func (sfetch-logger-t-func value)
-      user-data (sfetch-logger-t-user-data value))))
-
 (defcstruct (%sfetch-range-t :class sfetch-range-t-type)
   (ptr (:pointer :void))
   (size :unsigned-long))
-
-(defstruct sfetch-range-t
-  (ptr nil)
-  (size 0))
-
-(defmethod translate-from-foreign (ptr (type sfetch-range-t-type))
-  (with-foreign-slots ((ptr size) ptr (:struct %sfetch-range-t))
-    (make-sfetch-range-t :ptr ptr :size size)))
-(defmethod expand-from-foreign (ptr (type sfetch-range-t-type))
-  `(with-foreign-slots ((ptr size) ,ptr (:struct %sfetch-range-t))
-    (make-sfetch-range-t :ptr ptr :size size)))
-(defmethod translate-into-foreign-memory (value (type sfetch-range-t-type) ptr)
-  (with-foreign-slots ((ptr size) ptr (:struct %sfetch-range-t))
-    (setf 
-      ptr (sfetch-range-t-ptr value)
-      size (sfetch-range-t-size value))))
 
 (defcstruct (%sfetch-allocator-t :class sfetch-allocator-t-type)
   (alloc-fn :pointer)
   (free-fn :pointer)
   (user-data (:pointer :void)))
-
-(defstruct sfetch-allocator-t
-  (alloc-fn nil)
-  (free-fn nil)
-  (user-data nil))
-
-(defmethod translate-from-foreign (ptr (type sfetch-allocator-t-type))
-  (with-foreign-slots ((alloc-fn free-fn user-data) ptr (:struct %sfetch-allocator-t))
-    (make-sfetch-allocator-t :alloc-fn alloc-fn :free-fn free-fn :user-data user-data)))
-(defmethod expand-from-foreign (ptr (type sfetch-allocator-t-type))
-  `(with-foreign-slots ((alloc-fn free-fn user-data) ,ptr (:struct %sfetch-allocator-t))
-    (make-sfetch-allocator-t :alloc-fn alloc-fn :free-fn free-fn :user-data user-data)))
-(defmethod translate-into-foreign-memory (value (type sfetch-allocator-t-type) ptr)
-  (with-foreign-slots ((alloc-fn free-fn user-data) ptr (:struct %sfetch-allocator-t))
-    (setf 
-      alloc-fn (sfetch-allocator-t-alloc-fn value)
-      free-fn (sfetch-allocator-t-free-fn value)
-      user-data (sfetch-allocator-t-user-data value))))
 
 (defcstruct (%sfetch-desc-t :class sfetch-desc-t-type)
   (max-requests :unsigned-int)
@@ -4971,44 +2419,8 @@
   (allocator (:struct %sfetch-allocator-t))
   (logger (:struct %sfetch-logger-t)))
 
-(defstruct sfetch-desc-t
-  (max-requests 0)
-  (num-channels 0)
-  (num-lanes 0)
-  (allocator nil)
-  (logger nil))
-
-(defmethod translate-from-foreign (ptr (type sfetch-desc-t-type))
-  (with-foreign-slots ((max-requests num-channels num-lanes allocator logger) ptr (:struct %sfetch-desc-t))
-    (make-sfetch-desc-t :max-requests max-requests :num-channels num-channels :num-lanes num-lanes :allocator allocator :logger logger)))
-(defmethod expand-from-foreign (ptr (type sfetch-desc-t-type))
-  `(with-foreign-slots ((max-requests num-channels num-lanes allocator logger) ,ptr (:struct %sfetch-desc-t))
-    (make-sfetch-desc-t :max-requests max-requests :num-channels num-channels :num-lanes num-lanes :allocator allocator :logger logger)))
-(defmethod translate-into-foreign-memory (value (type sfetch-desc-t-type) ptr)
-  (with-foreign-slots ((max-requests num-channels num-lanes allocator logger) ptr (:struct %sfetch-desc-t))
-    (setf 
-      max-requests (sfetch-desc-t-max-requests value)
-      num-channels (sfetch-desc-t-num-channels value)
-      num-lanes (sfetch-desc-t-num-lanes value)
-      allocator (sfetch-desc-t-allocator value)
-      logger (sfetch-desc-t-logger value))))
-
 (defcstruct (%sfetch-handle-t :class sfetch-handle-t-type)
   (id :unsigned-int))
-
-(defstruct sfetch-handle-t
-  (id 0))
-
-(defmethod translate-from-foreign (ptr (type sfetch-handle-t-type))
-  (with-foreign-slots ((id) ptr (:struct %sfetch-handle-t))
-    (make-sfetch-handle-t :id id)))
-(defmethod expand-from-foreign (ptr (type sfetch-handle-t-type))
-  `(with-foreign-slots ((id) ,ptr (:struct %sfetch-handle-t))
-    (make-sfetch-handle-t :id id)))
-(defmethod translate-into-foreign-memory (value (type sfetch-handle-t-type) ptr)
-  (with-foreign-slots ((id) ptr (:struct %sfetch-handle-t))
-    (setf 
-      id (sfetch-handle-t-id value))))
 
 (defcenum sfetch-error-t
   (:sfetch-error-no-error 0)
@@ -5036,48 +2448,6 @@
   (data (:struct %sfetch-range-t))
   (buffer (:struct %sfetch-range-t)))
 
-(defstruct sfetch-response-t
-  (handle nil)
-  (dispatched nil)
-  (fetched nil)
-  (paused nil)
-  (finished nil)
-  (failed nil)
-  (cancelled nil)
-  (error-code nil)
-  (channel 0)
-  (lane 0)
-  (path nil)
-  (user-data nil)
-  (data-offset 0)
-  (data nil)
-  (buffer nil))
-
-(defmethod translate-from-foreign (ptr (type sfetch-response-t-type))
-  (with-foreign-slots ((handle dispatched fetched paused finished failed cancelled error-code channel lane path user-data data-offset data buffer) ptr (:struct %sfetch-response-t))
-    (make-sfetch-response-t :handle handle :dispatched dispatched :fetched fetched :paused paused :finished finished :failed failed :cancelled cancelled :error-code error-code :channel channel :lane lane :path path :user-data user-data :data-offset data-offset :data data :buffer buffer)))
-(defmethod expand-from-foreign (ptr (type sfetch-response-t-type))
-  `(with-foreign-slots ((handle dispatched fetched paused finished failed cancelled error-code channel lane path user-data data-offset data buffer) ,ptr (:struct %sfetch-response-t))
-    (make-sfetch-response-t :handle handle :dispatched dispatched :fetched fetched :paused paused :finished finished :failed failed :cancelled cancelled :error-code error-code :channel channel :lane lane :path path :user-data user-data :data-offset data-offset :data data :buffer buffer)))
-(defmethod translate-into-foreign-memory (value (type sfetch-response-t-type) ptr)
-  (with-foreign-slots ((handle dispatched fetched paused finished failed cancelled error-code channel lane path user-data data-offset data buffer) ptr (:struct %sfetch-response-t))
-    (setf 
-      handle (sfetch-response-t-handle value)
-      dispatched (sfetch-response-t-dispatched value)
-      fetched (sfetch-response-t-fetched value)
-      paused (sfetch-response-t-paused value)
-      finished (sfetch-response-t-finished value)
-      failed (sfetch-response-t-failed value)
-      cancelled (sfetch-response-t-cancelled value)
-      error-code (sfetch-response-t-error-code value)
-      channel (sfetch-response-t-channel value)
-      lane (sfetch-response-t-lane value)
-      path (sfetch-response-t-path value)
-      user-data (sfetch-response-t-user-data value)
-      data-offset (sfetch-response-t-data-offset value)
-      data (sfetch-response-t-data value)
-      buffer (sfetch-response-t-buffer value))))
-
 (defcstruct (%sfetch-request-t :class sfetch-request-t-type)
   (channel :unsigned-int)
   (path (:pointer :char))
@@ -5085,30 +2455,6 @@
   (chunk-size :unsigned-int)
   (buffer (:struct %sfetch-range-t))
   (user-data (:struct %sfetch-range-t)))
-
-(defstruct sfetch-request-t
-  (channel 0)
-  (path nil)
-  (callback nil)
-  (chunk-size 0)
-  (buffer nil)
-  (user-data nil))
-
-(defmethod translate-from-foreign (ptr (type sfetch-request-t-type))
-  (with-foreign-slots ((channel path callback chunk-size buffer user-data) ptr (:struct %sfetch-request-t))
-    (make-sfetch-request-t :channel channel :path path :callback callback :chunk-size chunk-size :buffer buffer :user-data user-data)))
-(defmethod expand-from-foreign (ptr (type sfetch-request-t-type))
-  `(with-foreign-slots ((channel path callback chunk-size buffer user-data) ,ptr (:struct %sfetch-request-t))
-    (make-sfetch-request-t :channel channel :path path :callback callback :chunk-size chunk-size :buffer buffer :user-data user-data)))
-(defmethod translate-into-foreign-memory (value (type sfetch-request-t-type) ptr)
-  (with-foreign-slots ((channel path callback chunk-size buffer user-data) ptr (:struct %sfetch-request-t))
-    (setf 
-      channel (sfetch-request-t-channel value)
-      path (sfetch-request-t-path value)
-      callback (sfetch-request-t-callback value)
-      chunk-size (sfetch-request-t-chunk-size value)
-      buffer (sfetch-request-t-buffer value)
-      user-data (sfetch-request-t-user-data value))))
 
 (defcfun (sfetch-setup "sfetch_setup") :void
   (desc (:pointer (:struct %sfetch-desc-t))))

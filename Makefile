@@ -42,16 +42,18 @@ else
     # endif
 endif
 
-default:
-	$(CC) -shared -fpic $(CFLAGS) -Ideps/sokol/ deps/sokol.c -o bin/$(OUT).$(LIB_SUFFIX)
-
 bindings:
 	sh deps/generate-spec.sh
-	hy deps/generate-bindings.hy deps/spec/$(SPEC) 
+	hy deps/generate-bindings.hy deps/spec/$(SPEC)
+
+library:
+	$(CC) -shared -fpic $(CFLAGS) -Ideps/sokol/ deps/sokol.c -o bin/$(OUT).$(LIB_SUFFIX)
+
+default: library
 
 .PHONY: default clean
 
 clean:
-	rm spec/* build/*
+	rm spec/* bin/*
 
-.PHONY: default clean
+.PHONY: default bindings clean
