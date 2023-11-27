@@ -1,5 +1,4 @@
 OUT := libsokol
-SPEC := sokol.x86_64-apple-darwin9.spec # TODO: Detect automatically
 EXE_SUFFIX :=
 CFLAGS := -Ideps/ -Ideps/sokol/
 
@@ -42,18 +41,12 @@ else
     # endif
 endif
 
-bindings:
-	sh deps/generate-spec.sh
-	hy deps/generate-bindings.hy deps/spec/$(SPEC)
-
-library:
-	$(CC) -shared -fpic $(CFLAGS) -Ideps/sokol/ deps/sokol.c -o bin/$(OUT).$(LIB_SUFFIX)
-
 default: library
 
-.PHONY: default clean
+library:
+	$(CC) -shared -fpic $(CFLAGS) -Ideps/sokol/ -Ideps/ deps/sokol.c deps/sokol_wrapper.c -o bin/$(OUT).$(LIB_SUFFIX)
 
 clean:
-	rm spec/* bin/*
+	rm deps/spec/*.spec bin/* bin/*.*
 
-.PHONY: default bindings clean
+.PHONY: default clean

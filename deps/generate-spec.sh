@@ -18,5 +18,5 @@ declare -a arr=(
 
 for i in "${arr[@]}"
 do
-    c2ffi -Ideps/sokol/ ./deps/sokol.h -A "$i" > "./deps/spec/sokol.$i.spec"
+    c2ffi -Ideps/sokol/ -Ideps/ $1 -A "$i" > "./deps/spec/$(basename $1).$i.spec"
 done

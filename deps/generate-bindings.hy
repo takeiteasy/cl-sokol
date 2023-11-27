@@ -59,13 +59,13 @@
         symbol-tag (translate-name c-symbol-tag)]
     (cond
       (.startswith c-symbol-tag ":") (match c-symbol-tag
-                                          ":function-pointer" ":pointer"
-                                          ":_Bool" ":int"
-                                          ":struct" (struct-format (translate-name (get tree "name")))
-                                          ":enum" (translate-name (get tree "name"))
-                                          ":pointer" (pointer-format (get tree "type"))
-                                          ":array" (array-format (get tree "type") (get tree "size"))
-                                          t symbol-tag)
+                                            ":function-pointer" ":pointer"
+                                            ":_Bool" ":int"
+                                            ":struct" (struct-format (translate-name (get tree "name")))
+                                            ":enum" (translate-name (get tree "name"))
+                                            ":pointer" (pointer-format (get tree "type"))
+                                            ":array" (array-format (get tree "type") (get tree "size"))
+                                            t symbol-tag)
       (in symbol-tag **struct-symbols**) (struct-format (if (in "name" tree)
                                                             (get tree "name")
                                                             symbol-tag))
@@ -79,32 +79,32 @@
         type-tag (get typedef-type "tag")]
     (cond
       (= type-tag ":struct") (when (= typedef-name (get typedef-type "name"))
-                              (return))
+                               (return))
       (= type-tag ":union") (return))
     (let [original-symbol (translate-symbol typedef-type)]
       (when (and original-symbol
-                (!= original-symbol typedef-name))
+                 (!= original-symbol typedef-name))
         (setv (get **typedefs** typedef-name) original-symbol)))))
 
 (defmacro reduce [initializer #* args]
   (let [g (hy.gensym)
         a (hy.gensym)]
     `(do
-      (setv ~g ~initializer)
-      (for [~a ~args]
-        (setv ~g (+ ~g ~a)))
-      ~g)))
+       (setv ~g ~initializer)
+       (for [~a ~args]
+         (setv ~g (+ ~g ~a)))
+       ~g)))
 
-; (defn c-to-lisp-symbol [symbol]
-;   (cond
-;     (= symbol ":float") ":single-float"
-;     (or (.startswith symbol "sg")
-;         (in symbol #(":unsigned-int" ":int" ":unsigned-long" ":unsigned-char"))) ":integer"
-;     (.starts-with symbol "(:array") ":vector"
-;     (.starts-with symbol "(:struct") symbol
-;     True (do
-;            (print f"Unknown symbol: {symbol}")
-;            "UNKNOWN")))
+                                ; (defn c-to-lisp-symbol [symbol]
+                                ;   (cond
+                                ;     (= symbol ":float") ":single-float"
+                                ;     (or (.startswith symbol "sg")
+                                ;         (in symbol #(":unsigned-int" ":int" ":unsigned-long" ":unsigned-char"))) ":integer"
+                                ;     (.starts-with symbol "(:array") ":vector"
+                                ;     (.starts-with symbol "(:struct") symbol
+                                ;     True (do
+                                ;            (print f"Unknown symbol: {symbol}")
+                                ;            "UNKNOWN")))
 
 ;; (defn generate-translation-wrapper [tree]
 ;;   (let [struct-name (translate-name (get tree "name"))
@@ -172,7 +172,7 @@
 (setv **c-wrap-functions** [])
 (setv **ignore-functions** ["sokol_main"])
 
-(defn translate-function [tree]
+(defn translate-function [tree [append-func True]]
   (let [orig-function-name (get tree "name")
         function-name (translate-name orig-function-name)
         function-ret (translate-symbol (get tree "return-type"))
@@ -180,62 +180,29 @@
         function-params (lfor param (get tree "parameters")
                               #((get param "name") (translate-symbol (get param "type"))))]
     (when (in orig-function-name **ignore-functions**)
-        (return None))
+      (return None))
     (when (not (.startswith return-type ":"))
-      (when (in return-type **struct-symbols**)
+      (when (and (in return-type **struct-symbols**)
+                 append-func)
         (.append **c-wrap-functions** tree)))
-    (unless (in function-name **function-symbols**)
+    (when (not (in function-name **function-symbols**))
       (.append **function-symbols** function-name))
     f"(defcfun ({function-name} \"{orig-function-name}\") {function-ret}{(if function-params (+ "\n  " (.join "\n  " (lfor p function-params f"({(get p 0)} {(get p 1)})"))) "")})"))
 
 (defmacro remove-when [src condition]
   (let [g (hy.gensym)]
     `(let [~g []]
-      (for [*test* ~src]
-        (when ~condition
-          (.append ~g *test*)))
-      ~g)))
+       (for [*test* ~src]
+         (when ~condition
+           (.append ~g *test*)))
+       ~g)))
 
 (defmacro unless-disabled [test res]
   (let [g (hy.gensym)]
     `(let [~g ~res]
-      (if ~test
-          None
-          ~g))))
-
-(let [bindings-out (open "src/bindings.lisp" "w")
-      tree (json.loads (read-file (get sys.argv 1)))
-      bindings (remove-when
-                 (lfor entry tree
-                       (match (get entry "tag")
-                              "typedef" (append-typedef entry)
-                              "struct" (unless-disabled **disable-structs** (translate-struct entry))
-                              "enum" (unless-disabled **disable-enums** (translate-enum entry))
-                              "function" (unless-disabled **disable-functions** (translate-function entry))))
-                 *test*)]
-  (unless **disable-bindings-output**
-    (do
-      (bindings-out.write
-        (reduce ""
-                (read-file "deps/bindings-header.lisp")
-                "\n\n"
-                (.join "\n\n" bindings)))
-      (bindings-out.close))))
-
-(unless **disable-package-output**
-  (let [package-out (open "src/package.lisp" "w")
-        export-list (lfor e (reduce [] (lfor s **struct-symbols** f"%{s}") (lfor s **struct-symbols** f"{s}") **enum-symbols** **function-symbols**) f"#:{e}")]
-    (do
-      (package-out.write
-        (reduce ""
-                (read-file "deps/package-header.lisp")
-                "\n   "
-                (.join "\n   " export-list)
-                "))\n\n"
-                (read-file "deps/package-footer.lisp")))
-      (package-out.close))))
-
-(dump-symbols)
+       (if ~test
+           None
+           ~g))))
 
 (defn reconstruct-param [param var-name]
   (let [tag (get (get param "type") "tag")
@@ -248,26 +215,77 @@
 (defn to-alphabet [idx]
   (chr (+ (ord "a") idx)))
 
-(defn generate-func-wrapper [tree]
-  (let [func-name (get tree "name")
-        return-type (get (get tree "return-type") "tag")
-        params-raw (get tree "parameters")
-        params (if (not params-raw)
-                   "void"
-                   (.join ", " (lfor [i p] (enumerate params-raw) (reconstruct-param p (to-alphabet i)))))
-        out-params (if (not params-raw)
-                       "void"
-                       (.join ", " (lfor [i p] (enumerate params-raw)
-                                         (let [c (to-alphabet i)]
-                                           (if (= (get (get p "type") "tag") ":pointer")
-                                               (str c)
-                                               f"*{c}")))))]
-    (.join "\n" [f"{return-type}* {func-name}_ptr({params});"
-                 (+ f"{return-type}* {func-name}_ptr({params}) " "{")
-                 f"    {return-type}* result = malloc(sizeof({return-type}));"
-                 f"    {return-type} tmp = {func-name}({out-params})"
-                 "    return result;"
-                 "}"])))
+(let [bindings-out (open "src/bindings.lisp" "w")
+      tree (json.loads (read-file (get sys.argv 1)))
+      bindings (remove-when
+                 (lfor entry tree
+                       (match (get entry "tag")
+                              "typedef" (append-typedef entry)
+                              "struct" (unless-disabled **disable-structs** (translate-struct entry))
+                              "enum" (unless-disabled **disable-enums** (translate-enum entry))
+                              "function" (unless-disabled **disable-functions** (translate-function entry))))
+                 *test*)]
+  (unless **disable-bindings-output**
+    (bindings-out.write
+      (reduce ""
+              (read-file "deps/bindings-header.lisp")
+              "\n\n"
+              (.join "\n\n" bindings))))
+  (bindings-out.close))
 
-(for [tree **c-wrap-functions**]
-  (print (generate-func-wrapper tree)))
+(let [cheader-out (open "deps/sokol_wrapper.h" "w")
+      csource-out (open "deps/sokol_wrapper.c" "w")
+      bindings-out (open "src/bindings.lisp" "a")
+      cheader []
+      csource []
+      bindings []]
+  (for [tree **c-wrap-functions**]
+    (let [func-name (get tree "name")
+          return-type (get (get tree "return-type") "tag")
+          params-raw (get tree "parameters")
+          params (if (not params-raw)
+                     "void"
+                     (.join ", " (lfor [i p] (enumerate params-raw) (reconstruct-param p (to-alphabet i)))))
+          out-params (if (not params-raw)
+                         ""
+                         (.join ", " (lfor [i p] (enumerate params-raw)
+                                           (let [c (to-alphabet i)]
+                                             (if (= (get (get p "type") "tag") ":pointer")
+                                                 f"_{c}"
+                                                 f"*{c}")))))]
+      (setv (get tree "name") (+ (get tree "name") "_ptr"))
+      (.append bindings (translate-function tree False))
+      (.append cheader f"{return-type}* {func-name}_ptr({params});")
+      (.append csource (.join "\n" [(+ f"{return-type}* {func-name}_ptr({params}) " "{")
+                                    f"    {return-type}* result = malloc(sizeof({return-type}));"
+                                    f"    {return-type} tmp = {func-name}({out-params});"
+                                    "    return result;"
+                                    "}\n"]))))
+  (cheader-out.write (reduce
+                       "#pragma once\n"
+                       "#include \"sokol.h\"\n"
+                       "\n"
+                       (.join "\n" cheader)))
+  (csource-out.write (reduce
+                       "#include \"sokol.h\"\n"
+                       "#include \"sokol_wrapper.h\"\n"
+                       "#include <stdlib.h>\n"
+                       "\n"
+                       (.join "\n" csource)))
+  (bindings-out.write (+ "\n"
+                         (.join "\n" bindings)))
+  (cheader-out.close)
+  (csource-out.close)
+  (bindings-out.close))
+
+(unless **disable-package-output**
+  (let [package-out (open "src/package.lisp" "w")
+        export-list (lfor e (reduce [] (lfor s **struct-symbols** f"%{s}") **enum-symbols** **function-symbols**) f"#:{e}")]
+    (package-out.write
+      (reduce ""
+              (read-file "deps/package-header.lisp")
+              "\n   "
+              (.join "\n   " export-list)
+              "))\n\n"
+              (read-file "deps/package-footer.lisp")))
+    (package-out.close)))
