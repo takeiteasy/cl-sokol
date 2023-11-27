@@ -273,7 +273,7 @@
                        "\n"
                        (.join "\n" csource)))
   (bindings-out.write (+ "\n"
-                         (.join "\n" bindings)))
+                         (.join "\n\n" bindings)))
   (cheader-out.close)
   (csource-out.close)
   (bindings-out.close))
