@@ -45,7 +45,8 @@
                                (init %sokol::init-cb)
                                (frame %sokol::frame-cb)
                                (event %sokol::event-cb)
-                               (cleanup %sokol::cleanup-cb)) desc (:struct %sapp-desc))
+                               (cleanup %sokol::cleanup-cb))
+                              desc (:struct %sapp-desc))
            (with-foreign-string (foreign-win-title (if win-title win-title "sokol"))
              (setf
               w win-width

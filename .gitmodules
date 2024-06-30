@@ -1,3 +1,9 @@
 [submodule "deps/sokol"]
 	path = deps/sokol
 	url = https://github.com/floooh/sokol/
+[submodule "sokol"]
+	path = sokol
+	url = https://github.com/floooh/sokol.git
+[submodule "c2ffi"]
+	path = c2ffi
+	url = https://github.com/rpav/c2ffi.git

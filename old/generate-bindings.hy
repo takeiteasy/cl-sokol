@@ -95,16 +95,16 @@
          (setv ~g (+ ~g ~a)))
        ~g)))
 
-                                ; (defn c-to-lisp-symbol [symbol]
-                                ;   (cond
-                                ;     (= symbol ":float") ":single-float"
-                                ;     (or (.startswith symbol "sg")
-                                ;         (in symbol #(":unsigned-int" ":int" ":unsigned-long" ":unsigned-char"))) ":integer"
-                                ;     (.starts-with symbol "(:array") ":vector"
-                                ;     (.starts-with symbol "(:struct") symbol
-                                ;     True (do
-                                ;            (print f"Unknown symbol: {symbol}")
-                                ;            "UNKNOWN")))
+;; (defn c-to-lisp-symbol [symbol]
+;;   (cond
+;;     (= symbol ":float") ":single-float"
+;;     (or (.startswith symbol "sg")
+;;         (in symbol #(":unsigned-int" ":int" ":unsigned-long" ":unsigned-char"))) ":integer"
+;;     (.starts-with symbol "(:array") ":vector"
+;;     (.starts-with symbol "(:struct") symbol
+;;     True (do
+;;            (print f"Unknown symbol: {symbol}")
+;;            "UNKNOWN")))
 
 ;; (defn generate-translation-wrapper [tree]
 ;;   (let [struct-name (translate-name (get tree "name"))
