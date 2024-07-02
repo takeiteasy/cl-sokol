@@ -9,10 +9,10 @@ def die(msg="dunno"):
     print(f"ERROR: {msg}", file=sys.stderr)
     sys.exit(1)
 
-C2FFIPATH = ".\\c2ffi\\build\\bin\\c2ffi.exe" if platform.system() == 'Windows' else "./c2ffi/build/bin/c2ffi"
+C2FFIPATH = ".\\deps\\c2ffi\\build\\bin\\c2ffi.exe" if platform.system() == 'Windows' else "./deps/c2ffi/build/bin/c2ffi"
 
 def generate_json(path):
-    cmd = [C2FFIPATH, "-Isokol", path]
+    cmd = [C2FFIPATH, "-Ideps/sokol", path]
     out = subprocess.run(cmd, capture_output=True, check=True, text=True)
     result = None
     try:
@@ -299,3 +299,15 @@ if args.dump:
     print("Common Lisp Functions")
     for f in functions:
         print(f)
+else:
+    def flush(fh, lines):
+        fh.writelines(l + '\n' for l in lines)
+    with open("aux/sokol_cl.h", "w") as fh:
+        flush(fh, cheader)
+    with open("aux/sokol_cl.c", "w") as fh:
+        flush(fh, csource)
+    with open("aux/bindings.cl", "w") as fh:
+        flush(fh, constants)
+        flush(fh, enums)
+        flush(fh, structs)
+        flush(fh, functions)
