@@ -28,10 +28,17 @@ parser.add_argument("-d", "--dump", action="store_true",
                     help="Dump all everything to stdout")
 parser.add_argument("-i", "--input", type=str,
                     help="Specify the location to the header")
+parser.add_argument("-o", "--output", type=str,
+                    helper="Specify the directory to dump to")
 args = parser.parse_args()
 
 if not args.input:
     args.input = "aux/sokol_all.h"
+if not args.output:
+    args.output = "aux"
+else:
+    if args.endswith('\\' if platform.system() == 'Windows' else "/"):
+        args.output = args.output[:-1]
 data = generate_json(args.input)
 if not data:
     die(f"Failed to parse `{args.input}`")
@@ -320,20 +327,20 @@ if args.dump:
 else:
     def flush(fh, lines):
         fh.writelines(l + '\n' for l in lines)
-    with open("aux/sokol_cl.h", "w") as fh:
+    with open(args.output + "/sokol_cl.h", "w") as fh:
         header = ["#pragma once", "#include \"sokol_all.h\""]
         flush(fh, header)
         flush(fh, cheader)
-    with open("aux/sokol_cl.c", "w") as fh:
+    with open(args.output + "/sokol_cl.c", "w") as fh:
         header = ["#define SOKOL_IMPL", "#include \"sokol_cl.h\""]
         flush(fh, header)
         flush(fh, csource)
-    with open("aux/bindings.lisp", "w") as fh:
+    with open(args.output + "/bindings.lisp", "w") as fh:
         flush(fh, constants)
         flush(fh, enums)
         flush(fh, structs)
         flush(fh, functions)
-    with open("aux/package.lisp", "w") as fh:
+    with open(args.output + "/package.lisp", "w") as fh:
         for k, v in modules.items():
             header = [f"(defpackage #:cl-sokol-{k}",
                       f"  (:nicknames :%{k})",
