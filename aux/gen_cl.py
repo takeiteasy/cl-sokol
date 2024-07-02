@@ -175,14 +175,23 @@ def to_lisp(name, ignore_prefix=False):
     return name.replace("_", "-")
 
 # Stores our Common Lisp bindings
+modules = { v[:-1]: [] for v in valid_prefixes }
 enums = []
 constants = []
 functions = []
 structs = []
 
+def export_cl(name, is_constant=False):
+    for v in valid_prefixes:
+        if name.startswith(v) or name.startswith(v.upper()):
+            cl_name = to_lisp(name[len(v):])
+            modules[v[:-1]].append(f"+{cl_name}+" if is_constant else cl_name)
+            return
+
 # Unnamed C enums are translated to constants
 def unnamed_enum(enum):
     for f in enum['fields']:
+        export_cl(f['name'], True)
         constants.append(f"(defconstant +{to_lisp(f['name'])}+ {f['value']})")
 
 # Named C enums are translated to a defcenum binding
@@ -191,6 +200,7 @@ def named_enum(enum):
     for f in enum['fields']:
         lines.append(f"\t(:{to_lisp(f['name'])} {f['value']})")
     lines[-1] += ")"
+    export_cl(enum['name'])
     enums.append("\n".join(lines))
 
 def lisp_struct_ptr(p):
@@ -247,6 +257,7 @@ def gen_lisp_fun(fn):
         for p in fn['parameters']:
             lines.append(f"\t({to_lisp(p['name'], True)} {gen_lisp_param(p)})")
         lines[-1] += ")"
+    export_cl(fn['name'])
     functions.append("\n".join(lines))
 
 def gen_struct_field(f):
@@ -277,6 +288,7 @@ def gen_lisp_struct(s):
     lines = [f"(defcstruct ({to_lisp(s['name'])} :size {s['bit-size']})"]
     for f in s['fields']:
         lines.append( f"\t({to_lisp(f['name'], True)} :offset {f['bit-offset']} :size {f['bit-size']} " + gen_struct_field(f['type']) + ")")
+    export_cl(s['name'])
     structs.append("\n".join(lines))
 
 # Loop over all the c2ffi data and generate all the Common Lisp bindings
@@ -316,8 +328,17 @@ else:
         header = ["#define SOKOL_IMPL", "#include \"sokol_cl.h\""]
         flush(fh, header)
         flush(fh, csource)
-    with open("aux/bindings.cl", "w") as fh:
+    with open("aux/bindings.lisp", "w") as fh:
         flush(fh, constants)
         flush(fh, enums)
         flush(fh, structs)
         flush(fh, functions)
+    with open("aux/package.lisp", "w") as fh:
+        for k, v in modules.items():
+            header = [f"(defpackage #:cl-sokol-{k}",
+                      f"  (:nicknames :%{k})",
+                      "  (:use #:cl #:cffi)",
+                      "  (:export"]
+            export = ["\t#:" + vv for vv in v]
+            export[-1] += "))"
+            flush(fh, header + export)
