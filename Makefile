@@ -43,11 +43,10 @@ endif
 
 default: all
 
-
 bindings:
 	python3 aux/gen_cl.py
 
-library: bindings
+library:
 	$(CC) -shared -fpic $(CFLAGS) -Ideps/sokol -Iaux aux/sokol_cl.c -o build/$(OUT).$(LIB_SUFFIX)
 
 all: bindings library
