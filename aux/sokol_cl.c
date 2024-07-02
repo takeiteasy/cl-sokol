@@ -1,3 +1,5 @@
+#define SOKOL_IMPL
+#include "sokol_cl.h"
 sg_trace_hooks* sg_install_trace_hooks_cl(sg_trace_hooks* a) {
 	sg_trace_hooks* result = malloc(sizeof(sg_trace_hooks));
 	sg_trace_hooks tmp = sg_install_trace_hooks(a);
@@ -76,7 +78,7 @@ int sg_append_buffer_cl(sg_buffer* a, sg_range* b) {
 bool sg_query_buffer_overflow_cl(sg_buffer* a) {
 	return sg_query_buffer_overflow(*a);
 }
-bool sg_query_buffer_will_overflow_cl(sg_buffer* a, None b) {
+bool sg_query_buffer_will_overflow_cl(sg_buffer* a, size_t b) {
 	return sg_query_buffer_will_overflow(*a, b);
 }
 void sg_apply_pipeline_cl(sg_pipeline* a) {
@@ -509,12 +511,6 @@ sg_gl_attachments_info* sg_gl_query_attachments_info_cl(sg_attachments* a) {
 	sg_gl_attachments_info* result = malloc(sizeof(sg_gl_attachments_info));
 	sg_gl_attachments_info tmp = sg_gl_query_attachments_info(*a);
 	memcpy(result, (void*)&tmp, sizeof(sg_gl_attachments_info));
-	return result;
-}
-sapp_desc* sokol_main_cl(int a, :pointer* b) {
-	sapp_desc* result = malloc(sizeof(sapp_desc));
-	sapp_desc tmp = sokol_main(a, b);
-	memcpy(result, (void*)&tmp, sizeof(sapp_desc));
 	return result;
 }
 void sapp_set_mouse_cursor_cl(sapp_mouse_cursor* a) {

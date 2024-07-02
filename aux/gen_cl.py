@@ -53,6 +53,8 @@ fixed = {}
 # This function creates an alternative version of functions that
 # return or take any non-pointer structs
 def fix(fn):
+    if fn['name'] == "sokol_main":
+        return
     result_type = fn['return-type']['tag']
     if valid_prefix(result_type):
         fn['return-type']['tag'] = ':pointer'
@@ -71,6 +73,8 @@ def gen_return_type(rt):
     match rt['tag']:
         case ":void" | ":int":
             return rt['tag'][1:]
+        case "size_t":
+            return "size_t"
         case ":_Bool":
             return "bool"
         case ":pointer":
@@ -234,6 +238,8 @@ def gen_lisp_param(p):
 # Translates c2ffi to Common Lisp function wrapper
 def gen_lisp_fun(fn):
     cl_name = to_lisp(fn['name'][:-3] if fn['name'].endswith("_cl") else fn['name'])
+    if cl_name == "sokol-main":
+        return
     lines = [f"(defcfun ({cl_name} \"{fn['name']}\") {gen_fun_return(fn['return-type'])}"]
     if not fn['parameters']:
         lines[0] += ")"
@@ -303,8 +309,12 @@ else:
     def flush(fh, lines):
         fh.writelines(l + '\n' for l in lines)
     with open("aux/sokol_cl.h", "w") as fh:
+        header = ["#pragma once", "#include \"sokol_all.h\""]
+        flush(fh, header)
         flush(fh, cheader)
     with open("aux/sokol_cl.c", "w") as fh:
+        header = ["#define SOKOL_IMPL", "#include \"sokol_cl.h\""]
+        flush(fh, header)
         flush(fh, csource)
     with open("aux/bindings.cl", "w") as fh:
         flush(fh, constants)

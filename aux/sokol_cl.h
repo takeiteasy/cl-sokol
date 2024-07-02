@@ -1,3 +1,5 @@
+#pragma once
+#include "sokol_all.h"
 sg_trace_hooks* sg_install_trace_hooks_cl(sg_trace_hooks* a);
 bool sg_add_commit_listener_cl(sg_commit_listener* a);
 bool sg_remove_commit_listener_cl(sg_commit_listener* a);
@@ -17,7 +19,7 @@ void sg_update_buffer_cl(sg_buffer* a, sg_range* b);
 void sg_update_image_cl(sg_image* a, sg_image_data* b);
 int sg_append_buffer_cl(sg_buffer* a, sg_range* b);
 bool sg_query_buffer_overflow_cl(sg_buffer* a);
-bool sg_query_buffer_will_overflow_cl(sg_buffer* a, None b);
+bool sg_query_buffer_will_overflow_cl(sg_buffer* a, size_t b);
 void sg_apply_pipeline_cl(sg_pipeline* a);
 void sg_apply_uniforms_cl(sg_shader_stage* a, int b, sg_range* c);
 sg_desc* sg_query_desc_cl(void);
@@ -104,7 +106,6 @@ sg_gl_image_info* sg_gl_query_image_info_cl(sg_image* a);
 sg_gl_sampler_info* sg_gl_query_sampler_info_cl(sg_sampler* a);
 sg_gl_shader_info* sg_gl_query_shader_info_cl(sg_shader* a);
 sg_gl_attachments_info* sg_gl_query_attachments_info_cl(sg_attachments* a);
-sapp_desc* sokol_main_cl(int a, :pointer* b);
 void sapp_set_mouse_cursor_cl(sapp_mouse_cursor* a);
 sapp_mouse_cursor* sapp_get_mouse_cursor_cl(void);
 sapp_desc* sapp_query_desc_cl(void);

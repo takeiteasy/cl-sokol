@@ -1,4 +1,4 @@
 __pycache__
 .vscode
-bin/
+build/
 .DS_Store
