@@ -45,6 +45,7 @@ default: all
 
 bindings:
 	python3 aux/gen_cl.py
+	cp aux/*.lisp src
 
 library:
 	$(CC) -shared -fpic $(CFLAGS) -Ideps/sokol -Iaux aux/sokol_cl.c -o build/$(OUT).$(LIB_SUFFIX)
