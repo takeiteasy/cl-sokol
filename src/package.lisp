@@ -154,104 +154,104 @@
 	#:shutdown
 	#:isvalid
 	#:reset-state-cache
-	#:install-trace-hooks-cl
+	#:install-trace-hooks
 	#:push-debug-group
 	#:pop-debug-group
-	#:add-commit-listener-cl
-	#:remove-commit-listener-cl
-	#:make-buffer-cl
-	#:make-image-cl
-	#:make-sampler-cl
-	#:make-shader-cl
-	#:make-pipeline-cl
-	#:make-attachments-cl
-	#:destroy-buffer-cl
-	#:destroy-image-cl
-	#:destroy-sampler-cl
-	#:destroy-shader-cl
-	#:destroy-pipeline-cl
-	#:destroy-attachments-cl
-	#:update-buffer-cl
-	#:update-image-cl
-	#:append-buffer-cl
-	#:query-buffer-overflow-cl
-	#:query-buffer-will-overflow-cl
+	#:add-commit-listener
+	#:remove-commit-listener
+	#:make-buffer
+	#:make-image
+	#:make-sampler
+	#:make-shader
+	#:make-pipeline
+	#:make-attachments
+	#:destroy-buffer
+	#:destroy-image
+	#:destroy-sampler
+	#:destroy-shader
+	#:destroy-pipeline
+	#:destroy-attachments
+	#:update-buffer
+	#:update-image
+	#:append-buffer
+	#:query-buffer-overflow
+	#:query-buffer-will-overflow
 	#:begin-pass
 	#:apply-viewport
 	#:apply-viewportf
 	#:apply-scissor-rect
 	#:apply-scissor-rectf
-	#:apply-pipeline-cl
+	#:apply-pipeline
 	#:apply-bindings
-	#:apply-uniforms-cl
+	#:apply-uniforms
 	#:draw
 	#:end-pass
 	#:commit
-	#:query-desc-cl
-	#:query-backend-cl
-	#:query-features-cl
-	#:query-limits-cl
-	#:query-pixelformat-cl
-	#:query-row-pitch-cl
-	#:query-surface-pitch-cl
-	#:query-buffer-state-cl
-	#:query-image-state-cl
-	#:query-sampler-state-cl
-	#:query-shader-state-cl
-	#:query-pipeline-state-cl
-	#:query-attachments-state-cl
-	#:query-buffer-info-cl
-	#:query-image-info-cl
-	#:query-sampler-info-cl
-	#:query-shader-info-cl
-	#:query-pipeline-info-cl
-	#:query-attachments-info-cl
-	#:query-buffer-desc-cl
-	#:query-image-desc-cl
-	#:query-sampler-desc-cl
-	#:query-shader-desc-cl
-	#:query-pipeline-desc-cl
-	#:query-attachments-desc-cl
-	#:query-buffer-defaults-cl
-	#:query-image-defaults-cl
-	#:query-sampler-defaults-cl
-	#:query-shader-defaults-cl
-	#:query-pipeline-defaults-cl
-	#:query-attachments-defaults-cl
-	#:alloc-buffer-cl
-	#:alloc-image-cl
-	#:alloc-sampler-cl
-	#:alloc-shader-cl
-	#:alloc-pipeline-cl
-	#:alloc-attachments-cl
-	#:dealloc-buffer-cl
-	#:dealloc-image-cl
-	#:dealloc-sampler-cl
-	#:dealloc-shader-cl
-	#:dealloc-pipeline-cl
-	#:dealloc-attachments-cl
-	#:init-buffer-cl
-	#:init-image-cl
-	#:init-sampler-cl
-	#:init-shader-cl
-	#:init-pipeline-cl
-	#:init-attachments-cl
-	#:uninit-buffer-cl
-	#:uninit-image-cl
-	#:uninit-sampler-cl
-	#:uninit-shader-cl
-	#:uninit-pipeline-cl
-	#:uninit-attachments-cl
-	#:fail-buffer-cl
-	#:fail-image-cl
-	#:fail-sampler-cl
-	#:fail-shader-cl
-	#:fail-pipeline-cl
-	#:fail-attachments-cl
+	#:query-desc
+	#:query-backend
+	#:query-features
+	#:query-limits
+	#:query-pixelformat
+	#:query-row-pitch
+	#:query-surface-pitch
+	#:query-buffer-state
+	#:query-image-state
+	#:query-sampler-state
+	#:query-shader-state
+	#:query-pipeline-state
+	#:query-attachments-state
+	#:query-buffer-info
+	#:query-image-info
+	#:query-sampler-info
+	#:query-shader-info
+	#:query-pipeline-info
+	#:query-attachments-info
+	#:query-buffer-desc
+	#:query-image-desc
+	#:query-sampler-desc
+	#:query-shader-desc
+	#:query-pipeline-desc
+	#:query-attachments-desc
+	#:query-buffer-defaults
+	#:query-image-defaults
+	#:query-sampler-defaults
+	#:query-shader-defaults
+	#:query-pipeline-defaults
+	#:query-attachments-defaults
+	#:alloc-buffer
+	#:alloc-image
+	#:alloc-sampler
+	#:alloc-shader
+	#:alloc-pipeline
+	#:alloc-attachments
+	#:dealloc-buffer
+	#:dealloc-image
+	#:dealloc-sampler
+	#:dealloc-shader
+	#:dealloc-pipeline
+	#:dealloc-attachments
+	#:init-buffer
+	#:init-image
+	#:init-sampler
+	#:init-shader
+	#:init-pipeline
+	#:init-attachments
+	#:uninit-buffer
+	#:uninit-image
+	#:uninit-sampler
+	#:uninit-shader
+	#:uninit-pipeline
+	#:uninit-attachments
+	#:fail-buffer
+	#:fail-image
+	#:fail-sampler
+	#:fail-shader
+	#:fail-pipeline
+	#:fail-attachments
 	#:enable-frame-stats
 	#:disable-frame-stats
 	#:frame-stats-enabled
-	#:query-frame-stats-cl
+	#:query-frame-stats
 	#:d3d11-buffer-info
 	#:d3d11-image-info
 	#:d3d11-sampler-info
@@ -276,34 +276,34 @@
 	#:gl-attachments-info
 	#:d3d11-device
 	#:d3d11-device-context
-	#:d3d11-query-buffer-info-cl
-	#:d3d11-query-image-info-cl
-	#:d3d11-query-sampler-info-cl
-	#:d3d11-query-shader-info-cl
-	#:d3d11-query-pipeline-info-cl
-	#:d3d11-query-attachments-info-cl
+	#:d3d11-query-buffer-info
+	#:d3d11-query-image-info
+	#:d3d11-query-sampler-info
+	#:d3d11-query-shader-info
+	#:d3d11-query-pipeline-info
+	#:d3d11-query-attachments-info
 	#:mtl-device
 	#:mtl-render-command-encoder
-	#:mtl-query-buffer-info-cl
-	#:mtl-query-image-info-cl
-	#:mtl-query-sampler-info-cl
-	#:mtl-query-shader-info-cl
-	#:mtl-query-pipeline-info-cl
+	#:mtl-query-buffer-info
+	#:mtl-query-image-info
+	#:mtl-query-sampler-info
+	#:mtl-query-shader-info
+	#:mtl-query-pipeline-info
 	#:wgpu-device
 	#:wgpu-queue
 	#:wgpu-command-encoder
 	#:wgpu-render-pass-encoder
-	#:wgpu-query-buffer-info-cl
-	#:wgpu-query-image-info-cl
-	#:wgpu-query-sampler-info-cl
-	#:wgpu-query-shader-info-cl
-	#:wgpu-query-pipeline-info-cl
-	#:wgpu-query-attachments-info-cl
-	#:gl-query-buffer-info-cl
-	#:gl-query-image-info-cl
-	#:gl-query-sampler-info-cl
-	#:gl-query-shader-info-cl
-	#:gl-query-attachments-info-cl))
+	#:wgpu-query-buffer-info
+	#:wgpu-query-image-info
+	#:wgpu-query-sampler-info
+	#:wgpu-query-shader-info
+	#:wgpu-query-pipeline-info
+	#:wgpu-query-attachments-info
+	#:gl-query-buffer-info
+	#:gl-query-image-info
+	#:gl-query-sampler-info
+	#:gl-query-shader-info
+	#:gl-query-attachments-info))
 (defpackage #:cl-sokol-app
   (:nicknames :%sapp)
   (:use #:cl #:cffi)
@@ -354,10 +354,10 @@
 	#:mouse-shown
 	#:lock-mouse
 	#:mouse-locked
-	#:set-mouse-cursor-cl
-	#:get-mouse-cursor-cl
+	#:set-mouse-cursor
+	#:get-mouse-cursor
 	#:userdata
-	#:query-desc-cl
+	#:query-desc
 	#:request-quit
 	#:cancel-quit
 	#:quit
@@ -409,7 +409,7 @@
 	#:shutdown
 	#:isvalid
 	#:userdata
-	#:query-desc-cl
+	#:query-desc
 	#:sample-rate
 	#:buffer-frames
 	#:channels
@@ -451,17 +451,17 @@
 	#:setup
 	#:shutdown
 	#:valid
-	#:desc-cl
+	#:desc
 	#:max-userdata-bytes
 	#:max-path
-	#:send-cl
-	#:handle-valid-cl
+	#:send
+	#:handle-valid
 	#:dowork
-	#:bind-buffer-cl
-	#:unbind-buffer-cl
-	#:cancel-cl
-	#:pause-cl
-	#:continue-cl))
+	#:bind-buffer
+	#:unbind-buffer
+	#:cancel
+	#:pause
+	#:continue))
 (defpackage #:cl-sokol-args
   (:nicknames :%sargs)
   (:use #:cl #:cffi)

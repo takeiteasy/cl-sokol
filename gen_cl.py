@@ -200,7 +200,7 @@ modules = { v[:-1]: Storage() for v in valid_prefixes }
 
 def export(name, stype, defn):
     for v in is_prefix_valid(name):
-        modules[v[:-1]].add(stype, to_lisp(name, stype == StorageType.CONSTANT), defn)
+        modules[v[:-1]].add(stype, to_lisp(name[:-3] if name.endswith("_cl") else name, stype == StorageType.CONSTANT), defn)
 
 # Unnamed C enums are translated to constants
 def unnamed_enum(enum):
