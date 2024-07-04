@@ -23,7 +23,7 @@
 ;; SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
-(defpackage #:cl-sokol-sg
+(defpackage #:cl-sokol-gfx
   (:nicknames :%sg)
   (:use #:cl #:cffi)
   (:export
@@ -304,7 +304,7 @@
 	#:gl-query-sampler-info-cl
 	#:gl-query-shader-info-cl
 	#:gl-query-attachments-info-cl))
-(defpackage #:cl-sokol-sapp
+(defpackage #:cl-sokol-app
   (:nicknames :%sapp)
   (:use #:cl #:cffi)
   (:export
@@ -397,7 +397,7 @@
 	#:gl-get-major-version
 	#:gl-get-minor-version
 	#:android-get-native-activity))
-(defpackage #:cl-sokol-saudio
+(defpackage #:cl-sokol-audio
   (:nicknames :%saudio)
   (:use #:cl #:cffi)
   (:export
@@ -416,12 +416,12 @@
 	#:suspended
 	#:expect
 	#:push))
-(defpackage #:cl-sokol-slog
+(defpackage #:cl-sokol-log
   (:nicknames :%slog)
   (:use #:cl #:cffi)
   (:export
 	#:func))
-(defpackage #:cl-sokol-stm
+(defpackage #:cl-sokol-time
   (:nicknames :%stm)
   (:use #:cl #:cffi)
   (:export
@@ -435,13 +435,7 @@
 	#:ms
 	#:us
 	#:ns))
-(defpackage #:cl-sokol-sglue
-  (:nicknames :%sglue)
-  (:use #:cl #:cffi)
-  (:export
-	#:environment-cl
-	#:swapchain-cl))
-(defpackage #:cl-sokol-sfetch
+(defpackage #:cl-sokol-fetch
   (:nicknames :%sfetch)
   (:use #:cl #:cffi)
   (:export
@@ -468,7 +462,7 @@
 	#:cancel-cl
 	#:pause-cl
 	#:continue-cl))
-(defpackage #:cl-sokol-sargs
+(defpackage #:cl-sokol-args
   (:nicknames :%sargs)
   (:use #:cl #:cffi)
   (:export

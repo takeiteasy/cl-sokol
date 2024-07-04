@@ -23,6 +23,14 @@
 ;; SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
+(in-package #:cl-sokol-gfx)
+
+(pushnew (asdf:system-relative-pathname :cl-sokol-gfx "build/") *foreign-library-directories*)
+(define-foreign-library libsokol-gfx
+  (t (:default "libsokol-gfx")))
+(unless (foreign-library-loaded-p 'libsokol-gfx)
+  (use-foreign-library libsokol-gfx))
+
 (defconstant +INVALID-ID+ 0)
 (defconstant +NUM-SHADER-STAGES+ 2)
 (defconstant +NUM-INFLIGHT-FRAMES+ 2)

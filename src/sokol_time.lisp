@@ -23,6 +23,14 @@
 ;; SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
+(in-package #:cl-sokol-time)
+
+(pushnew (asdf:system-relative-pathname :cl-sokol-time "build/") *foreign-library-directories*)
+(define-foreign-library libsokol-time
+  (t (:default "libsokol-time")))
+(unless (foreign-library-loaded-p 'libsokol-time)
+  (use-foreign-library libsokol-time))
+
 (defcfun (setup "stm_setup") :void)
 (defcfun (now "stm_now") :uint64)
 (defcfun (diff "stm_diff") :uint64

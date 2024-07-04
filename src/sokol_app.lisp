@@ -23,6 +23,14 @@
 ;; SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
+(in-package #:cl-sokol-app)
+
+(pushnew (asdf:system-relative-pathname :cl-sokol-app "build/") *foreign-library-directories*)
+(define-foreign-library libsokol-app
+  (t (:default "libsokol-app")))
+(unless (foreign-library-loaded-p 'libsokol-app)
+  (use-foreign-library libsokol-app))
+
 (defconstant +MAX-TOUCHPOINTS+ 8)
 (defconstant +MAX-MOUSEBUTTONS+ 3)
 (defconstant +MAX-KEYCODES+ 512)

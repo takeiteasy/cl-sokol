@@ -23,6 +23,14 @@
 ;; SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
+(in-package #:cl-sokol-args)
+
+(pushnew (asdf:system-relative-pathname :cl-sokol-args "build/") *foreign-library-directories*)
+(define-foreign-library libsokol-args
+  (t (:default "libsokol-args")))
+(unless (foreign-library-loaded-p 'libsokol-args)
+  (use-foreign-library libsokol-args))
+
 (defcstruct (allocator :size 192)
 	(alloc-fn :offset 0 :size 64 (:pointer :void))
 	(free-fn :offset 64 :size 64 (:pointer :void))

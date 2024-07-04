@@ -24,7 +24,7 @@
 
 
 #pragma once
-#include "sokol_all.h"
+#include "sokol_gfx.h"
 sg_trace_hooks* sg_install_trace_hooks_cl(sg_trace_hooks* a);
 bool sg_add_commit_listener_cl(sg_commit_listener* a);
 bool sg_remove_commit_listener_cl(sg_commit_listener* a);
@@ -131,17 +131,3 @@ sg_gl_image_info* sg_gl_query_image_info_cl(sg_image* a);
 sg_gl_sampler_info* sg_gl_query_sampler_info_cl(sg_sampler* a);
 sg_gl_shader_info* sg_gl_query_shader_info_cl(sg_shader* a);
 sg_gl_attachments_info* sg_gl_query_attachments_info_cl(sg_attachments* a);
-void sapp_set_mouse_cursor_cl(sapp_mouse_cursor* a);
-sapp_mouse_cursor* sapp_get_mouse_cursor_cl(void);
-sapp_desc* sapp_query_desc_cl(void);
-sg_environment* sglue_environment_cl(void);
-sg_swapchain* sglue_swapchain_cl(void);
-saudio_desc* saudio_query_desc_cl(void);
-sfetch_desc_t* sfetch_desc_cl(void);
-sfetch_handle_t* sfetch_send_cl(sfetch_request_t* a);
-bool sfetch_handle_valid_cl(sfetch_handle_t* a);
-void sfetch_bind_buffer_cl(sfetch_handle_t* a, sfetch_range_t* b);
-void* sfetch_unbind_buffer_cl(sfetch_handle_t* a);
-void sfetch_cancel_cl(sfetch_handle_t* a);
-void sfetch_pause_cl(sfetch_handle_t* a);
-void sfetch_continue_cl(sfetch_handle_t* a);

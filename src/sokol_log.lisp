@@ -23,5 +23,19 @@
 ;; SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
-(defcfun (environment "sglue_environment_cl") (:pointer (:struct environment)))
-(defcfun (swapchain "sglue_swapchain_cl") (:pointer (:struct swapchain)))
+(in-package #:cl-sokol-log)
+
+(pushnew (asdf:system-relative-pathname :cl-sokol-log "build/") *foreign-library-directories*)
+(define-foreign-library libsokol-log
+  (t (:default "libsokol-log")))
+(unless (foreign-library-loaded-p 'libsokol-log)
+  (use-foreign-library libsokol-log))
+
+(defcfun (func "slog_func") :void
+	(tag (:pointer :char))
+	(log-level :uint32)
+	(log-item :uint32)
+	(message (:pointer :char))
+	(line-nr :uint32)
+	(filename (:pointer :char))
+	(user-data (:pointer :void)))

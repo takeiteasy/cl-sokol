@@ -23,6 +23,14 @@
 ;; SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
+(in-package #:cl-sokol-fetch)
+
+(pushnew (asdf:system-relative-pathname :cl-sokol-fetch "build/") *foreign-library-directories*)
+(define-foreign-library libsokol-fetch
+  (t (:default "libsokol-fetch")))
+(unless (foreign-library-loaded-p 'libsokol-fetch)
+  (use-foreign-library libsokol-fetch))
+
 (defcenum log-item-t
 	(:LOGITEM-OK 0)
 	(:LOGITEM-MALLOC-FAILED 1)

@@ -23,6 +23,14 @@
 ;; SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
+(in-package #:cl-sokol-audio)
+
+(pushnew (asdf:system-relative-pathname :cl-sokol-audio "build/") *foreign-library-directories*)
+(define-foreign-library libsokol-audio
+  (t (:default "libsokol-audio")))
+(unless (foreign-library-loaded-p 'libsokol-audio)
+  (use-foreign-library libsokol-audio))
+
 (defcenum log-item
 	(:LOGITEM-OK 0)
 	(:LOGITEM-MALLOC-FAILED 1)

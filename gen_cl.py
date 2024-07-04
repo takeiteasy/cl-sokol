@@ -47,7 +47,7 @@ if args.json:
     print(json.dumps(data))
     sys.exit(0)
 
-valid_prefixes = ["sg_", "sapp_", "saudio_", "slog_", "stm_", "sglue_", "sfetch_", "sargs_"]
+valid_prefixes = ["sg_", "sapp_", "saudio_", "slog_", "stm_", "sfetch_", "sargs_"]
 
 def is_prefix_valid(line):
     for v in valid_prefixes:
@@ -163,21 +163,15 @@ if args.dump:
         print(k, str(v))
 
 # Stores our C wrapper
-cheader = []
-csource = []
+cheader = { v[:-1]: [] for v in valid_prefixes }
+csource = { v[:-1]: [] for v in valid_prefixes }
 # Loop through the marked functions and generate the wrappers
 for k, v in fixed.items():
     header, source = gen_return_wrap(k, v)
-    cheader.append(header)
-    csource.append(source)
-
-if args.dump:
-    print("C Header:")
-    for line in cheader:
-        print(line)
-    print("C Source:")
-    for line in csource:
-        print(line)
+    key = k.split("_")[0]
+    if key + "_" in valid_prefixes:
+        cheader[key].append(header)
+        csource[key].append(source)
 
 # Converts sg_init_buffer to init-buffer
 def to_lisp(name, ignore_prefix=False):
@@ -342,6 +336,8 @@ with open('LICENSE') as fh:
 cmit[-1] += ' */'
 cmit.append('\n')
 
+outnames = {"sg": "gfx", "sapp": "app", "saudio": "audio", "slog": "log", "stm": "time", "sfetch": "fetch", "sargs": "args"}
+
 lispmit = [';; ' + header_msg]
 with open('LICENSE') as fh:
     lispmit += [';; ' + line.strip() for line in fh.readlines()]
@@ -349,20 +345,26 @@ lispmit.append('\n')
 
 def flush(fh, lines):
     fh.writelines(l + '\n' for l in lines)
-with open(args.output + "/sokol_cl.h", "w") as fh:
-    header = ["#pragma once", "#include \"sokol_all.h\""]
-    flush(fh, cmit)
-    flush(fh, header)
-    flush(fh, cheader)
-with open(args.output + "/sokol_cl.c", "w") as fh:
-    header = ["#define SOKOL_IMPL", "#include \"sokol_cl.h\""]
-    flush(fh, cmit)
-    flush(fh, header)
-    flush(fh, csource)
+
+for k, v in cheader.items():
+    fname = outnames[k]
+    with open(args.output + f"/sokol_{fname}_cl.h", "w") as fh:
+        header = ["#pragma once", f"#include \"sokol_{fname}.h\""]
+        flush(fh, cmit)
+        flush(fh, header)
+        flush(fh, v)
+for k, v in csource.items():
+    fname = outnames[k]
+    with open(args.output + f"/sokol_{fname}_cl.c", "w") as fh:
+        header = ["#define SOKOL_IMPL", f"#include \"sokol_{fname}_cl.h\""]
+        flush(fh, cmit)
+        flush(fh, header)
+        flush(fh, v)
 with open(args.output + "/package.lisp", "w") as fh:
     flush(fh, lispmit)
     for k, v in modules.items():
-        header = [f"(defpackage #:cl-sokol-{k}",
+        fname = outnames[k]
+        header = [f"(defpackage #:cl-sokol-{fname}",
                   f"  (:nicknames :%{k})",
                   "  (:use #:cl #:cffi)",
                   "  (:export"]
@@ -370,8 +372,15 @@ with open(args.output + "/package.lisp", "w") as fh:
         export[-1] += "))"
         flush(fh, header)
         flush(fh, export)
-        with open(args.output + f"/sokol_{k}.lisp", "w") as fh2:
+        with open(args.output + f"/sokol_{fname}.lisp", "w") as fh2:
             flush(fh2, lispmit)
+            loader = [f"(in-package #:cl-sokol-{fname})\n",
+                      f"(pushnew (asdf:system-relative-pathname :cl-sokol-{fname} \"build/\") *foreign-library-directories*)",
+                      f"(define-foreign-library libsokol-{fname}",
+                      f"  (t (:default \"libsokol-{fname}\")))",
+                      f"(unless (foreign-library-loaded-p 'libsokol-{fname})",
+                      f"  (use-foreign-library libsokol-{fname}))\n"]
+            flush(fh2, loader)
             flush(fh2, v.data['CONSTANT'])
             flush(fh2, v.data['ENUM'])
             flush(fh2, v.data['STRUCT'])

@@ -24,7 +24,7 @@
 
 
 #define SOKOL_IMPL
-#include "sokol_cl.h"
+#include "sokol_gfx_cl.h"
 sg_trace_hooks* sg_install_trace_hooks_cl(sg_trace_hooks* a) {
 	sg_trace_hooks* result = malloc(sizeof(sg_trace_hooks));
 	sg_trace_hooks tmp = sg_install_trace_hooks(a);
@@ -537,67 +537,4 @@ sg_gl_attachments_info* sg_gl_query_attachments_info_cl(sg_attachments* a) {
 	sg_gl_attachments_info tmp = sg_gl_query_attachments_info(*a);
 	memcpy(result, (void*)&tmp, sizeof(sg_gl_attachments_info));
 	return result;
-}
-void sapp_set_mouse_cursor_cl(sapp_mouse_cursor* a) {
-	sapp_set_mouse_cursor(*a);
-}
-sapp_mouse_cursor* sapp_get_mouse_cursor_cl(void) {
-	sapp_mouse_cursor* result = malloc(sizeof(sapp_mouse_cursor));
-	sapp_mouse_cursor tmp = sapp_get_mouse_cursor();
-	memcpy(result, (void*)&tmp, sizeof(sapp_mouse_cursor));
-	return result;
-}
-sapp_desc* sapp_query_desc_cl(void) {
-	sapp_desc* result = malloc(sizeof(sapp_desc));
-	sapp_desc tmp = sapp_query_desc();
-	memcpy(result, (void*)&tmp, sizeof(sapp_desc));
-	return result;
-}
-sg_environment* sglue_environment_cl(void) {
-	sg_environment* result = malloc(sizeof(sg_environment));
-	sg_environment tmp = sglue_environment();
-	memcpy(result, (void*)&tmp, sizeof(sg_environment));
-	return result;
-}
-sg_swapchain* sglue_swapchain_cl(void) {
-	sg_swapchain* result = malloc(sizeof(sg_swapchain));
-	sg_swapchain tmp = sglue_swapchain();
-	memcpy(result, (void*)&tmp, sizeof(sg_swapchain));
-	return result;
-}
-saudio_desc* saudio_query_desc_cl(void) {
-	saudio_desc* result = malloc(sizeof(saudio_desc));
-	saudio_desc tmp = saudio_query_desc();
-	memcpy(result, (void*)&tmp, sizeof(saudio_desc));
-	return result;
-}
-sfetch_desc_t* sfetch_desc_cl(void) {
-	sfetch_desc_t* result = malloc(sizeof(sfetch_desc_t));
-	sfetch_desc_t tmp = sfetch_desc();
-	memcpy(result, (void*)&tmp, sizeof(sfetch_desc_t));
-	return result;
-}
-sfetch_handle_t* sfetch_send_cl(sfetch_request_t* a) {
-	sfetch_handle_t* result = malloc(sizeof(sfetch_handle_t));
-	sfetch_handle_t tmp = sfetch_send(a);
-	memcpy(result, (void*)&tmp, sizeof(sfetch_handle_t));
-	return result;
-}
-bool sfetch_handle_valid_cl(sfetch_handle_t* a) {
-	return sfetch_handle_valid(*a);
-}
-void sfetch_bind_buffer_cl(sfetch_handle_t* a, sfetch_range_t* b) {
-	sfetch_bind_buffer(*a, *b);
-}
-void* sfetch_unbind_buffer_cl(sfetch_handle_t* a) {
-	return sfetch_unbind_buffer(*a);
-}
-void sfetch_cancel_cl(sfetch_handle_t* a) {
-	sfetch_cancel(*a);
-}
-void sfetch_pause_cl(sfetch_handle_t* a) {
-	sfetch_pause(*a);
-}
-void sfetch_continue_cl(sfetch_handle_t* a) {
-	sfetch_continue(*a);
 }
