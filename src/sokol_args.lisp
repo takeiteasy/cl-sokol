@@ -27,20 +27,20 @@
 
 (pushnew (asdf:system-relative-pathname :cl-sokol-args "build/") *foreign-library-directories*)
 (define-foreign-library libsokol-args
-  (t (:default "libsokol-args")))
+  (t (:default "libsokol_args")))
 (unless (foreign-library-loaded-p 'libsokol-args)
   (use-foreign-library libsokol-args))
 
 (defcstruct (allocator :size 192)
 	(alloc-fn :offset 0 :size 64 (:pointer :void))
 	(free-fn :offset 64 :size 64 (:pointer :void))
-	(user-data :offset 128 :size 64 (:pointer :void))
+	(user-data :offset 128 :size 64 (:pointer :void)))
 (defcstruct (desc :size 384)
 	(argc :offset 0 :size 32 :int)
 	(argv :offset 64 :size 64 (:pointer (:pointer :char)))
 	(max-args :offset 128 :size 32 :int)
 	(buf-size :offset 160 :size 32 :int)
-	(allocator :offset 192 :size 192 (:struct allocator))
+	(allocator :offset 192 :size 192 (:struct allocator)))
 (defcfun (setup "sargs_setup") :void
 	(desc (:pointer (:struct desc))))
 (defcfun (shutdown "sargs_shutdown") :void)

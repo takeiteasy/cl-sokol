@@ -27,7 +27,7 @@
 
 (pushnew (asdf:system-relative-pathname :cl-sokol-time "build/") *foreign-library-directories*)
 (define-foreign-library libsokol-time
-  (t (:default "libsokol-time")))
+  (t (:default "libsokol_time")))
 (unless (foreign-library-loaded-p 'libsokol-time)
   (use-foreign-library libsokol-time))
 

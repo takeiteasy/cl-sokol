@@ -299,6 +299,7 @@ def gen_lisp_struct(s):
     lines = [f"(defcstruct ({to_lisp(s['name'])} :size {s['bit-size']})"]
     for f in s['fields']:
         lines.append( f"\t({to_lisp(f['name'], True)} :offset {f['bit-offset']} :size {f['bit-size']} " + gen_struct_field(f['type']) + ")")
+    lines[-1] += ")"
     export(s['name'], StorageType.STRUCT, "\n".join(lines))
 
 # Loop over all the c2ffi data and generate all the Common Lisp bindings
@@ -377,7 +378,7 @@ with open(args.output + "/package.lisp", "w") as fh:
             loader = [f"(in-package #:cl-sokol-{fname})\n",
                       f"(pushnew (asdf:system-relative-pathname :cl-sokol-{fname} \"build/\") *foreign-library-directories*)",
                       f"(define-foreign-library libsokol-{fname}",
-                      f"  (t (:default \"libsokol-{fname}\")))",
+                      f"  (t (:default \"libsokol_{fname}\")))",
                       f"(unless (foreign-library-loaded-p 'libsokol-{fname})",
                       f"  (use-foreign-library libsokol-{fname}))\n"]
             flush(fh2, loader)

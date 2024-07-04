@@ -27,7 +27,7 @@
 
 (pushnew (asdf:system-relative-pathname :cl-sokol-audio "build/") *foreign-library-directories*)
 (define-foreign-library libsokol-audio
-  (t (:default "libsokol-audio")))
+  (t (:default "libsokol_audio")))
 (unless (foreign-library-loaded-p 'libsokol-audio)
   (use-foreign-library libsokol-audio))
 
@@ -70,11 +70,11 @@
 	(:LOGITEM-BACKEND-BUFFER-SIZE-ISNT-MULTIPLE-OF-PACKET-SIZE 35))
 (defcstruct (logger :size 128)
 	(func :offset 0 :size 64 (:pointer :void))
-	(user-data :offset 64 :size 64 (:pointer :void))
+	(user-data :offset 64 :size 64 (:pointer :void)))
 (defcstruct (allocator :size 192)
 	(alloc-fn :offset 0 :size 64 (:pointer :void))
 	(free-fn :offset 64 :size 64 (:pointer :void))
-	(user-data :offset 128 :size 64 (:pointer :void))
+	(user-data :offset 128 :size 64 (:pointer :void)))
 (defcstruct (desc :size 704)
 	(sample-rate :offset 0 :size 32 :int)
 	(num-channels :offset 32 :size 32 :int)
@@ -85,7 +85,7 @@
 	(stream-userdata-cb :offset 256 :size 64 (:pointer :void))
 	(user-data :offset 320 :size 64 (:pointer :void))
 	(allocator :offset 384 :size 192 (:struct allocator))
-	(logger :offset 576 :size 128 (:struct logger))
+	(logger :offset 576 :size 128 (:struct logger)))
 (defcfun (setup "saudio_setup") :void
 	(desc (:pointer (:struct desc))))
 (defcfun (shutdown "saudio_shutdown") :void)

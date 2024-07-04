@@ -27,7 +27,7 @@
 
 (pushnew (asdf:system-relative-pathname :cl-sokol-log "build/") *foreign-library-directories*)
 (define-foreign-library libsokol-log
-  (t (:default "libsokol-log")))
+  (t (:default "libsokol_log")))
 (unless (foreign-library-loaded-p 'libsokol-log)
   (use-foreign-library libsokol-log))
 
