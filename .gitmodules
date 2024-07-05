@@ -1,6 +1,3 @@
 [submodule "sokol"]
-	path = deps/sokol
+	path = src/sokol
 	url = https://github.com/floooh/sokol.git
-[submodule "c2ffi"]
-	path = deps/c2ffi
-	url = https://github.com/rpav/c2ffi.git

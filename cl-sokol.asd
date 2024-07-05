@@ -11,15 +11,13 @@
   :version "0.0.1"
   :depends-on (:cffi
                :cffi-libffi
+               :cl-autowrap
                :trivial-main-thread)
   :serial t
-  :components ((:file "src/package")
-               (:file "src/sokol_app")
-               (:file "src/sokol_gfx")
-               (:file "src/sokol_audio")
-               (:file "src/sokol_time")
-               (:file "src/sokol_fetch")
-               (:file "src/sokol_args")
-               (:file "src/sokol_log")
-               (:file "src/sokol")
-               (:file "src/test")))
+  :pathname "src"
+  :components ((:static-file "sokol/sokol_gfx.h")
+               (:static-file "sokol/sokol_app.h")
+               (:static-file "sokol/sokol_audio.h")
+               (:static-file "sokol/sokol_fetch.h")
+               (:static-file "sokol/sokol_time.h")
+               (:file "test")))

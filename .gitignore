@@ -1,8 +1,6 @@
 __pycache__
 *.dylib
 .vscode
-build/
 .DS_Store
-aux/*.lisp
 .#*
 *.o

@@ -13,25 +13,18 @@ else
     endif
 endif
 
-default: all
-
-SRC = aux
-BIN = build
+SRC = src
+BIN = src
 SRCS = $(wildcard $(SRC)/*.c)
 BINS = $(SRCS:$(SRC)/%.c=%)
-CFLAGS = -shared -fpic -Iaux -Ideps/sokol -DSOKOL_NO_ENTRY $(SYS_CFLAGS)
+CFLAGS = -shared -fpic -Isrc/sokol -DSOKOL_NO_ENTRY $(SYS_CFLAGS)
 %: $(SRC)/%.c
 	$(CC) $(CFLAGS) -o $(BIN)/lib$(subst _cl,,$(@)).$(LIB_EXT) $<
 
-bindings:
-	python3 gen_cl.py
-	mv aux/*.lisp src
-
-libraries: $(BINS)
-
-all: clean bindings libraries
+default: $(BINS)
 
 clean:
-	$(RM) $(BIN)/*
+	$(RM) src/*.dylib
+	$(RM) src/*.spec
 
-.PHONY: all default clean bindings libraries
+.PHONY: all default
