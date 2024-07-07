@@ -24,7 +24,6 @@ do
         outpath="$outdir/sokol_$name.c"
         echo "#define SOKOL_IMPL" > $outpath
         echo "#include \"$fname\"" >> $outpath
-        cp "$header" "$outdir"
         echo "$header -> $outpath"
     fi
 done

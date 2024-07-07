@@ -20,5 +20,16 @@
                 :components ((:file "bindings")
                              (:file "wrapper")
                              (:static-file "sokol_app.h")))
+               (:module #:cl-sokol/gfx
+                :serial t
+                :components ((:file "bindings")
+                             (:file "wrapper")
+                             (:static-file "sokol_gfx.h")))
+               (:module #:cl-sokol/time
+                :serial t
+                :components ((:file "bindings")
+                             (:file "wrapper")
+                             (:static-file "sokol_time.h")))
                (:file "sokol"
-                :depends-on (:cl-sokol/app))))
+                :depends-on (:cl-sokol/app
+                             :cl-sokol/time))))
