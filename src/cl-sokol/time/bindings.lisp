@@ -42,5 +42,17 @@
 (unless (cffi:foreign-library-loaded-p 'sokol-stm)
   (cffi:use-foreign-library sokol-stm))
 
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defun cl-sokol/time::translate-to-lisp (name)
+    (autowrap:default-c-to-lisp
+     (if (or (< (length name) 4)
+             (not (string-equal "stm_"
+                                (subseq (string-downcase name) 0 4))))
+         name
+         (subseq name 4)))))
+
 (autowrap:c-include (asdf:system-relative-pathname :cl-sokol #p"src/sokol/sokol_time.h")
-                    :spec-path (asdf:system-relative-pathname :cl-sokol #p"spec/"))
+                    :spec-path (asdf:system-relative-pathname :cl-sokol #p"spec/")
+                    :c-to-lisp-function #'translate-to-lisp
+                    :exclude-definitions ("^(?!stm)")
+                    :include-definitions ("^uint64_t$"))

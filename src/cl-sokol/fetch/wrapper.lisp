@@ -1,4 +1,4 @@
-;;;; cl-sokol/app/wrapper.lisp
+;;;; cl-sokol/fetch/wrapper.lisp
 
 ;; The MIT License (MIT)
 

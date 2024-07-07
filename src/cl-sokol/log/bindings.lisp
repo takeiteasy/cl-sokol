@@ -1,4 +1,4 @@
-;;;; cl-sokol/app/bindings.lisp
+;;;; cl-sokol/log/bindings.lisp
 
 ;; The MIT License (MIT)
 
@@ -23,42 +23,36 @@
 ;; TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 ;; SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-(defpackage :cl-sokol/app
+(defpackage :cl-sokol/log
   (:use #:cl)
-  (:nicknames :%sapp))
+  (:nicknames :%slog))
 
-(in-package :cl-sokol/app)
+(in-package :cl-sokol/log)
 
 (pushnew (asdf:system-relative-pathname :cl-sokol #p"build/")
          cffi:*foreign-library-directories*
          :test #'equal)
 
-(cffi:define-foreign-library sokol-sapp
-  (:darwin "libsokol_app.dylib")
-  (:unix "libsokol_app.so")
-  (:windows "libsokol_app.dll")
-  (t (:default "libsokol_app")))
+(cffi:define-foreign-library sokol-slog
+  (:darwin "libsokol_log.dylib")
+  (:unix "libsokol_log.so")
+  (:windows "libsokol_log.dll")
+  (t (:default "libsokol_log")))
 
-(unless (cffi:foreign-library-loaded-p 'sokol-sapp)
-  (cffi:use-foreign-library sokol-sapp))
+(unless (cffi:foreign-library-loaded-p 'sokol-slog)
+  (cffi:use-foreign-library sokol-slog))
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
-  (defun cl-sokol/app::translate-to-lisp (name)
+  (defun cl-sokol/log::translate-to-lisp (name)
     (autowrap:default-c-to-lisp
      (if (or (< (length name) 5)
-             (not (string-equal "sapp_"
+             (not (string-equal "slog_"
                                 (subseq (string-downcase name) 0 5))))
          name
          (subseq name 5)))))
 
-(autowrap:c-include (asdf:system-relative-pathname :cl-sokol #p"src/sokol/sokol_app.h")
+(autowrap:c-include (asdf:system-relative-pathname :cl-sokol #p"src/sokol/sokol_log.h")
                     :spec-path (asdf:system-relative-pathname :cl-sokol #p"spec/")
                     :c-to-lisp-function #'translate-to-lisp
-                    :exclude-definitions ("^_(?!SAPP)"
-                                          "^(?!sapp)"
-                                          "^sokol_main$")
-                    :include-definitions ("^_SAPP"
-                                          "^uint32_t$"
-                                          "^uint64_t$"
-                                          "^size_t$"
-                                          "^uintptr_t$"))
+                    :exclude-definitions ("^(?!slog)")
+                    :include-definitions ("^uint32_t$"))

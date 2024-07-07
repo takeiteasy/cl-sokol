@@ -1,4 +1,4 @@
-;;;; cl-sokol/app/bindings.lisp
+;;;; cl-sokol/audio/bindings.lisp
 
 ;; The MIT License (MIT)
 
@@ -23,42 +23,38 @@
 ;; TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 ;; SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-(defpackage :cl-sokol/app
+(defpackage :cl-sokol/audio
   (:use #:cl)
-  (:nicknames :%sapp))
+  (:nicknames :%saudio))
 
-(in-package :cl-sokol/app)
+(in-package :cl-sokol/audio)
 
 (pushnew (asdf:system-relative-pathname :cl-sokol #p"build/")
          cffi:*foreign-library-directories*
          :test #'equal)
 
-(cffi:define-foreign-library sokol-sapp
-  (:darwin "libsokol_app.dylib")
-  (:unix "libsokol_app.so")
-  (:windows "libsokol_app.dll")
-  (t (:default "libsokol_app")))
+(cffi:define-foreign-library sokol-saudio
+  (:darwin "libsokol_audio.dylib")
+  (:unix "libsokol_audio.so")
+  (:windows "libsokol_audio.dll")
+  (t (:default "libsokol_audio")))
 
-(unless (cffi:foreign-library-loaded-p 'sokol-sapp)
-  (cffi:use-foreign-library sokol-sapp))
+(unless (cffi:foreign-library-loaded-p 'sokol-saudio)
+  (cffi:use-foreign-library sokol-saudio))
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
-  (defun cl-sokol/app::translate-to-lisp (name)
+  (defun cl-sokol/audio::translate-to-lisp (name)
     (autowrap:default-c-to-lisp
-     (if (or (< (length name) 5)
-             (not (string-equal "sapp_"
-                                (subseq (string-downcase name) 0 5))))
+     (if (or (< (length name) 7)
+             (not (string-equal "saudio_"
+                                (subseq (string-downcase name) 0 7))))
          name
-         (subseq name 5)))))
+         (subseq name 7)))))
 
-(autowrap:c-include (asdf:system-relative-pathname :cl-sokol #p"src/sokol/sokol_app.h")
+(autowrap:c-include (asdf:system-relative-pathname :cl-sokol #p"src/sokol/sokol_audio.h")
                     :spec-path (asdf:system-relative-pathname :cl-sokol #p"spec/")
+                    :symbol-exceptions (("saudio_push" . "PUSH-SAMPLES"))
                     :c-to-lisp-function #'translate-to-lisp
-                    :exclude-definitions ("^_(?!SAPP)"
-                                          "^(?!sapp)"
-                                          "^sokol_main$")
-                    :include-definitions ("^_SAPP"
-                                          "^uint32_t$"
-                                          "^uint64_t$"
-                                          "^size_t$"
-                                          "^uintptr_t$"))
+                    :exclude-definitions ("^(?!saudio)")
+                    :include-definitions ("^_SAUDIO"
+                                          "^uint32_t$"))

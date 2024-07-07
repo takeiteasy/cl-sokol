@@ -42,5 +42,20 @@
 (unless (cffi:foreign-library-loaded-p 'sokol-sg)
   (cffi:use-foreign-library sokol-sg))
 
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defun cl-sokol/gfx::translate-to-lisp (name)
+    (autowrap:default-c-to-lisp
+     (if (or (< (length name) 3)
+             (not (string-equal "sg_"
+                                (subseq (string-downcase name) 0 3))))
+         name
+         (subseq name 3)))))
+
 (autowrap:c-include (asdf:system-relative-pathname :cl-sokol #p"src/sokol/sokol_gfx.h")
-                    :spec-path (asdf:system-relative-pathname :cl-sokol #p"spec/"))
+                    :spec-path (asdf:system-relative-pathname :cl-sokol #p"spec/")
+                    :c-to-lisp-function #'translate-to-lisp
+                    :exclude-definitions ("^(?!sg)")
+                    :include-definitions ("^_SG"
+                                          "^uint32_t$"
+                                          "^uint8_t$"
+                                          "^size_t$"))

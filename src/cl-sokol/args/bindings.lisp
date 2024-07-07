@@ -1,4 +1,4 @@
-;;;; cl-sokol/app/wrapper.lisp
+;;;; cl-sokol/args/bindings.lisp
 
 ;; The MIT License (MIT)
 
@@ -22,3 +22,36 @@
 ;; CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 ;; TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 ;; SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+(defpackage :cl-sokol/args
+  (:use #:cl)
+  (:nicknames :%sargs))
+
+(in-package :cl-sokol/args)
+
+(pushnew (asdf:system-relative-pathname :cl-sokol #p"build/")
+         cffi:*foreign-library-directories*
+         :test #'equal)
+
+(cffi:define-foreign-library sokol-sargs
+  (:darwin "libsokol_args.dylib")
+  (:unix "libsokol_args.so")
+  (:windows "libsokol_args.dll")
+  (t (:default "libsokol_args")))
+
+(unless (cffi:foreign-library-loaded-p 'sokol-sargs)
+  (cffi:use-foreign-library sokol-sargs))
+
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defun cl-sokol/args::translate-to-lisp (name)
+    (autowrap:default-c-to-lisp
+     (if (or (< (length name) 6)
+             (not (string-equal "sargs_"
+                                (subseq (string-downcase name) 0 6))))
+         name
+         (subseq name 6)))))
+
+(autowrap:c-include (asdf:system-relative-pathname :cl-sokol #p"src/sokol/sokol_args.h")
+                    :spec-path (asdf:system-relative-pathname :cl-sokol #p"spec/")
+                    :exclude-definitions ("^(?!sargs)")
+                    )

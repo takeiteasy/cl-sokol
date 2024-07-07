@@ -20,11 +20,31 @@
                 :components ((:file "bindings")
                              (:file "wrapper")
                              (:static-file "sokol_app.h")))
+               (:module #:cl-sokol/args
+                :serial t
+                :components ((:file "bindings")
+                             (:file "wrapper")
+                             (:static-file "sokol_args.h")))
+               (:module #:cl-sokol/audio
+                :serial t
+                :components ((:file "bindings")
+                             (:file "wrapper")
+                             (:static-file "sokol_audio.h")))
+               (:module #:cl-sokol/fetch
+                :serial t
+                :components ((:file "bindings")
+                             (:file "wrapper")
+                             (:static-file "sokol_fetch.h")))
                (:module #:cl-sokol/gfx
                 :serial t
                 :components ((:file "bindings")
                              (:file "wrapper")
                              (:static-file "sokol_gfx.h")))
+               (:module #:cl-sokol/log
+                :serial t
+                :components ((:file "bindings")
+                             (:file "wrapper")
+                             (:static-file "sokol_log.h")))
                (:module #:cl-sokol/time
                 :serial t
                 :components ((:file "bindings")
@@ -32,5 +52,9 @@
                              (:static-file "sokol_time.h")))
                (:file "sokol"
                 :depends-on (:cl-sokol/app
+                             :cl-sokol/args
+                             :cl-sokol/audio
+                             :cl-sokol/fetch
                              :cl-sokol/gfx
+                             :cl-sokol/log
                              :cl-sokol/time))))
