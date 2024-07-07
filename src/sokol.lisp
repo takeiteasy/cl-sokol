@@ -1,0 +1,3 @@
+;;;; sokol.lisp
+
+(print "hello!")

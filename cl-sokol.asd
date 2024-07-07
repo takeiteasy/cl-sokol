@@ -14,10 +14,11 @@
                :cl-autowrap
                :trivial-main-thread)
   :serial t
-  :pathname "src"
-  :components ((:static-file "sokol/sokol_gfx.h")
-               (:static-file "sokol/sokol_app.h")
-               (:static-file "sokol/sokol_audio.h")
-               (:static-file "sokol/sokol_fetch.h")
-               (:static-file "sokol/sokol_time.h")
-               (:file "test")))
+  :pathname "src/"
+  :components ((:module #:cl-sokol/app
+                :serial t
+                :components ((:file "bindings")
+                             (:file "wrapper")
+                             (:static-file "sokol_app.h")))
+               (:file "sokol"
+                :depends-on (:cl-sokol/app))))

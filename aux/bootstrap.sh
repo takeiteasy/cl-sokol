@@ -18,10 +18,13 @@ do
     fname=$(basename $header)
     if [ "$fname" != "sokol_glue.h" ]
     then
-        name=$(echo "$fname" | cut -d "." -f 1)
-        outpath="src/$name.c"
+        name=$(echo "$fname" | cut -d "." -f 1 | cut -d "_" -f 2)
+        outdir="src/cl-sokol/$name"
+        mkdir -p "$outdir"
+        outpath="$outdir/sokol_$name.c"
         echo "#define SOKOL_IMPL" > $outpath
         echo "#include \"$fname\"" >> $outpath
+        cp "$header" "$outdir"
         echo "$header -> $outpath"
     fi
 done
