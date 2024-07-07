@@ -1,1 +1,2 @@
 spec/*.spec linguist-vendored
+*.h linguist-vendored
