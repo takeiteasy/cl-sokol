@@ -53,7 +53,4 @@
 
 (autowrap:c-include (asdf:system-relative-pathname :cl-sokol #p"src/sokol/sokol_app.h")
                     :spec-path (asdf:system-relative-pathname :cl-sokol #p"spec/")
-                    :c-to-lisp-function #'translate-to-lisp
-                    ;; TODO: Handle exclude/include symbols for Windows + Linux
-                    :exclude-definitions ("^_(?!SAPP)")
-                    :include-definitions ("__darwin_intptr_t"))
+                    :c-to-lisp-function #'translate-to-lisp)

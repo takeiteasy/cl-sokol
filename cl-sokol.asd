@@ -32,4 +32,5 @@
                              (:static-file "sokol_time.h")))
                (:file "sokol"
                 :depends-on (:cl-sokol/app
+                             :cl-sokol/gfx
                              :cl-sokol/time))))
