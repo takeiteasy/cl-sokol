@@ -2,25 +2,7 @@
 
 > **WARNING** This is a work in progress
 
-Unofficial Common Lisp bindings + wrapper for [sokol](https://github.com/floooh/sokol). Bindings are working, however the wrapper is a WIP.
-
-## Build
-
-This will be cleaned up I swear.
-
-```
-git submodule update --init
-cd sokol
-git checkout lisp-bindings
-cd ../sokol-tools
-git checkout lisp-bindings
-git submodule update --init
-./fips set <config for your platform> # see sokol-tools/README.md
-./fips build # takes a while
-cd ..
-python3 gen_bindings.py
-sbcl --load example-simple-window.lisp
-```
+Unofficial Common Lisp bindings + wrapper for [sokol](https://github.com/floooh/sokol).
 
 ## LICENSE
 
