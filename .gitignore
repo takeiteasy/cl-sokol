@@ -17,3 +17,5 @@ __pycache__/
 *.swp
 *.swo
 *~
+./sokol
+./sokol-tools

@@ -1,6 +1,0 @@
-[submodule "sokol"]
-	path = sokol
-	url = git@github.com:takeiteasy/sokol.git
-[submodule "sokol-tools"]
-	path = sokol-tools
-	url = git@github.com:takeiteasy/sokol-tools.git
