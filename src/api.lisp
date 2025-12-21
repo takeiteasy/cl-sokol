@@ -203,6 +203,178 @@
     ;; Run the application
     (sokol-app:sapp-run desc)))
 
+;;;; Event Wrapper API
+
+(defclass event ()
+  ((type :initarg :type :accessor event-type
+         :documentation "Event type (keyword, e.g., :SAPP-EVENTTYPE-KEY-DOWN)")
+   (frame-count :initarg :frame-count :accessor event-frame-count
+                :documentation "Frame counter")
+   (key-code :initarg :key-code :accessor event-key-code
+             :documentation "Key code (keyword, e.g., :SAPP-KEYCODE-SPACE)")
+   (char-code :initarg :char-code :accessor event-char-code
+              :documentation "Unicode character code")
+   (key-repeat :initarg :key-repeat :accessor event-key-repeat
+               :documentation "True if this is a key repeat")
+   (modifiers :initarg :modifiers :accessor event-modifiers
+              :documentation "Modifier keys bitmask")
+   (mouse-button :initarg :mouse-button :accessor event-mouse-button
+                 :documentation "Mouse button (keyword, e.g., :SAPP-MOUSEBUTTON-LEFT)")
+   (mouse-x :initarg :mouse-x :accessor event-mouse-x
+            :documentation "Mouse X position")
+   (mouse-y :initarg :mouse-y :accessor event-mouse-y
+            :documentation "Mouse Y position")
+   (mouse-dx :initarg :mouse-dx :accessor event-mouse-dx
+             :documentation "Mouse X delta")
+   (mouse-dy :initarg :mouse-dy :accessor event-mouse-dy
+             :documentation "Mouse Y delta")
+   (scroll-x :initarg :scroll-x :accessor event-scroll-x
+             :documentation "Scroll X delta")
+   (scroll-y :initarg :scroll-y :accessor event-scroll-y
+             :documentation "Scroll Y delta")
+   (num-touches :initarg :num-touches :accessor event-num-touches
+                :documentation "Number of active touches")
+   (window-width :initarg :window-width :accessor event-window-width
+                 :documentation "Window width")
+   (window-height :initarg :window-height :accessor event-window-height
+                  :documentation "Window height")
+   (framebuffer-width :initarg :framebuffer-width :accessor event-framebuffer-width
+                      :documentation "Framebuffer width")
+   (framebuffer-height :initarg :framebuffer-height :accessor event-framebuffer-height
+                       :documentation "Framebuffer height"))
+  (:documentation "Wrapper for sokol sapp_event struct"))
+
+(defun wrap-event (event-ptr)
+  "Convert a foreign sapp_event pointer to a CLOS event object."
+  (make-instance 'event
+    :type (foreign-enum-keyword 'sokol-app:sapp-event-type
+                                (foreign-slot-value event-ptr '(:struct sokol-app:sapp-event) 'sokol-app::type))
+    :frame-count (foreign-slot-value event-ptr '(:struct sokol-app:sapp-event) 'sokol-app::frame-count)
+    :key-code (foreign-enum-keyword 'sokol-app:sapp-keycode
+                                    (foreign-slot-value event-ptr '(:struct sokol-app:sapp-event) 'sokol-app::key-code))
+    :char-code (foreign-slot-value event-ptr '(:struct sokol-app:sapp-event) 'sokol-app::char-code)
+    :key-repeat (foreign-slot-value event-ptr '(:struct sokol-app:sapp-event) 'sokol-app::key-repeat)
+    :modifiers (foreign-slot-value event-ptr '(:struct sokol-app:sapp-event) 'sokol-app::modifiers)
+    :mouse-button (foreign-enum-keyword 'sokol-app:sapp-mousebutton
+                                        (foreign-slot-value event-ptr '(:struct sokol-app:sapp-event) 'sokol-app::mouse-button))
+    :mouse-x (foreign-slot-value event-ptr '(:struct sokol-app:sapp-event) 'sokol-app::mouse-x)
+    :mouse-y (foreign-slot-value event-ptr '(:struct sokol-app:sapp-event) 'sokol-app::mouse-y)
+    :mouse-dx (foreign-slot-value event-ptr '(:struct sokol-app:sapp-event) 'sokol-app::mouse-dx)
+    :mouse-dy (foreign-slot-value event-ptr '(:struct sokol-app:sapp-event) 'sokol-app::mouse-dy)
+    :scroll-x (foreign-slot-value event-ptr '(:struct sokol-app:sapp-event) 'sokol-app::scroll-x)
+    :scroll-y (foreign-slot-value event-ptr '(:struct sokol-app:sapp-event) 'sokol-app::scroll-y)
+    :num-touches (foreign-slot-value event-ptr '(:struct sokol-app:sapp-event) 'sokol-app::num-touches)
+    :window-width (foreign-slot-value event-ptr '(:struct sokol-app:sapp-event) 'sokol-app::window-width)
+    :window-height (foreign-slot-value event-ptr '(:struct sokol-app:sapp-event) 'sokol-app::window-height)
+    :framebuffer-width (foreign-slot-value event-ptr '(:struct sokol-app:sapp-event) 'sokol-app::framebuffer-width)
+    :framebuffer-height (foreign-slot-value event-ptr '(:struct sokol-app:sapp-event) 'sokol-app::framebuffer-height)))
+
+;;; Event type predicates
+
+(defun key-down-p (event)
+  "Return T if EVENT is a key-down event."
+  (eq (event-type event) :SAPP-EVENTTYPE-KEY-DOWN))
+
+(defun key-up-p (event)
+  "Return T if EVENT is a key-up event."
+  (eq (event-type event) :SAPP-EVENTTYPE-KEY-UP))
+
+(defun char-input-p (event)
+  "Return T if EVENT is a character input event."
+  (eq (event-type event) :SAPP-EVENTTYPE-CHAR))
+
+(defun mouse-down-p (event)
+  "Return T if EVENT is a mouse button down event."
+  (eq (event-type event) :SAPP-EVENTTYPE-MOUSE-DOWN))
+
+(defun mouse-up-p (event)
+  "Return T if EVENT is a mouse button up event."
+  (eq (event-type event) :SAPP-EVENTTYPE-MOUSE-UP))
+
+(defun mouse-move-p (event)
+  "Return T if EVENT is a mouse move event."
+  (eq (event-type event) :SAPP-EVENTTYPE-MOUSE-MOVE))
+
+(defun mouse-scroll-p (event)
+  "Return T if EVENT is a mouse scroll event."
+  (eq (event-type event) :SAPP-EVENTTYPE-MOUSE-SCROLL))
+
+(defun mouse-enter-p (event)
+  "Return T if EVENT is a mouse enter event."
+  (eq (event-type event) :SAPP-EVENTTYPE-MOUSE-ENTER))
+
+(defun mouse-leave-p (event)
+  "Return T if EVENT is a mouse leave event."
+  (eq (event-type event) :SAPP-EVENTTYPE-MOUSE-LEAVE))
+
+(defun window-resized-p (event)
+  "Return T if EVENT is a window resize event."
+  (eq (event-type event) :SAPP-EVENTTYPE-RESIZED))
+
+(defun window-iconified-p (event)
+  "Return T if EVENT is a window iconified event."
+  (eq (event-type event) :SAPP-EVENTTYPE-ICONIFIED))
+
+(defun window-restored-p (event)
+  "Return T if EVENT is a window restored event."
+  (eq (event-type event) :SAPP-EVENTTYPE-RESTORED))
+
+(defun window-focused-p (event)
+  "Return T if EVENT is a window focused event."
+  (eq (event-type event) :SAPP-EVENTTYPE-FOCUSED))
+
+(defun window-unfocused-p (event)
+  "Return T if EVENT is a window unfocused event."
+  (eq (event-type event) :SAPP-EVENTTYPE-UNFOCUSED))
+
+(defun quit-requested-p (event)
+  "Return T if EVENT is a quit requested event."
+  (eq (event-type event) :SAPP-EVENTTYPE-QUIT-REQUESTED))
+
+;;; Modifier key helpers
+
+(defun shift-pressed-p (event)
+  "Return T if shift modifier is pressed."
+  (logtest (event-modifiers event) #x1)) ; SAPP_MODIFIER_SHIFT = 1
+
+(defun ctrl-pressed-p (event)
+  "Return T if ctrl modifier is pressed."
+  (logtest (event-modifiers event) #x2)) ; SAPP_MODIFIER_CTRL = 2
+
+(defun alt-pressed-p (event)
+  "Return T if alt modifier is pressed."
+  (logtest (event-modifiers event) #x4)) ; SAPP_MODIFIER_ALT = 4
+
+(defun super-pressed-p (event)
+  "Return T if super/command modifier is pressed."
+  (logtest (event-modifiers event) #x8)) ; SAPP_MODIFIER_SUPER = 8
+
+;;; Mouse button helpers
+
+(defun left-button-p (event)
+  "Return T if event is for left mouse button."
+  (eq (event-mouse-button event) :SAPP-MOUSEBUTTON-LEFT))
+
+(defun right-button-p (event)
+  "Return T if event is for right mouse button."
+  (eq (event-mouse-button event) :SAPP-MOUSEBUTTON-RIGHT))
+
+(defun middle-button-p (event)
+  "Return T if event is for middle mouse button."
+  (eq (event-mouse-button event) :SAPP-MOUSEBUTTON-MIDDLE))
+
+;;; Convenience functions for common checks
+
+(defun key-pressed-p (event keycode)
+  "Return T if EVENT is a key-down for KEYCODE (keyword, e.g., :SAPP-KEYCODE-SPACE)."
+  (and (key-down-p event)
+       (eq (event-key-code event) keycode)))
+
+(defun mouse-clicked-p (event button)
+  "Return T if EVENT is a mouse-down for BUTTON (keyword, e.g., :SAPP-MOUSEBUTTON-LEFT)."
+  (and (mouse-down-p event)
+       (eq (event-mouse-button event) button)))
+
 ;;;; Time Functions
 
 (defun setup-time ()

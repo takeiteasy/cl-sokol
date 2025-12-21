@@ -34,6 +34,7 @@
                 #:mem-aref
                 #:foreign-type-size
                 #:foreign-enum-value
+                #:foreign-enum-keyword
                 #:foreign-string-alloc
                 #:callback
                 #:defcallback)
@@ -46,6 +47,55 @@
    #:event
    ;; Main functions
    #:run-app
+   ;; Event wrapper API
+   #:wrap-event
+   ;; Event type predicates
+   #:key-down-p
+   #:key-up-p
+   #:char-input-p
+   #:mouse-down-p
+   #:mouse-up-p
+   #:mouse-move-p
+   #:mouse-scroll-p
+   #:mouse-enter-p
+   #:mouse-leave-p
+   #:window-resized-p
+   #:window-iconified-p
+   #:window-restored-p
+   #:window-focused-p
+   #:window-unfocused-p
+   #:quit-requested-p
+   ;; Modifier key helpers
+   #:shift-pressed-p
+   #:ctrl-pressed-p
+   #:alt-pressed-p
+   #:super-pressed-p
+   ;; Mouse button helpers
+   #:left-button-p
+   #:right-button-p
+   #:middle-button-p
+   ;; Convenience functions
+   #:key-pressed-p
+   #:mouse-clicked-p
+   ;; Event accessors
+   #:event-type
+   #:event-frame-count
+   #:event-key-code
+   #:event-char-code
+   #:event-key-repeat
+   #:event-modifiers
+   #:event-mouse-button
+   #:event-mouse-x
+   #:event-mouse-y
+   #:event-mouse-dx
+   #:event-mouse-dy
+   #:event-scroll-x
+   #:event-scroll-y
+   #:event-num-touches
+   #:event-window-width
+   #:event-window-height
+   #:event-framebuffer-width
+   #:event-framebuffer-height
    ;; CLOS wrappers
    #:gfx-desc
    #:buffer-desc
