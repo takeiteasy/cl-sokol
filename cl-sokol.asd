@@ -40,3 +40,65 @@
   :components ((:module "tests"
                 :components ((:file "wrapper-tests"))))
   :perform (test-op (o c) (symbol-call :cl-sokol/tests :run-tests)))
+
+;;;; Optional Util Module Subsystems
+
+(asdf:defsystem #:cl-sokol/gl
+  :description "CLOS wrappers for sokol-gl (OpenGL 1.x compatibility layer)"
+  :depends-on (#:cl-sokol)
+  :serial t
+  :components ((:file "src/sokol-gl")
+               (:file "src/gl-wrapper")))
+
+(asdf:defsystem #:cl-sokol/debugtext
+  :description "CLOS wrappers for sokol-debugtext (ASCII debug text rendering)"
+  :depends-on (#:cl-sokol)
+  :serial t
+  :components ((:file "src/sokol-debugtext")
+               (:file "src/debugtext-wrapper")))
+
+(asdf:defsystem #:cl-sokol/shape
+  :description "CLOS wrappers for sokol-shape (primitive shape generation)"
+  :depends-on (#:cl-sokol)
+  :serial t
+  :components ((:file "src/sokol-shape")
+               (:file "src/shape-wrapper")))
+
+(asdf:defsystem #:cl-sokol/memtrack
+  :description "Convenience wrappers for sokol-memtrack (memory tracking)"
+  :depends-on (#:cl-sokol)
+  :serial t
+  :components ((:file "src/sokol-memtrack")
+               (:file "src/memtrack-wrapper")))
+
+(asdf:defsystem #:cl-sokol/color
+  :description "Convenience wrappers for sokol-color (X11 color utilities)"
+  :depends-on (#:cl-sokol)
+  :serial t
+  :components ((:file "src/sokol-color")
+               (:file "src/color-wrapper")))
+
+(asdf:defsystem #:cl-sokol/imgui
+  :description "Convenience wrappers for sokol-imgui (Dear ImGui integration)"
+  :depends-on (#:cl-sokol)
+  :serial t
+  :components ((:file "src/sokol-imgui")
+               (:file "src/imgui-wrapper")))
+
+(asdf:defsystem #:cl-sokol/gfx-imgui
+  :description "Convenience wrappers for sokol-gfx-imgui (sokol-gfx debug inspector)"
+  :depends-on (#:cl-sokol #:cl-sokol/imgui)
+  :serial t
+  :components ((:file "src/sokol-gfx-imgui")
+               (:file "src/gfx-imgui-wrapper")))
+
+(asdf:defsystem #:cl-sokol/all
+  :description "All cl-sokol subsystems (convenience system)"
+  :depends-on (#:cl-sokol
+               #:cl-sokol/gl
+               #:cl-sokol/debugtext
+               #:cl-sokol/shape
+               #:cl-sokol/memtrack
+               #:cl-sokol/color
+               #:cl-sokol/imgui
+               #:cl-sokol/gfx-imgui))

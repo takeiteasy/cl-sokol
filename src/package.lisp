@@ -214,4 +214,111 @@
    #:view-desc-mipmap-level
    #:view-desc-first-layer
    #:view-desc-num-layers
-   #:view-desc-label))
+   #:view-desc-label
+
+   ;;; Memtrack wrapper exports
+   #:memtrack-info
+   #:memtrack-allocator
+
+   ;;; Color wrapper exports
+   #:sg-red #:sg-green #:sg-blue #:sg-white #:sg-black
+   #:sg-yellow #:sg-cyan #:sg-magenta
+   #:make-sg-color-3f
+   #:make-sg-color-4f
+
+   ;;; ImGui wrapper exports
+   #:setup-imgui
+   #:shutdown-imgui
+   #:imgui-new-frame
+   #:imgui-render
+   #:imgui-handle-event
+
+   ;;; GFX-ImGui wrapper exports
+   #:setup-gfx-imgui
+   #:shutdown-gfx-imgui
+   #:gfx-imgui-draw
+   #:gfx-imgui-draw-menu
+   #:gfx-imgui-draw-buffers
+   #:gfx-imgui-draw-images
+   #:gfx-imgui-draw-samplers
+   #:gfx-imgui-draw-shaders
+   #:gfx-imgui-draw-pipelines
+   #:gfx-imgui-draw-capabilities
+   #:gfx-imgui-draw-frame-stats
+
+   ;;; GL wrapper exports
+   ;; CLOS classes
+   #:gl-context #:gl-pipeline #:gl-desc #:gl-context-desc #:gl-error
+   ;; Setup/teardown
+   #:setup-gl #:shutdown-gl
+   ;; Context management
+   #:make-gl-context #:destroy-gl-context #:set-gl-context #:get-gl-context
+   #:default-gl-context #:with-gl-context
+   ;; Error handling
+   #:gl-error #:gl-context-error
+   ;; Rendering
+   #:gl-draw #:gl-draw-context #:gl-draw-layer #:gl-draw-context-layer
+   ;; State management
+   #:gl-defaults #:gl-viewport #:gl-viewportf #:gl-scissor #:gl-scissorf
+   #:with-gl-scissor #:gl-enable-texture #:gl-disable-texture #:gl-layer
+   ;; Matrix operations
+   #:gl-matrix-mode-modelview #:gl-matrix-mode-projection #:gl-matrix-mode-texture
+   #:gl-load-identity #:gl-load-matrix #:gl-load-transpose-matrix
+   #:gl-mult-matrix #:gl-mult-transpose-matrix
+   #:gl-rotate #:gl-scale #:gl-translate
+   #:gl-frustum #:gl-ortho #:gl-perspective #:gl-lookat
+   #:gl-push-matrix #:gl-pop-matrix #:with-gl-matrix-push
+   ;; Primitive rendering
+   #:gl-begin-points #:gl-begin-lines #:gl-begin-line-strip
+   #:gl-begin-triangles #:gl-begin-triangle-strip #:gl-begin-quads
+   #:gl-end #:with-gl-primitive
+   ;; Vertex attributes
+   #:gl-texcoord #:gl-color3f #:gl-color4f #:gl-color3b #:gl-color4b #:gl-color1i
+   #:gl-color #:gl-point-size
+   #:gl-vertex2f #:gl-vertex2f-texcoord #:gl-vertex2f-color3f #:gl-vertex2f-color4f
+   #:gl-vertex2f-color3b #:gl-vertex2f-color4b
+   #:gl-vertex2f-texcoord-color3f #:gl-vertex2f-texcoord-color4f
+   #:gl-vertex3f #:gl-vertex3f-texcoord #:gl-vertex3f-color3f #:gl-vertex3f-color4f
+   #:gl-vertex3f-color3b #:gl-vertex3f-color4b
+   #:gl-vertex3f-texcoord-color3f #:gl-vertex3f-texcoord-color4f
+   #:gl-vertex
+   ;; Utilities
+   #:gl-rad #:gl-deg
+   ;; Convenience macros
+   #:with-gl-2d-setup
+
+   ;;; DebugText wrapper exports
+   ;; CLOS classes
+   #:debugtext-context #:debugtext-desc #:debugtext-context-desc
+   ;; Setup/teardown
+   #:setup-debugtext #:shutdown-debugtext
+   ;; Context management
+   #:make-debugtext-context #:destroy-debugtext-context #:set-debugtext-context
+   #:get-debugtext-context #:default-debugtext-context #:with-debugtext-context
+   ;; Rendering
+   #:debugtext-draw #:debugtext-draw-context #:debugtext-draw-layer #:debugtext-draw-context-layer
+   ;; Canvas and font setup
+   #:debugtext-canvas #:debugtext-origin #:debugtext-home #:debugtext-font #:debugtext-layer
+   ;; Cursor management
+   #:debugtext-pos #:debugtext-pos-x #:debugtext-pos-y
+   #:debugtext-move #:debugtext-move-x #:debugtext-move-y
+   #:debugtext-crlf #:debugtext-newline
+   ;; Color management
+   #:debugtext-color3b #:debugtext-color3f #:debugtext-color4b #:debugtext-color4f
+   #:debugtext-color1i #:debugtext-color
+   ;; Text output
+   #:debugtext-putc #:debugtext-puts #:debugtext-putr
+   #:debugtext-write #:debugtext-write-char #:debugtext-print #:debugtext-printf
+   ;; Convenience macros
+   #:with-debugtext-positioned #:with-debugtext-color #:debugtext-printf-at
+
+   ;;; Shape wrapper exports
+   ;; CLOS classes
+   #:shape-buffer #:shape-plane #:shape-box #:shape-sphere #:shape-cylinder #:shape-torus
+   ;; Buffer management
+   #:make-shape-buffer #:free-shape-buffer
+   ;; Shape building functions
+   #:build-plane #:build-box #:build-sphere #:build-cylinder #:build-torus
+   ;; Color utilities
+   #:shape-color-4f #:shape-color-3f #:shape-color-4b #:shape-color-3b
+   ))
