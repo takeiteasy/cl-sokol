@@ -14,12 +14,25 @@ import gen_lisp
 
 # Tasks to generate bindings for
 tasks = [
+    # Core sokol headers
     [ '../sokol_log.h',     'slog_',     [] ],
     [ '../sokol_gfx.h',     'sg_',       [] ],
     [ '../sokol_app.h',     'sapp_',     [] ],
     [ '../sokol_glue.h',    'sglue_',    ['sg_'] ],
     [ '../sokol_time.h',    'stm_',      [] ],
     [ '../sokol_audio.h',   'saudio_',   [] ],
+
+    # Util headers - standalone
+    [ '../util/sokol_memtrack.h', 'smemtrack_', [] ],
+
+    # Util headers - depend on sokol_gfx
+    [ '../util/sokol_gl.h',        'sgl_',       ['sg_'] ],
+    [ '../util/sokol_debugtext.h', 'sdtx_',      ['sg_'] ],
+    [ '../util/sokol_shape.h',     'sshape_',    ['sg_'] ],
+
+    # Util headers - depend on sokol_gfx and sokol_app
+    [ '../util/sokol_imgui.h',     'simgui_',    ['sg_', 'sapp_'] ],
+    [ '../util/sokol_gfx_imgui.h', 'sgimgui_',   ['sg_', 'sapp_'] ],
 ]
 
 print("Generating Common Lisp bindings for Sokol...")
