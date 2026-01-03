@@ -221,10 +221,18 @@
    #:memtrack-allocator
 
    ;;; Color wrapper exports
-   #:sg-red #:sg-green #:sg-blue #:sg-white #:sg-black
-   #:sg-yellow #:sg-cyan #:sg-magenta
-   #:make-sg-color-3f
-   #:make-sg-color-4f
+   ;; Common color constants
+   #:*red* #:*green* #:*blue* #:*white* #:*black*
+   #:*yellow* #:*cyan* #:*magenta* #:*gray* #:*orange*
+   #:*purple* #:*pink* #:*brown*
+   ;; Color creation functions
+   #:make-color-4b #:make-color-3b
+   #:make-color-4f #:make-color-3f
+   #:make-color-1i
+   ;; Color manipulation
+   #:color-lerp #:color-lerp-precise #:color-multiply
+   ;; Convenience functions
+   #:get-color-by-name #:get-color-rgba32-by-name #:list-all-colors
 
    ;;; ImGui wrapper exports
    #:setup-imgui
