@@ -1,5 +1,7 @@
 # cl-sokol
 
+### This project has moved [https://git.sr.ht/~takeiteasy/cl-sokol](https://git.sr.ht/~takeiteasy/cl-sokol)
+
 > **WARNING** This is a work in progress
 
 Common Lisp bindings + wrapper for [sokol](https://github.com/floooh/sokol). Uses CFFI for foreign function interface.
