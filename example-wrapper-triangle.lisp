@@ -1,5 +1,9 @@
 ;;;; example-wrapper-triangle.lisp
 
+(defpackage #:example-wrapper-triangle
+  (:use #:cl)
+  (:export #:run-triangle-example))
+
 (in-package :example-wrapper-triangle)
 
 (cffi:define-foreign-library libsokol-app
@@ -31,16 +35,15 @@
                                           :data vertex-range)))
     (setf *vertex-buffer* (sokol:make-buffer buffer-descriptor)))
 
-  ;; Create shader using generated descriptor
-  (let* ((shader-desc (triangle-shader-desc :metal-macos))
-         (shader (sokol:make-shader shader-desc)))
+  ;; Create shader using cl-sokol-shaders (auto-detects backend)
+  (let ((shader (cl-sokol-shaders:make-shader 'triangle)))
 
     ;; Create pipeline
     (let ((pipeline-descriptor (make-instance 'sokol:pipeline-desc
                                              :shader shader
                                              :vertex-layouts '(:sg-vertexformat-float3
                                                               :sg-vertexformat-float4))))
-      (setf *pipeline* (sokol:make-pipeline pipeline-descriptor))))
+      (setf *pipeline* (sokol:make-pipeline pipeline-descriptor)))))
 
 (defmethod sokol:frame ()
   "Render a frame"
@@ -80,8 +83,6 @@
   (sokol:run-app :width 640
                  :height 480
                  :title "Triangle"))
-
-(export 'run-triangle-example)
 
 ;; (asdf:load-system :example-wrapper-triangle)
 ;; (example-wrapper-triangle:run-triangle-example)

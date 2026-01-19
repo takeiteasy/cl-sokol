@@ -5,10 +5,9 @@
   :author "cl-sokol contributors"
   :license "MIT/zlib"
   :version "0.1.0"
-  :depends-on (#:cl-sokol)
+  :depends-on (#:cl-sokol #:cl-sokol-shaders)
   :serial t
-  :components ((:file "triangle-shader")
-               (:file "example-wrapper-triangle"))
+  :components ((:file "example-wrapper-triangle"))
   :in-order-to ((test-op (test-op #:example-wrapper-triangle/run))))
 
 (asdf:defsystem #:example-wrapper-triangle/run

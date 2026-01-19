@@ -480,8 +480,8 @@
 
 (cffi:defcstruct simgui-desc
   (max-vertices :int)
-  (color-format (:struct sokol-gfx:sg-pixel-format))
-  (depth-format (:struct sokol-gfx:sg-pixel-format))
+  (color-format sokol-gfx:sg-pixel-format)
+  (depth-format sokol-gfx:sg-pixel-format)
   (sample-count :int)
   (ini-filename :string)
   (no-default-font :bool)
@@ -501,8 +501,8 @@
 )
 
 (cffi:defcstruct simgui-font-tex-desc
-  (min-filter (:struct sokol-gfx:sg-filter))
-  (mag-filter (:struct sokol-gfx:sg-filter))
+  (min-filter sokol-gfx:sg-filter)
+  (mag-filter sokol-gfx:sg-filter)
 )
 
 ;; Functions
@@ -582,7 +582,7 @@
 )
 
 (cffi:defcfun ("simgui_map_keycode" simgui-map-keycode) :int
-  (keycode (:struct sokol-app:sapp-keycode))
+  (keycode sokol-app:sapp-keycode)
 )
 
 (cffi:defcfun ("simgui_shutdown" simgui-shutdown) :void

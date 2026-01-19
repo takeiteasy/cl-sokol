@@ -154,11 +154,19 @@
                   (width 640)
                   (height 480)
                   (title "Sokol Application")
+                  (high-dpi t)
+                  (swap-interval 1)
+                  (sample-count 1)
+                  fullscreen
                   (app-instance t))
   "Run a Sokol application.
 
   WIDTH, HEIGHT: window dimensions
   TITLE: window title
+  HIGH-DPI: enable high-DPI/Retina support (default T)
+  SWAP-INTERVAL: vsync interval, 1 for vsync on (default 1)
+  SAMPLE-COUNT: MSAA sample count (default 1, no MSAA)
+  FULLSCREEN: start in fullscreen mode
   APP-INSTANCE: set to T to use generic functions, or provide an object whose methods will be called
 
   This function will call the generic functions INIT, FRAME, CLEANUP, and EVENT.
@@ -199,6 +207,15 @@
     (setf (foreign-slot-value desc '(:struct sokol-app:sapp-desc) 'sokol-app::height) height)
     (setf (foreign-slot-value desc '(:struct sokol-app:sapp-desc) 'sokol-app::window-title)
           (foreign-string-alloc title))
+    (setf (foreign-slot-value desc '(:struct sokol-app:sapp-desc) 'sokol-app::high-dpi)
+          (if high-dpi 1 0))
+    (setf (foreign-slot-value desc '(:struct sokol-app:sapp-desc) 'sokol-app::swap-interval)
+          swap-interval)
+    (setf (foreign-slot-value desc '(:struct sokol-app:sapp-desc) 'sokol-app::sample-count)
+          sample-count)
+    (when fullscreen
+      (setf (foreign-slot-value desc '(:struct sokol-app:sapp-desc) 'sokol-app::fullscreen)
+            1))
 
     ;; Run the application
     (sokol-app:sapp-run desc)))
