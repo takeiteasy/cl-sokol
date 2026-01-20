@@ -1,4 +1,4 @@
-(in-package #:cl-sokol-shaders)
+(in-package #:cl-sokol/shaders)
 
 ;;; User-facing API for defining sokol shaders
 
@@ -6,7 +6,7 @@
   "Registry of defined shaders, mapping name (string) to (vertex-entry . fragment-entry).")
 
 (defmacro define-sokol-shader (name &body stages)
-  "Define a sokol shader from 3bgl-shader entry points.
+  "Define a sokol shader from clsl entry points.
 
 Usage:
   (define-sokol-shader my-shader
@@ -18,7 +18,7 @@ This creates:
   - The shader is compiled lazily on first use for each backend
 
 STAGES should be a list of (:vertex entry-point) and (:fragment entry-point) forms,
-where entry-point is a symbol naming a function defined using 3bgl-glsl:defun."
+where entry-point is a symbol naming a function defined using clsl-glsl:defun."
   (let ((vertex-entry (second (assoc :vertex stages)))
         (fragment-entry (second (assoc :fragment stages)))
         (compute-entry (second (assoc :compute stages))))
@@ -76,11 +76,11 @@ This is an alternative to calling the generated NAME-shader-desc function direct
               :fragment-entry (cdr entry))
         (error "Shader ~A not defined." name))))
 
-;; Export the 3bgl-glsl/cl package name for users
+;; Export the clsl-glsl/cl package name for users
 (defun shader-package ()
   "Return the package to USE for writing shaders.
-Users should (use-package :3bgl-glsl/cl) in their shader package."
-  (find-package :3bgl-glsl/cl))
+Users should (use-package :clsl-glsl/cl) in their shader package."
+  (find-package :clsl-glsl/cl))
 
 ;;; Convenience functions
 

@@ -28,6 +28,7 @@
                 #:foreign-alloc
                 #:foreign-free
                 #:with-foreign-object
+                #:with-foreign-objects
                 #:foreign-slot-value
                 #:foreign-slot-pointer
                 #:mem-ref

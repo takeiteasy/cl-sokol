@@ -1,9 +1,9 @@
-;;;; Example triangle shader using cl-sokol-shaders
-;;;; This demonstrates writing sokol shaders in Lisp using 3bgl-shader DSL
+;;;; Example triangle shader using cl-sokol/shaders
+;;;; This demonstrates writing sokol shaders in Lisp using clsl DSL
 
 (defpackage #:sokol-triangle-shader
-  (:use #:cl #:3bgl-glsl)
-  (:shadowing-import-from #:3bgl-glsl
+  (:use #:cl #:clsl-glsl)
+  (:shadowing-import-from #:clsl-glsl
                           #:defun #:defconstant #:defmacro #:defstruct)
   (:export #:vertex #:fragment))
 

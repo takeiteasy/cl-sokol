@@ -415,7 +415,7 @@
 
 (cffi:defcstruct sshape-mat4
   ;; sshape_mat4_t
-  (m :float-array-4 :count 4)
+  (m :float :count 16)
 )
 
 (cffi:defcstruct sshape-vertex

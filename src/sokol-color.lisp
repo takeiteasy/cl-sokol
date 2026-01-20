@@ -324,883 +324,883 @@
 ;;;; Float color values (RGBA, 0.0-1.0)
 
 ;; Alice Blue - R:240 G:248 B:255 A:255
-(defconstant +ALICE-BLUE+ '(0.941176471 0.97254902 1.0 1.0))
+(defparameter +ALICE-BLUE+ '(0.941176471 0.97254902 1.0 1.0))
 
 ;; Antique White - R:250 G:235 B:215 A:255
-(defconstant +ANTIQUE-WHITE+ '(0.980392157 0.921568627 0.843137255 1.0))
+(defparameter +ANTIQUE-WHITE+ '(0.980392157 0.921568627 0.843137255 1.0))
 
 ;; Aqua - R:0 G:255 B:255 A:255
-(defconstant +AQUA+ '(0.0 1.0 1.0 1.0))
+(defparameter +AQUA+ '(0.0 1.0 1.0 1.0))
 
 ;; Aquamarine - R:127 G:255 B:212 A:255
-(defconstant +AQUAMARINE+ '(0.498039216 1.0 0.831372549 1.0))
+(defparameter +AQUAMARINE+ '(0.498039216 1.0 0.831372549 1.0))
 
 ;; Azure - R:240 G:255 B:255 A:255
-(defconstant +AZURE+ '(0.941176471 1.0 1.0 1.0))
+(defparameter +AZURE+ '(0.941176471 1.0 1.0 1.0))
 
 ;; Beige - R:245 G:245 B:220 A:255
-(defconstant +BEIGE+ '(0.960784314 0.960784314 0.862745098 1.0))
+(defparameter +BEIGE+ '(0.960784314 0.960784314 0.862745098 1.0))
 
 ;; Bisque - R:255 G:228 B:196 A:255
-(defconstant +BISQUE+ '(1.0 0.894117647 0.768627451 1.0))
+(defparameter +BISQUE+ '(1.0 0.894117647 0.768627451 1.0))
 
 ;; Black - R:0 G:0 B:0 A:255
-(defconstant +BLACK+ '(0.0 0.0 0.0 1.0))
+(defparameter +BLACK+ '(0.0 0.0 0.0 1.0))
 
 ;; Blanched Almond - R:255 G:235 B:205 A:255
-(defconstant +BLANCHED-ALMOND+ '(1.0 0.921568627 0.803921569 1.0))
+(defparameter +BLANCHED-ALMOND+ '(1.0 0.921568627 0.803921569 1.0))
 
 ;; Blue - R:0 G:0 B:255 A:255
-(defconstant +BLUE+ '(0.0 0.0 1.0 1.0))
+(defparameter +BLUE+ '(0.0 0.0 1.0 1.0))
 
 ;; Blue Violet - R:138 G:43 B:226 A:255
-(defconstant +BLUE-VIOLET+ '(0.541176471 0.168627451 0.88627451 1.0))
+(defparameter +BLUE-VIOLET+ '(0.541176471 0.168627451 0.88627451 1.0))
 
 ;; Brown - R:165 G:42 B:42 A:255
-(defconstant +BROWN+ '(0.647058824 0.164705882 0.164705882 1.0))
+(defparameter +BROWN+ '(0.647058824 0.164705882 0.164705882 1.0))
 
 ;; Burlywood - R:222 G:184 B:135 A:255
-(defconstant +BURLYWOOD+ '(0.870588235 0.721568627 0.529411765 1.0))
+(defparameter +BURLYWOOD+ '(0.870588235 0.721568627 0.529411765 1.0))
 
 ;; Cadet Blue - R:95 G:158 B:160 A:255
-(defconstant +CADET-BLUE+ '(0.37254902 0.619607843 0.62745098 1.0))
+(defparameter +CADET-BLUE+ '(0.37254902 0.619607843 0.62745098 1.0))
 
 ;; Chartreuse - R:127 G:255 B:0 A:255
-(defconstant +CHARTREUSE+ '(0.498039216 1.0 0.0 1.0))
+(defparameter +CHARTREUSE+ '(0.498039216 1.0 0.0 1.0))
 
 ;; Chocolate - R:210 G:105 B:30 A:255
-(defconstant +CHOCOLATE+ '(0.823529412 0.411764706 0.117647059 1.0))
+(defparameter +CHOCOLATE+ '(0.823529412 0.411764706 0.117647059 1.0))
 
 ;; Coral - R:255 G:127 B:80 A:255
-(defconstant +CORAL+ '(1.0 0.498039216 0.31372549 1.0))
+(defparameter +CORAL+ '(1.0 0.498039216 0.31372549 1.0))
 
 ;; Cornflower Blue - R:100 G:149 B:237 A:255
-(defconstant +CORNFLOWER-BLUE+ '(0.392156863 0.584313725 0.929411765 1.0))
+(defparameter +CORNFLOWER-BLUE+ '(0.392156863 0.584313725 0.929411765 1.0))
 
 ;; Cornsilk - R:255 G:248 B:220 A:255
-(defconstant +CORNSILK+ '(1.0 0.97254902 0.862745098 1.0))
+(defparameter +CORNSILK+ '(1.0 0.97254902 0.862745098 1.0))
 
 ;; Crimson - R:220 G:20 B:60 A:255
-(defconstant +CRIMSON+ '(0.862745098 0.0784313725 0.235294118 1.0))
+(defparameter +CRIMSON+ '(0.862745098 0.0784313725 0.235294118 1.0))
 
 ;; Cyan - R:0 G:255 B:255 A:255
-(defconstant +CYAN+ '(0.0 1.0 1.0 1.0))
+(defparameter +CYAN+ '(0.0 1.0 1.0 1.0))
 
 ;; Dark Blue - R:0 G:0 B:139 A:255
-(defconstant +DARK-BLUE+ '(0.0 0.0 0.545098039 1.0))
+(defparameter +DARK-BLUE+ '(0.0 0.0 0.545098039 1.0))
 
 ;; Dark Cyan - R:0 G:139 B:139 A:255
-(defconstant +DARK-CYAN+ '(0.0 0.545098039 0.545098039 1.0))
+(defparameter +DARK-CYAN+ '(0.0 0.545098039 0.545098039 1.0))
 
 ;; Dark Goldenrod - R:184 G:134 B:11 A:255
-(defconstant +DARK-GOLDENROD+ '(0.721568627 0.525490196 0.0431372549 1.0))
+(defparameter +DARK-GOLDENROD+ '(0.721568627 0.525490196 0.0431372549 1.0))
 
 ;; Dark Gray - R:169 G:169 B:169 A:255
-(defconstant +DARK-GRAY+ '(0.662745098 0.662745098 0.662745098 1.0))
+(defparameter +DARK-GRAY+ '(0.662745098 0.662745098 0.662745098 1.0))
 
 ;; Dark Green - R:0 G:100 B:0 A:255
-(defconstant +DARK-GREEN+ '(0.0 0.392156863 0.0 1.0))
+(defparameter +DARK-GREEN+ '(0.0 0.392156863 0.0 1.0))
 
 ;; Dark Khaki - R:189 G:183 B:107 A:255
-(defconstant +DARK-KHAKI+ '(0.741176471 0.717647059 0.419607843 1.0))
+(defparameter +DARK-KHAKI+ '(0.741176471 0.717647059 0.419607843 1.0))
 
 ;; Dark Magenta - R:139 G:0 B:139 A:255
-(defconstant +DARK-MAGENTA+ '(0.545098039 0.0 0.545098039 1.0))
+(defparameter +DARK-MAGENTA+ '(0.545098039 0.0 0.545098039 1.0))
 
 ;; Dark Olive Green - R:85 G:107 B:47 A:255
-(defconstant +DARK-OLIVE-GREEN+ '(0.333333333 0.419607843 0.184313725 1.0))
+(defparameter +DARK-OLIVE-GREEN+ '(0.333333333 0.419607843 0.184313725 1.0))
 
 ;; Dark Orange - R:255 G:140 B:0 A:255
-(defconstant +DARK-ORANGE+ '(1.0 0.549019608 0.0 1.0))
+(defparameter +DARK-ORANGE+ '(1.0 0.549019608 0.0 1.0))
 
 ;; Dark Orchid - R:153 G:50 B:204 A:255
-(defconstant +DARK-ORCHID+ '(0.6 0.196078431 0.8 1.0))
+(defparameter +DARK-ORCHID+ '(0.6 0.196078431 0.8 1.0))
 
 ;; Dark Red - R:139 G:0 B:0 A:255
-(defconstant +DARK-RED+ '(0.545098039 0.0 0.0 1.0))
+(defparameter +DARK-RED+ '(0.545098039 0.0 0.0 1.0))
 
 ;; Dark Salmon - R:233 G:150 B:122 A:255
-(defconstant +DARK-SALMON+ '(0.91372549 0.588235294 0.478431373 1.0))
+(defparameter +DARK-SALMON+ '(0.91372549 0.588235294 0.478431373 1.0))
 
 ;; Dark Sea Green - R:143 G:188 B:143 A:255
-(defconstant +DARK-SEA-GREEN+ '(0.560784314 0.737254902 0.560784314 1.0))
+(defparameter +DARK-SEA-GREEN+ '(0.560784314 0.737254902 0.560784314 1.0))
 
 ;; Dark Slate Blue - R:72 G:61 B:139 A:255
-(defconstant +DARK-SLATE-BLUE+ '(0.282352941 0.239215686 0.545098039 1.0))
+(defparameter +DARK-SLATE-BLUE+ '(0.282352941 0.239215686 0.545098039 1.0))
 
 ;; Dark Slate Gray - R:47 G:79 B:79 A:255
-(defconstant +DARK-SLATE-GRAY+ '(0.184313725 0.309803922 0.309803922 1.0))
+(defparameter +DARK-SLATE-GRAY+ '(0.184313725 0.309803922 0.309803922 1.0))
 
 ;; Dark Turquoise - R:0 G:206 B:209 A:255
-(defconstant +DARK-TURQUOISE+ '(0.0 0.807843137 0.819607843 1.0))
+(defparameter +DARK-TURQUOISE+ '(0.0 0.807843137 0.819607843 1.0))
 
 ;; Dark Violet - R:148 G:0 B:211 A:255
-(defconstant +DARK-VIOLET+ '(0.580392157 0.0 0.82745098 1.0))
+(defparameter +DARK-VIOLET+ '(0.580392157 0.0 0.82745098 1.0))
 
 ;; Deep Pink - R:255 G:20 B:147 A:255
-(defconstant +DEEP-PINK+ '(1.0 0.0784313725 0.576470588 1.0))
+(defparameter +DEEP-PINK+ '(1.0 0.0784313725 0.576470588 1.0))
 
 ;; Deep Sky Blue - R:0 G:191 B:255 A:255
-(defconstant +DEEP-SKY-BLUE+ '(0.0 0.749019608 1.0 1.0))
+(defparameter +DEEP-SKY-BLUE+ '(0.0 0.749019608 1.0 1.0))
 
 ;; Dim Gray - R:105 G:105 B:105 A:255
-(defconstant +DIM-GRAY+ '(0.411764706 0.411764706 0.411764706 1.0))
+(defparameter +DIM-GRAY+ '(0.411764706 0.411764706 0.411764706 1.0))
 
 ;; Dodger Blue - R:30 G:144 B:255 A:255
-(defconstant +DODGER-BLUE+ '(0.117647059 0.564705882 1.0 1.0))
+(defparameter +DODGER-BLUE+ '(0.117647059 0.564705882 1.0 1.0))
 
 ;; Firebrick - R:178 G:34 B:34 A:255
-(defconstant +FIREBRICK+ '(0.698039216 0.133333333 0.133333333 1.0))
+(defparameter +FIREBRICK+ '(0.698039216 0.133333333 0.133333333 1.0))
 
 ;; Floral White - R:255 G:250 B:240 A:255
-(defconstant +FLORAL-WHITE+ '(1.0 0.980392157 0.941176471 1.0))
+(defparameter +FLORAL-WHITE+ '(1.0 0.980392157 0.941176471 1.0))
 
 ;; Forest Green - R:34 G:139 B:34 A:255
-(defconstant +FOREST-GREEN+ '(0.133333333 0.545098039 0.133333333 1.0))
+(defparameter +FOREST-GREEN+ '(0.133333333 0.545098039 0.133333333 1.0))
 
 ;; Fuchsia - R:255 G:0 B:255 A:255
-(defconstant +FUCHSIA+ '(1.0 0.0 1.0 1.0))
+(defparameter +FUCHSIA+ '(1.0 0.0 1.0 1.0))
 
 ;; Gainsboro - R:220 G:220 B:220 A:255
-(defconstant +GAINSBORO+ '(0.862745098 0.862745098 0.862745098 1.0))
+(defparameter +GAINSBORO+ '(0.862745098 0.862745098 0.862745098 1.0))
 
 ;; Ghost White - R:248 G:248 B:255 A:255
-(defconstant +GHOST-WHITE+ '(0.97254902 0.97254902 1.0 1.0))
+(defparameter +GHOST-WHITE+ '(0.97254902 0.97254902 1.0 1.0))
 
 ;; Gold - R:255 G:215 B:0 A:255
-(defconstant +GOLD+ '(1.0 0.843137255 0.0 1.0))
+(defparameter +GOLD+ '(1.0 0.843137255 0.0 1.0))
 
 ;; Goldenrod - R:218 G:165 B:32 A:255
-(defconstant +GOLDENROD+ '(0.854901961 0.647058824 0.125490196 1.0))
+(defparameter +GOLDENROD+ '(0.854901961 0.647058824 0.125490196 1.0))
 
 ;; Gray - R:190 G:190 B:190 A:255
-(defconstant +GRAY+ '(0.745098039 0.745098039 0.745098039 1.0))
+(defparameter +GRAY+ '(0.745098039 0.745098039 0.745098039 1.0))
 
 ;; Web Gray - R:128 G:128 B:128 A:255
-(defconstant +WEB-GRAY+ '(0.501960784 0.501960784 0.501960784 1.0))
+(defparameter +WEB-GRAY+ '(0.501960784 0.501960784 0.501960784 1.0))
 
 ;; Green - R:0 G:255 B:0 A:255
-(defconstant +GREEN+ '(0.0 1.0 0.0 1.0))
+(defparameter +GREEN+ '(0.0 1.0 0.0 1.0))
 
 ;; Web Green - R:0 G:128 B:0 A:255
-(defconstant +WEB-GREEN+ '(0.0 0.501960784 0.0 1.0))
+(defparameter +WEB-GREEN+ '(0.0 0.501960784 0.0 1.0))
 
 ;; Green Yellow - R:173 G:255 B:47 A:255
-(defconstant +GREEN-YELLOW+ '(0.678431373 1.0 0.184313725 1.0))
+(defparameter +GREEN-YELLOW+ '(0.678431373 1.0 0.184313725 1.0))
 
 ;; Honeydew - R:240 G:255 B:240 A:255
-(defconstant +HONEYDEW+ '(0.941176471 1.0 0.941176471 1.0))
+(defparameter +HONEYDEW+ '(0.941176471 1.0 0.941176471 1.0))
 
 ;; Hot Pink - R:255 G:105 B:180 A:255
-(defconstant +HOT-PINK+ '(1.0 0.411764706 0.705882353 1.0))
+(defparameter +HOT-PINK+ '(1.0 0.411764706 0.705882353 1.0))
 
 ;; Indian Red - R:205 G:92 B:92 A:255
-(defconstant +INDIAN-RED+ '(0.803921569 0.360784314 0.360784314 1.0))
+(defparameter +INDIAN-RED+ '(0.803921569 0.360784314 0.360784314 1.0))
 
 ;; Indigo - R:75 G:0 B:130 A:255
-(defconstant +INDIGO+ '(0.294117647 0.0 0.509803922 1.0))
+(defparameter +INDIGO+ '(0.294117647 0.0 0.509803922 1.0))
 
 ;; Ivory - R:255 G:255 B:240 A:255
-(defconstant +IVORY+ '(1.0 1.0 0.941176471 1.0))
+(defparameter +IVORY+ '(1.0 1.0 0.941176471 1.0))
 
 ;; Khaki - R:240 G:230 B:140 A:255
-(defconstant +KHAKI+ '(0.941176471 0.901960784 0.549019608 1.0))
+(defparameter +KHAKI+ '(0.941176471 0.901960784 0.549019608 1.0))
 
 ;; Lavender - R:230 G:230 B:250 A:255
-(defconstant +LAVENDER+ '(0.901960784 0.901960784 0.980392157 1.0))
+(defparameter +LAVENDER+ '(0.901960784 0.901960784 0.980392157 1.0))
 
 ;; Lavender Blush - R:255 G:240 B:245 A:255
-(defconstant +LAVENDER-BLUSH+ '(1.0 0.941176471 0.960784314 1.0))
+(defparameter +LAVENDER-BLUSH+ '(1.0 0.941176471 0.960784314 1.0))
 
 ;; Lawn Green - R:124 G:252 B:0 A:255
-(defconstant +LAWN-GREEN+ '(0.48627451 0.988235294 0.0 1.0))
+(defparameter +LAWN-GREEN+ '(0.48627451 0.988235294 0.0 1.0))
 
 ;; Lemon Chiffon - R:255 G:250 B:205 A:255
-(defconstant +LEMON-CHIFFON+ '(1.0 0.980392157 0.803921569 1.0))
+(defparameter +LEMON-CHIFFON+ '(1.0 0.980392157 0.803921569 1.0))
 
 ;; Light Blue - R:173 G:216 B:230 A:255
-(defconstant +LIGHT-BLUE+ '(0.678431373 0.847058824 0.901960784 1.0))
+(defparameter +LIGHT-BLUE+ '(0.678431373 0.847058824 0.901960784 1.0))
 
 ;; Light Coral - R:240 G:128 B:128 A:255
-(defconstant +LIGHT-CORAL+ '(0.941176471 0.501960784 0.501960784 1.0))
+(defparameter +LIGHT-CORAL+ '(0.941176471 0.501960784 0.501960784 1.0))
 
 ;; Light Cyan - R:224 G:255 B:255 A:255
-(defconstant +LIGHT-CYAN+ '(0.878431373 1.0 1.0 1.0))
+(defparameter +LIGHT-CYAN+ '(0.878431373 1.0 1.0 1.0))
 
 ;; Light Goldenrod - R:250 G:250 B:210 A:255
-(defconstant +LIGHT-GOLDENROD+ '(0.980392157 0.980392157 0.823529412 1.0))
+(defparameter +LIGHT-GOLDENROD+ '(0.980392157 0.980392157 0.823529412 1.0))
 
 ;; Light Gray - R:211 G:211 B:211 A:255
-(defconstant +LIGHT-GRAY+ '(0.82745098 0.82745098 0.82745098 1.0))
+(defparameter +LIGHT-GRAY+ '(0.82745098 0.82745098 0.82745098 1.0))
 
 ;; Light Green - R:144 G:238 B:144 A:255
-(defconstant +LIGHT-GREEN+ '(0.564705882 0.933333333 0.564705882 1.0))
+(defparameter +LIGHT-GREEN+ '(0.564705882 0.933333333 0.564705882 1.0))
 
 ;; Light Pink - R:255 G:182 B:193 A:255
-(defconstant +LIGHT-PINK+ '(1.0 0.71372549 0.756862745 1.0))
+(defparameter +LIGHT-PINK+ '(1.0 0.71372549 0.756862745 1.0))
 
 ;; Light Salmon - R:255 G:160 B:122 A:255
-(defconstant +LIGHT-SALMON+ '(1.0 0.62745098 0.478431373 1.0))
+(defparameter +LIGHT-SALMON+ '(1.0 0.62745098 0.478431373 1.0))
 
 ;; Light Sea Green - R:32 G:178 B:170 A:255
-(defconstant +LIGHT-SEA-GREEN+ '(0.125490196 0.698039216 0.666666667 1.0))
+(defparameter +LIGHT-SEA-GREEN+ '(0.125490196 0.698039216 0.666666667 1.0))
 
 ;; Light Sky Blue - R:135 G:206 B:250 A:255
-(defconstant +LIGHT-SKY-BLUE+ '(0.529411765 0.807843137 0.980392157 1.0))
+(defparameter +LIGHT-SKY-BLUE+ '(0.529411765 0.807843137 0.980392157 1.0))
 
 ;; Light Slate Gray - R:119 G:136 B:153 A:255
-(defconstant +LIGHT-SLATE-GRAY+ '(0.466666667 0.533333333 0.6 1.0))
+(defparameter +LIGHT-SLATE-GRAY+ '(0.466666667 0.533333333 0.6 1.0))
 
 ;; Light Steel Blue - R:176 G:196 B:222 A:255
-(defconstant +LIGHT-STEEL-BLUE+ '(0.690196078 0.768627451 0.870588235 1.0))
+(defparameter +LIGHT-STEEL-BLUE+ '(0.690196078 0.768627451 0.870588235 1.0))
 
 ;; Light Yellow - R:255 G:255 B:224 A:255
-(defconstant +LIGHT-YELLOW+ '(1.0 1.0 0.878431373 1.0))
+(defparameter +LIGHT-YELLOW+ '(1.0 1.0 0.878431373 1.0))
 
 ;; Lime - R:0 G:255 B:0 A:255
-(defconstant +LIME+ '(0.0 1.0 0.0 1.0))
+(defparameter +LIME+ '(0.0 1.0 0.0 1.0))
 
 ;; Lime Green - R:50 G:205 B:50 A:255
-(defconstant +LIME-GREEN+ '(0.196078431 0.803921569 0.196078431 1.0))
+(defparameter +LIME-GREEN+ '(0.196078431 0.803921569 0.196078431 1.0))
 
 ;; Linen - R:250 G:240 B:230 A:255
-(defconstant +LINEN+ '(0.980392157 0.941176471 0.901960784 1.0))
+(defparameter +LINEN+ '(0.980392157 0.941176471 0.901960784 1.0))
 
 ;; Magenta - R:255 G:0 B:255 A:255
-(defconstant +MAGENTA+ '(1.0 0.0 1.0 1.0))
+(defparameter +MAGENTA+ '(1.0 0.0 1.0 1.0))
 
 ;; Maroon - R:176 G:48 B:96 A:255
-(defconstant +MAROON+ '(0.690196078 0.188235294 0.376470588 1.0))
+(defparameter +MAROON+ '(0.690196078 0.188235294 0.376470588 1.0))
 
 ;; Web Maroon - R:128 G:0 B:0 A:255
-(defconstant +WEB-MAROON+ '(0.501960784 0.0 0.0 1.0))
+(defparameter +WEB-MAROON+ '(0.501960784 0.0 0.0 1.0))
 
 ;; Medium Aquamarine - R:102 G:205 B:170 A:255
-(defconstant +MEDIUM-AQUAMARINE+ '(0.4 0.803921569 0.666666667 1.0))
+(defparameter +MEDIUM-AQUAMARINE+ '(0.4 0.803921569 0.666666667 1.0))
 
 ;; Medium Blue - R:0 G:0 B:205 A:255
-(defconstant +MEDIUM-BLUE+ '(0.0 0.0 0.803921569 1.0))
+(defparameter +MEDIUM-BLUE+ '(0.0 0.0 0.803921569 1.0))
 
 ;; Medium Orchid - R:186 G:85 B:211 A:255
-(defconstant +MEDIUM-ORCHID+ '(0.729411765 0.333333333 0.82745098 1.0))
+(defparameter +MEDIUM-ORCHID+ '(0.729411765 0.333333333 0.82745098 1.0))
 
 ;; Medium Purple - R:147 G:112 B:219 A:255
-(defconstant +MEDIUM-PURPLE+ '(0.576470588 0.439215686 0.858823529 1.0))
+(defparameter +MEDIUM-PURPLE+ '(0.576470588 0.439215686 0.858823529 1.0))
 
 ;; Medium Sea Green - R:60 G:179 B:113 A:255
-(defconstant +MEDIUM-SEA-GREEN+ '(0.235294118 0.701960784 0.443137255 1.0))
+(defparameter +MEDIUM-SEA-GREEN+ '(0.235294118 0.701960784 0.443137255 1.0))
 
 ;; Medium Slate Blue - R:123 G:104 B:238 A:255
-(defconstant +MEDIUM-SLATE-BLUE+ '(0.482352941 0.407843137 0.933333333 1.0))
+(defparameter +MEDIUM-SLATE-BLUE+ '(0.482352941 0.407843137 0.933333333 1.0))
 
 ;; Medium Spring Green - R:0 G:250 B:154 A:255
-(defconstant +MEDIUM-SPRING-GREEN+ '(0.0 0.980392157 0.603921569 1.0))
+(defparameter +MEDIUM-SPRING-GREEN+ '(0.0 0.980392157 0.603921569 1.0))
 
 ;; Medium Turquoise - R:72 G:209 B:204 A:255
-(defconstant +MEDIUM-TURQUOISE+ '(0.282352941 0.819607843 0.8 1.0))
+(defparameter +MEDIUM-TURQUOISE+ '(0.282352941 0.819607843 0.8 1.0))
 
 ;; Medium Violet Red - R:199 G:21 B:133 A:255
-(defconstant +MEDIUM-VIOLET-RED+ '(0.780392157 0.0823529412 0.521568627 1.0))
+(defparameter +MEDIUM-VIOLET-RED+ '(0.780392157 0.0823529412 0.521568627 1.0))
 
 ;; Midnight Blue - R:25 G:25 B:112 A:255
-(defconstant +MIDNIGHT-BLUE+ '(0.0980392157 0.0980392157 0.439215686 1.0))
+(defparameter +MIDNIGHT-BLUE+ '(0.0980392157 0.0980392157 0.439215686 1.0))
 
 ;; Mint Cream - R:245 G:255 B:250 A:255
-(defconstant +MINT-CREAM+ '(0.960784314 1.0 0.980392157 1.0))
+(defparameter +MINT-CREAM+ '(0.960784314 1.0 0.980392157 1.0))
 
 ;; Misty Rose - R:255 G:228 B:225 A:255
-(defconstant +MISTY-ROSE+ '(1.0 0.894117647 0.882352941 1.0))
+(defparameter +MISTY-ROSE+ '(1.0 0.894117647 0.882352941 1.0))
 
 ;; Moccasin - R:255 G:228 B:181 A:255
-(defconstant +MOCCASIN+ '(1.0 0.894117647 0.709803922 1.0))
+(defparameter +MOCCASIN+ '(1.0 0.894117647 0.709803922 1.0))
 
 ;; Navajo White - R:255 G:222 B:173 A:255
-(defconstant +NAVAJO-WHITE+ '(1.0 0.870588235 0.678431373 1.0))
+(defparameter +NAVAJO-WHITE+ '(1.0 0.870588235 0.678431373 1.0))
 
 ;; Navy Blue - R:0 G:0 B:128 A:255
-(defconstant +NAVY-BLUE+ '(0.0 0.0 0.501960784 1.0))
+(defparameter +NAVY-BLUE+ '(0.0 0.0 0.501960784 1.0))
 
 ;; Old Lace - R:253 G:245 B:230 A:255
-(defconstant +OLD-LACE+ '(0.992156863 0.960784314 0.901960784 1.0))
+(defparameter +OLD-LACE+ '(0.992156863 0.960784314 0.901960784 1.0))
 
 ;; Olive - R:128 G:128 B:0 A:255
-(defconstant +OLIVE+ '(0.501960784 0.501960784 0.0 1.0))
+(defparameter +OLIVE+ '(0.501960784 0.501960784 0.0 1.0))
 
 ;; Olive Drab - R:107 G:142 B:35 A:255
-(defconstant +OLIVE-DRAB+ '(0.419607843 0.556862745 0.137254902 1.0))
+(defparameter +OLIVE-DRAB+ '(0.419607843 0.556862745 0.137254902 1.0))
 
 ;; Orange - R:255 G:165 B:0 A:255
-(defconstant +ORANGE+ '(1.0 0.647058824 0.0 1.0))
+(defparameter +ORANGE+ '(1.0 0.647058824 0.0 1.0))
 
 ;; Orange Red - R:255 G:69 B:0 A:255
-(defconstant +ORANGE-RED+ '(1.0 0.270588235 0.0 1.0))
+(defparameter +ORANGE-RED+ '(1.0 0.270588235 0.0 1.0))
 
 ;; Orchid - R:218 G:112 B:214 A:255
-(defconstant +ORCHID+ '(0.854901961 0.439215686 0.839215686 1.0))
+(defparameter +ORCHID+ '(0.854901961 0.439215686 0.839215686 1.0))
 
 ;; Pale Goldenrod - R:238 G:232 B:170 A:255
-(defconstant +PALE-GOLDENROD+ '(0.933333333 0.909803922 0.666666667 1.0))
+(defparameter +PALE-GOLDENROD+ '(0.933333333 0.909803922 0.666666667 1.0))
 
 ;; Pale Green - R:152 G:251 B:152 A:255
-(defconstant +PALE-GREEN+ '(0.596078431 0.984313725 0.596078431 1.0))
+(defparameter +PALE-GREEN+ '(0.596078431 0.984313725 0.596078431 1.0))
 
 ;; Pale Turquoise - R:175 G:238 B:238 A:255
-(defconstant +PALE-TURQUOISE+ '(0.68627451 0.933333333 0.933333333 1.0))
+(defparameter +PALE-TURQUOISE+ '(0.68627451 0.933333333 0.933333333 1.0))
 
 ;; Pale Violet Red - R:219 G:112 B:147 A:255
-(defconstant +PALE-VIOLET-RED+ '(0.858823529 0.439215686 0.576470588 1.0))
+(defparameter +PALE-VIOLET-RED+ '(0.858823529 0.439215686 0.576470588 1.0))
 
 ;; Papaya Whip - R:255 G:239 B:213 A:255
-(defconstant +PAPAYA-WHIP+ '(1.0 0.937254902 0.835294118 1.0))
+(defparameter +PAPAYA-WHIP+ '(1.0 0.937254902 0.835294118 1.0))
 
 ;; Peach Puff - R:255 G:218 B:185 A:255
-(defconstant +PEACH-PUFF+ '(1.0 0.854901961 0.725490196 1.0))
+(defparameter +PEACH-PUFF+ '(1.0 0.854901961 0.725490196 1.0))
 
 ;; Peru - R:205 G:133 B:63 A:255
-(defconstant +PERU+ '(0.803921569 0.521568627 0.247058824 1.0))
+(defparameter +PERU+ '(0.803921569 0.521568627 0.247058824 1.0))
 
 ;; Pink - R:255 G:192 B:203 A:255
-(defconstant +PINK+ '(1.0 0.752941176 0.796078431 1.0))
+(defparameter +PINK+ '(1.0 0.752941176 0.796078431 1.0))
 
 ;; Plum - R:221 G:160 B:221 A:255
-(defconstant +PLUM+ '(0.866666667 0.62745098 0.866666667 1.0))
+(defparameter +PLUM+ '(0.866666667 0.62745098 0.866666667 1.0))
 
 ;; Powder Blue - R:176 G:224 B:230 A:255
-(defconstant +POWDER-BLUE+ '(0.690196078 0.878431373 0.901960784 1.0))
+(defparameter +POWDER-BLUE+ '(0.690196078 0.878431373 0.901960784 1.0))
 
 ;; Purple - R:160 G:32 B:240 A:255
-(defconstant +PURPLE+ '(0.62745098 0.125490196 0.941176471 1.0))
+(defparameter +PURPLE+ '(0.62745098 0.125490196 0.941176471 1.0))
 
 ;; Web Purple - R:128 G:0 B:128 A:255
-(defconstant +WEB-PURPLE+ '(0.501960784 0.0 0.501960784 1.0))
+(defparameter +WEB-PURPLE+ '(0.501960784 0.0 0.501960784 1.0))
 
 ;; Rebecca Purple - R:102 G:51 B:153 A:255
-(defconstant +REBECCA-PURPLE+ '(0.4 0.2 0.6 1.0))
+(defparameter +REBECCA-PURPLE+ '(0.4 0.2 0.6 1.0))
 
 ;; Red - R:255 G:0 B:0 A:255
-(defconstant +RED+ '(1.0 0.0 0.0 1.0))
+(defparameter +RED+ '(1.0 0.0 0.0 1.0))
 
 ;; Rosy Brown - R:188 G:143 B:143 A:255
-(defconstant +ROSY-BROWN+ '(0.737254902 0.560784314 0.560784314 1.0))
+(defparameter +ROSY-BROWN+ '(0.737254902 0.560784314 0.560784314 1.0))
 
 ;; Royal Blue - R:65 G:105 B:225 A:255
-(defconstant +ROYAL-BLUE+ '(0.254901961 0.411764706 0.882352941 1.0))
+(defparameter +ROYAL-BLUE+ '(0.254901961 0.411764706 0.882352941 1.0))
 
 ;; Saddle Brown - R:139 G:69 B:19 A:255
-(defconstant +SADDLE-BROWN+ '(0.545098039 0.270588235 0.0745098039 1.0))
+(defparameter +SADDLE-BROWN+ '(0.545098039 0.270588235 0.0745098039 1.0))
 
 ;; Salmon - R:250 G:128 B:114 A:255
-(defconstant +SALMON+ '(0.980392157 0.501960784 0.447058824 1.0))
+(defparameter +SALMON+ '(0.980392157 0.501960784 0.447058824 1.0))
 
 ;; Sandy Brown - R:244 G:164 B:96 A:255
-(defconstant +SANDY-BROWN+ '(0.956862745 0.643137255 0.376470588 1.0))
+(defparameter +SANDY-BROWN+ '(0.956862745 0.643137255 0.376470588 1.0))
 
 ;; Sea Green - R:46 G:139 B:87 A:255
-(defconstant +SEA-GREEN+ '(0.180392157 0.545098039 0.341176471 1.0))
+(defparameter +SEA-GREEN+ '(0.180392157 0.545098039 0.341176471 1.0))
 
 ;; Seashell - R:255 G:245 B:238 A:255
-(defconstant +SEASHELL+ '(1.0 0.960784314 0.933333333 1.0))
+(defparameter +SEASHELL+ '(1.0 0.960784314 0.933333333 1.0))
 
 ;; Sienna - R:160 G:82 B:45 A:255
-(defconstant +SIENNA+ '(0.62745098 0.321568627 0.176470588 1.0))
+(defparameter +SIENNA+ '(0.62745098 0.321568627 0.176470588 1.0))
 
 ;; Silver - R:192 G:192 B:192 A:255
-(defconstant +SILVER+ '(0.752941176 0.752941176 0.752941176 1.0))
+(defparameter +SILVER+ '(0.752941176 0.752941176 0.752941176 1.0))
 
 ;; Sky Blue - R:135 G:206 B:235 A:255
-(defconstant +SKY-BLUE+ '(0.529411765 0.807843137 0.921568627 1.0))
+(defparameter +SKY-BLUE+ '(0.529411765 0.807843137 0.921568627 1.0))
 
 ;; Slate Blue - R:106 G:90 B:205 A:255
-(defconstant +SLATE-BLUE+ '(0.415686275 0.352941176 0.803921569 1.0))
+(defparameter +SLATE-BLUE+ '(0.415686275 0.352941176 0.803921569 1.0))
 
 ;; Slate Gray - R:112 G:128 B:144 A:255
-(defconstant +SLATE-GRAY+ '(0.439215686 0.501960784 0.564705882 1.0))
+(defparameter +SLATE-GRAY+ '(0.439215686 0.501960784 0.564705882 1.0))
 
 ;; Snow - R:255 G:250 B:250 A:255
-(defconstant +SNOW+ '(1.0 0.980392157 0.980392157 1.0))
+(defparameter +SNOW+ '(1.0 0.980392157 0.980392157 1.0))
 
 ;; Spring Green - R:0 G:255 B:127 A:255
-(defconstant +SPRING-GREEN+ '(0.0 1.0 0.498039216 1.0))
+(defparameter +SPRING-GREEN+ '(0.0 1.0 0.498039216 1.0))
 
 ;; Steel Blue - R:70 G:130 B:180 A:255
-(defconstant +STEEL-BLUE+ '(0.274509804 0.509803922 0.705882353 1.0))
+(defparameter +STEEL-BLUE+ '(0.274509804 0.509803922 0.705882353 1.0))
 
 ;; Tan - R:210 G:180 B:140 A:255
-(defconstant +TAN+ '(0.823529412 0.705882353 0.549019608 1.0))
+(defparameter +TAN+ '(0.823529412 0.705882353 0.549019608 1.0))
 
 ;; Teal - R:0 G:128 B:128 A:255
-(defconstant +TEAL+ '(0.0 0.501960784 0.501960784 1.0))
+(defparameter +TEAL+ '(0.0 0.501960784 0.501960784 1.0))
 
 ;; Thistle - R:216 G:191 B:216 A:255
-(defconstant +THISTLE+ '(0.847058824 0.749019608 0.847058824 1.0))
+(defparameter +THISTLE+ '(0.847058824 0.749019608 0.847058824 1.0))
 
 ;; Tomato - R:255 G:99 B:71 A:255
-(defconstant +TOMATO+ '(1.0 0.388235294 0.278431373 1.0))
+(defparameter +TOMATO+ '(1.0 0.388235294 0.278431373 1.0))
 
 ;; Transparent - R:0 G:0 B:0 A:0
-(defconstant +TRANSPARENT+ '(0.0 0.0 0.0 0.0))
+(defparameter +TRANSPARENT+ '(0.0 0.0 0.0 0.0))
 
 ;; Turquoise - R:64 G:224 B:208 A:255
-(defconstant +TURQUOISE+ '(0.250980392 0.878431373 0.815686275 1.0))
+(defparameter +TURQUOISE+ '(0.250980392 0.878431373 0.815686275 1.0))
 
 ;; Violet - R:238 G:130 B:238 A:255
-(defconstant +VIOLET+ '(0.933333333 0.509803922 0.933333333 1.0))
+(defparameter +VIOLET+ '(0.933333333 0.509803922 0.933333333 1.0))
 
 ;; Wheat - R:245 G:222 B:179 A:255
-(defconstant +WHEAT+ '(0.960784314 0.870588235 0.701960784 1.0))
+(defparameter +WHEAT+ '(0.960784314 0.870588235 0.701960784 1.0))
 
 ;; White - R:255 G:255 B:255 A:255
-(defconstant +WHITE+ '(1.0 1.0 1.0 1.0))
+(defparameter +WHITE+ '(1.0 1.0 1.0 1.0))
 
 ;; White Smoke - R:245 G:245 B:245 A:255
-(defconstant +WHITE-SMOKE+ '(0.960784314 0.960784314 0.960784314 1.0))
+(defparameter +WHITE-SMOKE+ '(0.960784314 0.960784314 0.960784314 1.0))
 
 ;; Yellow - R:255 G:255 B:0 A:255
-(defconstant +YELLOW+ '(1.0 1.0 0.0 1.0))
+(defparameter +YELLOW+ '(1.0 1.0 0.0 1.0))
 
 ;; Yellow Green - R:154 G:205 B:50 A:255
-(defconstant +YELLOW-GREEN+ '(0.603921569 0.803921569 0.196078431 1.0))
+(defparameter +YELLOW-GREEN+ '(0.603921569 0.803921569 0.196078431 1.0))
 
 
 ;;;; Packed RGBA32 integer values (0xRRGGBBAA)
 
 ;; Alice Blue - R:240 G:248 B:255 A:255
-(defconstant +ALICE-BLUE+-RGBA32 0xF0F8FFFF)
+(defconstant +ALICE-BLUE+-RGBA32 #xF0F8FFFF)
 
 ;; Antique White - R:250 G:235 B:215 A:255
-(defconstant +ANTIQUE-WHITE+-RGBA32 0xFAEBD7FF)
+(defconstant +ANTIQUE-WHITE+-RGBA32 #xFAEBD7FF)
 
 ;; Aqua - R:0 G:255 B:255 A:255
-(defconstant +AQUA+-RGBA32 0x00FFFFFF)
+(defconstant +AQUA+-RGBA32 #x00FFFFFF)
 
 ;; Aquamarine - R:127 G:255 B:212 A:255
-(defconstant +AQUAMARINE+-RGBA32 0x7FFFD4FF)
+(defconstant +AQUAMARINE+-RGBA32 #x7FFFD4FF)
 
 ;; Azure - R:240 G:255 B:255 A:255
-(defconstant +AZURE+-RGBA32 0xF0FFFFFF)
+(defconstant +AZURE+-RGBA32 #xF0FFFFFF)
 
 ;; Beige - R:245 G:245 B:220 A:255
-(defconstant +BEIGE+-RGBA32 0xF5F5DCFF)
+(defconstant +BEIGE+-RGBA32 #xF5F5DCFF)
 
 ;; Bisque - R:255 G:228 B:196 A:255
-(defconstant +BISQUE+-RGBA32 0xFFE4C4FF)
+(defconstant +BISQUE+-RGBA32 #xFFE4C4FF)
 
 ;; Black - R:0 G:0 B:0 A:255
-(defconstant +BLACK+-RGBA32 0x000000FF)
+(defconstant +BLACK+-RGBA32 #x000000FF)
 
 ;; Blanched Almond - R:255 G:235 B:205 A:255
-(defconstant +BLANCHED-ALMOND+-RGBA32 0xFFEBCDFF)
+(defconstant +BLANCHED-ALMOND+-RGBA32 #xFFEBCDFF)
 
 ;; Blue - R:0 G:0 B:255 A:255
-(defconstant +BLUE+-RGBA32 0x0000FFFF)
+(defconstant +BLUE+-RGBA32 #x0000FFFF)
 
 ;; Blue Violet - R:138 G:43 B:226 A:255
-(defconstant +BLUE-VIOLET+-RGBA32 0x8A2BE2FF)
+(defconstant +BLUE-VIOLET+-RGBA32 #x8A2BE2FF)
 
 ;; Brown - R:165 G:42 B:42 A:255
-(defconstant +BROWN+-RGBA32 0xA52A2AFF)
+(defconstant +BROWN+-RGBA32 #xA52A2AFF)
 
 ;; Burlywood - R:222 G:184 B:135 A:255
-(defconstant +BURLYWOOD+-RGBA32 0xDEB887FF)
+(defconstant +BURLYWOOD+-RGBA32 #xDEB887FF)
 
 ;; Cadet Blue - R:95 G:158 B:160 A:255
-(defconstant +CADET-BLUE+-RGBA32 0x5F9EA0FF)
+(defconstant +CADET-BLUE+-RGBA32 #x5F9EA0FF)
 
 ;; Chartreuse - R:127 G:255 B:0 A:255
-(defconstant +CHARTREUSE+-RGBA32 0x7FFF00FF)
+(defconstant +CHARTREUSE+-RGBA32 #x7FFF00FF)
 
 ;; Chocolate - R:210 G:105 B:30 A:255
-(defconstant +CHOCOLATE+-RGBA32 0xD2691EFF)
+(defconstant +CHOCOLATE+-RGBA32 #xD2691EFF)
 
 ;; Coral - R:255 G:127 B:80 A:255
-(defconstant +CORAL+-RGBA32 0xFF7F50FF)
+(defconstant +CORAL+-RGBA32 #xFF7F50FF)
 
 ;; Cornflower Blue - R:100 G:149 B:237 A:255
-(defconstant +CORNFLOWER-BLUE+-RGBA32 0x6495EDFF)
+(defconstant +CORNFLOWER-BLUE+-RGBA32 #x6495EDFF)
 
 ;; Cornsilk - R:255 G:248 B:220 A:255
-(defconstant +CORNSILK+-RGBA32 0xFFF8DCFF)
+(defconstant +CORNSILK+-RGBA32 #xFFF8DCFF)
 
 ;; Crimson - R:220 G:20 B:60 A:255
-(defconstant +CRIMSON+-RGBA32 0xDC143CFF)
+(defconstant +CRIMSON+-RGBA32 #xDC143CFF)
 
 ;; Cyan - R:0 G:255 B:255 A:255
-(defconstant +CYAN+-RGBA32 0x00FFFFFF)
+(defconstant +CYAN+-RGBA32 #x00FFFFFF)
 
 ;; Dark Blue - R:0 G:0 B:139 A:255
-(defconstant +DARK-BLUE+-RGBA32 0x00008BFF)
+(defconstant +DARK-BLUE+-RGBA32 #x00008BFF)
 
 ;; Dark Cyan - R:0 G:139 B:139 A:255
-(defconstant +DARK-CYAN+-RGBA32 0x008B8BFF)
+(defconstant +DARK-CYAN+-RGBA32 #x008B8BFF)
 
 ;; Dark Goldenrod - R:184 G:134 B:11 A:255
-(defconstant +DARK-GOLDENROD+-RGBA32 0xB8860BFF)
+(defconstant +DARK-GOLDENROD+-RGBA32 #xB8860BFF)
 
 ;; Dark Gray - R:169 G:169 B:169 A:255
-(defconstant +DARK-GRAY+-RGBA32 0xA9A9A9FF)
+(defconstant +DARK-GRAY+-RGBA32 #xA9A9A9FF)
 
 ;; Dark Green - R:0 G:100 B:0 A:255
-(defconstant +DARK-GREEN+-RGBA32 0x006400FF)
+(defconstant +DARK-GREEN+-RGBA32 #x006400FF)
 
 ;; Dark Khaki - R:189 G:183 B:107 A:255
-(defconstant +DARK-KHAKI+-RGBA32 0xBDB76BFF)
+(defconstant +DARK-KHAKI+-RGBA32 #xBDB76BFF)
 
 ;; Dark Magenta - R:139 G:0 B:139 A:255
-(defconstant +DARK-MAGENTA+-RGBA32 0x8B008BFF)
+(defconstant +DARK-MAGENTA+-RGBA32 #x8B008BFF)
 
 ;; Dark Olive Green - R:85 G:107 B:47 A:255
-(defconstant +DARK-OLIVE-GREEN+-RGBA32 0x556B2FFF)
+(defconstant +DARK-OLIVE-GREEN+-RGBA32 #x556B2FFF)
 
 ;; Dark Orange - R:255 G:140 B:0 A:255
-(defconstant +DARK-ORANGE+-RGBA32 0xFF8C00FF)
+(defconstant +DARK-ORANGE+-RGBA32 #xFF8C00FF)
 
 ;; Dark Orchid - R:153 G:50 B:204 A:255
-(defconstant +DARK-ORCHID+-RGBA32 0x9932CCFF)
+(defconstant +DARK-ORCHID+-RGBA32 #x9932CCFF)
 
 ;; Dark Red - R:139 G:0 B:0 A:255
-(defconstant +DARK-RED+-RGBA32 0x8B0000FF)
+(defconstant +DARK-RED+-RGBA32 #x8B0000FF)
 
 ;; Dark Salmon - R:233 G:150 B:122 A:255
-(defconstant +DARK-SALMON+-RGBA32 0xE9967AFF)
+(defconstant +DARK-SALMON+-RGBA32 #xE9967AFF)
 
 ;; Dark Sea Green - R:143 G:188 B:143 A:255
-(defconstant +DARK-SEA-GREEN+-RGBA32 0x8FBC8FFF)
+(defconstant +DARK-SEA-GREEN+-RGBA32 #x8FBC8FFF)
 
 ;; Dark Slate Blue - R:72 G:61 B:139 A:255
-(defconstant +DARK-SLATE-BLUE+-RGBA32 0x483D8BFF)
+(defconstant +DARK-SLATE-BLUE+-RGBA32 #x483D8BFF)
 
 ;; Dark Slate Gray - R:47 G:79 B:79 A:255
-(defconstant +DARK-SLATE-GRAY+-RGBA32 0x2F4F4FFF)
+(defconstant +DARK-SLATE-GRAY+-RGBA32 #x2F4F4FFF)
 
 ;; Dark Turquoise - R:0 G:206 B:209 A:255
-(defconstant +DARK-TURQUOISE+-RGBA32 0x00CED1FF)
+(defconstant +DARK-TURQUOISE+-RGBA32 #x00CED1FF)
 
 ;; Dark Violet - R:148 G:0 B:211 A:255
-(defconstant +DARK-VIOLET+-RGBA32 0x9400D3FF)
+(defconstant +DARK-VIOLET+-RGBA32 #x9400D3FF)
 
 ;; Deep Pink - R:255 G:20 B:147 A:255
-(defconstant +DEEP-PINK+-RGBA32 0xFF1493FF)
+(defconstant +DEEP-PINK+-RGBA32 #xFF1493FF)
 
 ;; Deep Sky Blue - R:0 G:191 B:255 A:255
-(defconstant +DEEP-SKY-BLUE+-RGBA32 0x00BFFFFF)
+(defconstant +DEEP-SKY-BLUE+-RGBA32 #x00BFFFFF)
 
 ;; Dim Gray - R:105 G:105 B:105 A:255
-(defconstant +DIM-GRAY+-RGBA32 0x696969FF)
+(defconstant +DIM-GRAY+-RGBA32 #x696969FF)
 
 ;; Dodger Blue - R:30 G:144 B:255 A:255
-(defconstant +DODGER-BLUE+-RGBA32 0x1E90FFFF)
+(defconstant +DODGER-BLUE+-RGBA32 #x1E90FFFF)
 
 ;; Firebrick - R:178 G:34 B:34 A:255
-(defconstant +FIREBRICK+-RGBA32 0xB22222FF)
+(defconstant +FIREBRICK+-RGBA32 #xB22222FF)
 
 ;; Floral White - R:255 G:250 B:240 A:255
-(defconstant +FLORAL-WHITE+-RGBA32 0xFFFAF0FF)
+(defconstant +FLORAL-WHITE+-RGBA32 #xFFFAF0FF)
 
 ;; Forest Green - R:34 G:139 B:34 A:255
-(defconstant +FOREST-GREEN+-RGBA32 0x228B22FF)
+(defconstant +FOREST-GREEN+-RGBA32 #x228B22FF)
 
 ;; Fuchsia - R:255 G:0 B:255 A:255
-(defconstant +FUCHSIA+-RGBA32 0xFF00FFFF)
+(defconstant +FUCHSIA+-RGBA32 #xFF00FFFF)
 
 ;; Gainsboro - R:220 G:220 B:220 A:255
-(defconstant +GAINSBORO+-RGBA32 0xDCDCDCFF)
+(defconstant +GAINSBORO+-RGBA32 #xDCDCDCFF)
 
 ;; Ghost White - R:248 G:248 B:255 A:255
-(defconstant +GHOST-WHITE+-RGBA32 0xF8F8FFFF)
+(defconstant +GHOST-WHITE+-RGBA32 #xF8F8FFFF)
 
 ;; Gold - R:255 G:215 B:0 A:255
-(defconstant +GOLD+-RGBA32 0xFFD700FF)
+(defconstant +GOLD+-RGBA32 #xFFD700FF)
 
 ;; Goldenrod - R:218 G:165 B:32 A:255
-(defconstant +GOLDENROD+-RGBA32 0xDAA520FF)
+(defconstant +GOLDENROD+-RGBA32 #xDAA520FF)
 
 ;; Gray - R:190 G:190 B:190 A:255
-(defconstant +GRAY+-RGBA32 0xBEBEBEFF)
+(defconstant +GRAY+-RGBA32 #xBEBEBEFF)
 
 ;; Web Gray - R:128 G:128 B:128 A:255
-(defconstant +WEB-GRAY+-RGBA32 0x808080FF)
+(defconstant +WEB-GRAY+-RGBA32 #x808080FF)
 
 ;; Green - R:0 G:255 B:0 A:255
-(defconstant +GREEN+-RGBA32 0x00FF00FF)
+(defconstant +GREEN+-RGBA32 #x00FF00FF)
 
 ;; Web Green - R:0 G:128 B:0 A:255
-(defconstant +WEB-GREEN+-RGBA32 0x008000FF)
+(defconstant +WEB-GREEN+-RGBA32 #x008000FF)
 
 ;; Green Yellow - R:173 G:255 B:47 A:255
-(defconstant +GREEN-YELLOW+-RGBA32 0xADFF2FFF)
+(defconstant +GREEN-YELLOW+-RGBA32 #xADFF2FFF)
 
 ;; Honeydew - R:240 G:255 B:240 A:255
-(defconstant +HONEYDEW+-RGBA32 0xF0FFF0FF)
+(defconstant +HONEYDEW+-RGBA32 #xF0FFF0FF)
 
 ;; Hot Pink - R:255 G:105 B:180 A:255
-(defconstant +HOT-PINK+-RGBA32 0xFF69B4FF)
+(defconstant +HOT-PINK+-RGBA32 #xFF69B4FF)
 
 ;; Indian Red - R:205 G:92 B:92 A:255
-(defconstant +INDIAN-RED+-RGBA32 0xCD5C5CFF)
+(defconstant +INDIAN-RED+-RGBA32 #xCD5C5CFF)
 
 ;; Indigo - R:75 G:0 B:130 A:255
-(defconstant +INDIGO+-RGBA32 0x4B0082FF)
+(defconstant +INDIGO+-RGBA32 #x4B0082FF)
 
 ;; Ivory - R:255 G:255 B:240 A:255
-(defconstant +IVORY+-RGBA32 0xFFFFF0FF)
+(defconstant +IVORY+-RGBA32 #xFFFFF0FF)
 
 ;; Khaki - R:240 G:230 B:140 A:255
-(defconstant +KHAKI+-RGBA32 0xF0E68CFF)
+(defconstant +KHAKI+-RGBA32 #xF0E68CFF)
 
 ;; Lavender - R:230 G:230 B:250 A:255
-(defconstant +LAVENDER+-RGBA32 0xE6E6FAFF)
+(defconstant +LAVENDER+-RGBA32 #xE6E6FAFF)
 
 ;; Lavender Blush - R:255 G:240 B:245 A:255
-(defconstant +LAVENDER-BLUSH+-RGBA32 0xFFF0F5FF)
+(defconstant +LAVENDER-BLUSH+-RGBA32 #xFFF0F5FF)
 
 ;; Lawn Green - R:124 G:252 B:0 A:255
-(defconstant +LAWN-GREEN+-RGBA32 0x7CFC00FF)
+(defconstant +LAWN-GREEN+-RGBA32 #x7CFC00FF)
 
 ;; Lemon Chiffon - R:255 G:250 B:205 A:255
-(defconstant +LEMON-CHIFFON+-RGBA32 0xFFFACDFF)
+(defconstant +LEMON-CHIFFON+-RGBA32 #xFFFACDFF)
 
 ;; Light Blue - R:173 G:216 B:230 A:255
-(defconstant +LIGHT-BLUE+-RGBA32 0xADD8E6FF)
+(defconstant +LIGHT-BLUE+-RGBA32 #xADD8E6FF)
 
 ;; Light Coral - R:240 G:128 B:128 A:255
-(defconstant +LIGHT-CORAL+-RGBA32 0xF08080FF)
+(defconstant +LIGHT-CORAL+-RGBA32 #xF08080FF)
 
 ;; Light Cyan - R:224 G:255 B:255 A:255
-(defconstant +LIGHT-CYAN+-RGBA32 0xE0FFFFFF)
+(defconstant +LIGHT-CYAN+-RGBA32 #xE0FFFFFF)
 
 ;; Light Goldenrod - R:250 G:250 B:210 A:255
-(defconstant +LIGHT-GOLDENROD+-RGBA32 0xFAFAD2FF)
+(defconstant +LIGHT-GOLDENROD+-RGBA32 #xFAFAD2FF)
 
 ;; Light Gray - R:211 G:211 B:211 A:255
-(defconstant +LIGHT-GRAY+-RGBA32 0xD3D3D3FF)
+(defconstant +LIGHT-GRAY+-RGBA32 #xD3D3D3FF)
 
 ;; Light Green - R:144 G:238 B:144 A:255
-(defconstant +LIGHT-GREEN+-RGBA32 0x90EE90FF)
+(defconstant +LIGHT-GREEN+-RGBA32 #x90EE90FF)
 
 ;; Light Pink - R:255 G:182 B:193 A:255
-(defconstant +LIGHT-PINK+-RGBA32 0xFFB6C1FF)
+(defconstant +LIGHT-PINK+-RGBA32 #xFFB6C1FF)
 
 ;; Light Salmon - R:255 G:160 B:122 A:255
-(defconstant +LIGHT-SALMON+-RGBA32 0xFFA07AFF)
+(defconstant +LIGHT-SALMON+-RGBA32 #xFFA07AFF)
 
 ;; Light Sea Green - R:32 G:178 B:170 A:255
-(defconstant +LIGHT-SEA-GREEN+-RGBA32 0x20B2AAFF)
+(defconstant +LIGHT-SEA-GREEN+-RGBA32 #x20B2AAFF)
 
 ;; Light Sky Blue - R:135 G:206 B:250 A:255
-(defconstant +LIGHT-SKY-BLUE+-RGBA32 0x87CEFAFF)
+(defconstant +LIGHT-SKY-BLUE+-RGBA32 #x87CEFAFF)
 
 ;; Light Slate Gray - R:119 G:136 B:153 A:255
-(defconstant +LIGHT-SLATE-GRAY+-RGBA32 0x778899FF)
+(defconstant +LIGHT-SLATE-GRAY+-RGBA32 #x778899FF)
 
 ;; Light Steel Blue - R:176 G:196 B:222 A:255
-(defconstant +LIGHT-STEEL-BLUE+-RGBA32 0xB0C4DEFF)
+(defconstant +LIGHT-STEEL-BLUE+-RGBA32 #xB0C4DEFF)
 
 ;; Light Yellow - R:255 G:255 B:224 A:255
-(defconstant +LIGHT-YELLOW+-RGBA32 0xFFFFE0FF)
+(defconstant +LIGHT-YELLOW+-RGBA32 #xFFFFE0FF)
 
 ;; Lime - R:0 G:255 B:0 A:255
-(defconstant +LIME+-RGBA32 0x00FF00FF)
+(defconstant +LIME+-RGBA32 #x00FF00FF)
 
 ;; Lime Green - R:50 G:205 B:50 A:255
-(defconstant +LIME-GREEN+-RGBA32 0x32CD32FF)
+(defconstant +LIME-GREEN+-RGBA32 #x32CD32FF)
 
 ;; Linen - R:250 G:240 B:230 A:255
-(defconstant +LINEN+-RGBA32 0xFAF0E6FF)
+(defconstant +LINEN+-RGBA32 #xFAF0E6FF)
 
 ;; Magenta - R:255 G:0 B:255 A:255
-(defconstant +MAGENTA+-RGBA32 0xFF00FFFF)
+(defconstant +MAGENTA+-RGBA32 #xFF00FFFF)
 
 ;; Maroon - R:176 G:48 B:96 A:255
-(defconstant +MAROON+-RGBA32 0xB03060FF)
+(defconstant +MAROON+-RGBA32 #xB03060FF)
 
 ;; Web Maroon - R:128 G:0 B:0 A:255
-(defconstant +WEB-MAROON+-RGBA32 0x800000FF)
+(defconstant +WEB-MAROON+-RGBA32 #x800000FF)
 
 ;; Medium Aquamarine - R:102 G:205 B:170 A:255
-(defconstant +MEDIUM-AQUAMARINE+-RGBA32 0x66CDAAFF)
+(defconstant +MEDIUM-AQUAMARINE+-RGBA32 #x66CDAAFF)
 
 ;; Medium Blue - R:0 G:0 B:205 A:255
-(defconstant +MEDIUM-BLUE+-RGBA32 0x0000CDFF)
+(defconstant +MEDIUM-BLUE+-RGBA32 #x0000CDFF)
 
 ;; Medium Orchid - R:186 G:85 B:211 A:255
-(defconstant +MEDIUM-ORCHID+-RGBA32 0xBA55D3FF)
+(defconstant +MEDIUM-ORCHID+-RGBA32 #xBA55D3FF)
 
 ;; Medium Purple - R:147 G:112 B:219 A:255
-(defconstant +MEDIUM-PURPLE+-RGBA32 0x9370DBFF)
+(defconstant +MEDIUM-PURPLE+-RGBA32 #x9370DBFF)
 
 ;; Medium Sea Green - R:60 G:179 B:113 A:255
-(defconstant +MEDIUM-SEA-GREEN+-RGBA32 0x3CB371FF)
+(defconstant +MEDIUM-SEA-GREEN+-RGBA32 #x3CB371FF)
 
 ;; Medium Slate Blue - R:123 G:104 B:238 A:255
-(defconstant +MEDIUM-SLATE-BLUE+-RGBA32 0x7B68EEFF)
+(defconstant +MEDIUM-SLATE-BLUE+-RGBA32 #x7B68EEFF)
 
 ;; Medium Spring Green - R:0 G:250 B:154 A:255
-(defconstant +MEDIUM-SPRING-GREEN+-RGBA32 0x00FA9AFF)
+(defconstant +MEDIUM-SPRING-GREEN+-RGBA32 #x00FA9AFF)
 
 ;; Medium Turquoise - R:72 G:209 B:204 A:255
-(defconstant +MEDIUM-TURQUOISE+-RGBA32 0x48D1CCFF)
+(defconstant +MEDIUM-TURQUOISE+-RGBA32 #x48D1CCFF)
 
 ;; Medium Violet Red - R:199 G:21 B:133 A:255
-(defconstant +MEDIUM-VIOLET-RED+-RGBA32 0xC71585FF)
+(defconstant +MEDIUM-VIOLET-RED+-RGBA32 #xC71585FF)
 
 ;; Midnight Blue - R:25 G:25 B:112 A:255
-(defconstant +MIDNIGHT-BLUE+-RGBA32 0x191970FF)
+(defconstant +MIDNIGHT-BLUE+-RGBA32 #x191970FF)
 
 ;; Mint Cream - R:245 G:255 B:250 A:255
-(defconstant +MINT-CREAM+-RGBA32 0xF5FFFAFF)
+(defconstant +MINT-CREAM+-RGBA32 #xF5FFFAFF)
 
 ;; Misty Rose - R:255 G:228 B:225 A:255
-(defconstant +MISTY-ROSE+-RGBA32 0xFFE4E1FF)
+(defconstant +MISTY-ROSE+-RGBA32 #xFFE4E1FF)
 
 ;; Moccasin - R:255 G:228 B:181 A:255
-(defconstant +MOCCASIN+-RGBA32 0xFFE4B5FF)
+(defconstant +MOCCASIN+-RGBA32 #xFFE4B5FF)
 
 ;; Navajo White - R:255 G:222 B:173 A:255
-(defconstant +NAVAJO-WHITE+-RGBA32 0xFFDEADFF)
+(defconstant +NAVAJO-WHITE+-RGBA32 #xFFDEADFF)
 
 ;; Navy Blue - R:0 G:0 B:128 A:255
-(defconstant +NAVY-BLUE+-RGBA32 0x000080FF)
+(defconstant +NAVY-BLUE+-RGBA32 #x000080FF)
 
 ;; Old Lace - R:253 G:245 B:230 A:255
-(defconstant +OLD-LACE+-RGBA32 0xFDF5E6FF)
+(defconstant +OLD-LACE+-RGBA32 #xFDF5E6FF)
 
 ;; Olive - R:128 G:128 B:0 A:255
-(defconstant +OLIVE+-RGBA32 0x808000FF)
+(defconstant +OLIVE+-RGBA32 #x808000FF)
 
 ;; Olive Drab - R:107 G:142 B:35 A:255
-(defconstant +OLIVE-DRAB+-RGBA32 0x6B8E23FF)
+(defconstant +OLIVE-DRAB+-RGBA32 #x6B8E23FF)
 
 ;; Orange - R:255 G:165 B:0 A:255
-(defconstant +ORANGE+-RGBA32 0xFFA500FF)
+(defconstant +ORANGE+-RGBA32 #xFFA500FF)
 
 ;; Orange Red - R:255 G:69 B:0 A:255
-(defconstant +ORANGE-RED+-RGBA32 0xFF4500FF)
+(defconstant +ORANGE-RED+-RGBA32 #xFF4500FF)
 
 ;; Orchid - R:218 G:112 B:214 A:255
-(defconstant +ORCHID+-RGBA32 0xDA70D6FF)
+(defconstant +ORCHID+-RGBA32 #xDA70D6FF)
 
 ;; Pale Goldenrod - R:238 G:232 B:170 A:255
-(defconstant +PALE-GOLDENROD+-RGBA32 0xEEE8AAFF)
+(defconstant +PALE-GOLDENROD+-RGBA32 #xEEE8AAFF)
 
 ;; Pale Green - R:152 G:251 B:152 A:255
-(defconstant +PALE-GREEN+-RGBA32 0x98FB98FF)
+(defconstant +PALE-GREEN+-RGBA32 #x98FB98FF)
 
 ;; Pale Turquoise - R:175 G:238 B:238 A:255
-(defconstant +PALE-TURQUOISE+-RGBA32 0xAFEEEEFF)
+(defconstant +PALE-TURQUOISE+-RGBA32 #xAFEEEEFF)
 
 ;; Pale Violet Red - R:219 G:112 B:147 A:255
-(defconstant +PALE-VIOLET-RED+-RGBA32 0xDB7093FF)
+(defconstant +PALE-VIOLET-RED+-RGBA32 #xDB7093FF)
 
 ;; Papaya Whip - R:255 G:239 B:213 A:255
-(defconstant +PAPAYA-WHIP+-RGBA32 0xFFEFD5FF)
+(defconstant +PAPAYA-WHIP+-RGBA32 #xFFEFD5FF)
 
 ;; Peach Puff - R:255 G:218 B:185 A:255
-(defconstant +PEACH-PUFF+-RGBA32 0xFFDAB9FF)
+(defconstant +PEACH-PUFF+-RGBA32 #xFFDAB9FF)
 
 ;; Peru - R:205 G:133 B:63 A:255
-(defconstant +PERU+-RGBA32 0xCD853FFF)
+(defconstant +PERU+-RGBA32 #xCD853FFF)
 
 ;; Pink - R:255 G:192 B:203 A:255
-(defconstant +PINK+-RGBA32 0xFFC0CBFF)
+(defconstant +PINK+-RGBA32 #xFFC0CBFF)
 
 ;; Plum - R:221 G:160 B:221 A:255
-(defconstant +PLUM+-RGBA32 0xDDA0DDFF)
+(defconstant +PLUM+-RGBA32 #xDDA0DDFF)
 
 ;; Powder Blue - R:176 G:224 B:230 A:255
-(defconstant +POWDER-BLUE+-RGBA32 0xB0E0E6FF)
+(defconstant +POWDER-BLUE+-RGBA32 #xB0E0E6FF)
 
 ;; Purple - R:160 G:32 B:240 A:255
-(defconstant +PURPLE+-RGBA32 0xA020F0FF)
+(defconstant +PURPLE+-RGBA32 #xA020F0FF)
 
 ;; Web Purple - R:128 G:0 B:128 A:255
-(defconstant +WEB-PURPLE+-RGBA32 0x800080FF)
+(defconstant +WEB-PURPLE+-RGBA32 #x800080FF)
 
 ;; Rebecca Purple - R:102 G:51 B:153 A:255
-(defconstant +REBECCA-PURPLE+-RGBA32 0x663399FF)
+(defconstant +REBECCA-PURPLE+-RGBA32 #x663399FF)
 
 ;; Red - R:255 G:0 B:0 A:255
-(defconstant +RED+-RGBA32 0xFF0000FF)
+(defconstant +RED+-RGBA32 #xFF0000FF)
 
 ;; Rosy Brown - R:188 G:143 B:143 A:255
-(defconstant +ROSY-BROWN+-RGBA32 0xBC8F8FFF)
+(defconstant +ROSY-BROWN+-RGBA32 #xBC8F8FFF)
 
 ;; Royal Blue - R:65 G:105 B:225 A:255
-(defconstant +ROYAL-BLUE+-RGBA32 0x4169E1FF)
+(defconstant +ROYAL-BLUE+-RGBA32 #x4169E1FF)
 
 ;; Saddle Brown - R:139 G:69 B:19 A:255
-(defconstant +SADDLE-BROWN+-RGBA32 0x8B4513FF)
+(defconstant +SADDLE-BROWN+-RGBA32 #x8B4513FF)
 
 ;; Salmon - R:250 G:128 B:114 A:255
-(defconstant +SALMON+-RGBA32 0xFA8072FF)
+(defconstant +SALMON+-RGBA32 #xFA8072FF)
 
 ;; Sandy Brown - R:244 G:164 B:96 A:255
-(defconstant +SANDY-BROWN+-RGBA32 0xF4A460FF)
+(defconstant +SANDY-BROWN+-RGBA32 #xF4A460FF)
 
 ;; Sea Green - R:46 G:139 B:87 A:255
-(defconstant +SEA-GREEN+-RGBA32 0x2E8B57FF)
+(defconstant +SEA-GREEN+-RGBA32 #x2E8B57FF)
 
 ;; Seashell - R:255 G:245 B:238 A:255
-(defconstant +SEASHELL+-RGBA32 0xFFF5EEFF)
+(defconstant +SEASHELL+-RGBA32 #xFFF5EEFF)
 
 ;; Sienna - R:160 G:82 B:45 A:255
-(defconstant +SIENNA+-RGBA32 0xA0522DFF)
+(defconstant +SIENNA+-RGBA32 #xA0522DFF)
 
 ;; Silver - R:192 G:192 B:192 A:255
-(defconstant +SILVER+-RGBA32 0xC0C0C0FF)
+(defconstant +SILVER+-RGBA32 #xC0C0C0FF)
 
 ;; Sky Blue - R:135 G:206 B:235 A:255
-(defconstant +SKY-BLUE+-RGBA32 0x87CEEBFF)
+(defconstant +SKY-BLUE+-RGBA32 #x87CEEBFF)
 
 ;; Slate Blue - R:106 G:90 B:205 A:255
-(defconstant +SLATE-BLUE+-RGBA32 0x6A5ACDFF)
+(defconstant +SLATE-BLUE+-RGBA32 #x6A5ACDFF)
 
 ;; Slate Gray - R:112 G:128 B:144 A:255
-(defconstant +SLATE-GRAY+-RGBA32 0x708090FF)
+(defconstant +SLATE-GRAY+-RGBA32 #x708090FF)
 
 ;; Snow - R:255 G:250 B:250 A:255
-(defconstant +SNOW+-RGBA32 0xFFFAFAFF)
+(defconstant +SNOW+-RGBA32 #xFFFAFAFF)
 
 ;; Spring Green - R:0 G:255 B:127 A:255
-(defconstant +SPRING-GREEN+-RGBA32 0x00FF7FFF)
+(defconstant +SPRING-GREEN+-RGBA32 #x00FF7FFF)
 
 ;; Steel Blue - R:70 G:130 B:180 A:255
-(defconstant +STEEL-BLUE+-RGBA32 0x4682B4FF)
+(defconstant +STEEL-BLUE+-RGBA32 #x4682B4FF)
 
 ;; Tan - R:210 G:180 B:140 A:255
-(defconstant +TAN+-RGBA32 0xD2B48CFF)
+(defconstant +TAN+-RGBA32 #xD2B48CFF)
 
 ;; Teal - R:0 G:128 B:128 A:255
-(defconstant +TEAL+-RGBA32 0x008080FF)
+(defconstant +TEAL+-RGBA32 #x008080FF)
 
 ;; Thistle - R:216 G:191 B:216 A:255
-(defconstant +THISTLE+-RGBA32 0xD8BFD8FF)
+(defconstant +THISTLE+-RGBA32 #xD8BFD8FF)
 
 ;; Tomato - R:255 G:99 B:71 A:255
-(defconstant +TOMATO+-RGBA32 0xFF6347FF)
+(defconstant +TOMATO+-RGBA32 #xFF6347FF)
 
 ;; Transparent - R:0 G:0 B:0 A:0
-(defconstant +TRANSPARENT+-RGBA32 0x00000000)
+(defconstant +TRANSPARENT+-RGBA32 #x00000000)
 
 ;; Turquoise - R:64 G:224 B:208 A:255
-(defconstant +TURQUOISE+-RGBA32 0x40E0D0FF)
+(defconstant +TURQUOISE+-RGBA32 #x40E0D0FF)
 
 ;; Violet - R:238 G:130 B:238 A:255
-(defconstant +VIOLET+-RGBA32 0xEE82EEFF)
+(defconstant +VIOLET+-RGBA32 #xEE82EEFF)
 
 ;; Wheat - R:245 G:222 B:179 A:255
-(defconstant +WHEAT+-RGBA32 0xF5DEB3FF)
+(defconstant +WHEAT+-RGBA32 #xF5DEB3FF)
 
 ;; White - R:255 G:255 B:255 A:255
-(defconstant +WHITE+-RGBA32 0xFFFFFFFF)
+(defconstant +WHITE+-RGBA32 #xFFFFFFFF)
 
 ;; White Smoke - R:245 G:245 B:245 A:255
-(defconstant +WHITE-SMOKE+-RGBA32 0xF5F5F5FF)
+(defconstant +WHITE-SMOKE+-RGBA32 #xF5F5F5FF)
 
 ;; Yellow - R:255 G:255 B:0 A:255
-(defconstant +YELLOW+-RGBA32 0xFFFF00FF)
+(defconstant +YELLOW+-RGBA32 #xFFFF00FF)
 
 ;; Yellow Green - R:154 G:205 B:50 A:255
-(defconstant +YELLOW-GREEN+-RGBA32 0x9ACD32FF)
+(defconstant +YELLOW-GREEN+-RGBA32 #x9ACD32FF)
 
 
 ;;;; Utility Functions
@@ -1240,18 +1240,18 @@
 (defmacro with-color ((var color-list) &body body)
   "Convenience macro to create a temporary sg_color from a list of (r g b a) floats"
   `(cffi:with-foreign-object (,var '(:struct sokol-gfx:sg-color))
-     (setf (cffi:foreign-slot-value ,var '(:struct sokol-gfx:sg-color) 'sokol-gfx:r) ,(first color-list))
-     (setf (cffi:foreign-slot-value ,var '(:struct sokol-gfx:sg-color) 'sokol-gfx:g) ,(second color-list))
-     (setf (cffi:foreign-slot-value ,var '(:struct sokol-gfx:sg-color) 'sokol-gfx:b) ,(third color-list))
-     (setf (cffi:foreign-slot-value ,var '(:struct sokol-gfx:sg-color) 'sokol-gfx:a) ,(fourth color-list))
+     (setf (cffi:foreign-slot-value ,var '(:struct sokol-gfx:sg-color) 'sokol-gfx::r) ,(first color-list))
+     (setf (cffi:foreign-slot-value ,var '(:struct sokol-gfx:sg-color) 'sokol-gfx::g) ,(second color-list))
+     (setf (cffi:foreign-slot-value ,var '(:struct sokol-gfx:sg-color) 'sokol-gfx::b) ,(third color-list))
+     (setf (cffi:foreign-slot-value ,var '(:struct sokol-gfx:sg-color) 'sokol-gfx::a) ,(fourth color-list))
      ,@body))
 
 (defun color-from-list (color-list)
   "Create an sg_color from a list of (r g b a) floats.
    Returns a foreign pointer that must be freed by the caller."
   (let ((color-ptr (cffi:foreign-alloc '(:struct sokol-gfx:sg-color))))
-    (setf (cffi:foreign-slot-value color-ptr '(:struct sokol-gfx:sg-color) 'sokol-gfx:r) (first color-list))
-    (setf (cffi:foreign-slot-value color-ptr '(:struct sokol-gfx:sg-color) 'sokol-gfx:g) (second color-list))
-    (setf (cffi:foreign-slot-value color-ptr '(:struct sokol-gfx:sg-color) 'sokol-gfx:b) (third color-list))
-    (setf (cffi:foreign-slot-value color-ptr '(:struct sokol-gfx:sg-color) 'sokol-gfx:a) (fourth color-list))
+    (setf (cffi:foreign-slot-value color-ptr '(:struct sokol-gfx:sg-color) 'sokol-gfx::r) (first color-list))
+    (setf (cffi:foreign-slot-value color-ptr '(:struct sokol-gfx:sg-color) 'sokol-gfx::g) (second color-list))
+    (setf (cffi:foreign-slot-value color-ptr '(:struct sokol-gfx:sg-color) 'sokol-gfx::b) (third color-list))
+    (setf (cffi:foreign-slot-value color-ptr '(:struct sokol-gfx:sg-color) 'sokol-gfx::a) (fourth color-list))
     color-ptr))

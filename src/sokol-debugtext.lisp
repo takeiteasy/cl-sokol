@@ -608,8 +608,8 @@
   (canvas-width :float)
   (canvas-height :float)
   (tab-width :int)
-  (color-format (:struct sokol-gfx:sg-pixel-format))
-  (depth-format (:struct sokol-gfx:sg-pixel-format))
+  (color-format :int)
+  (depth-format :int)
   (sample-count :int)
 )
 

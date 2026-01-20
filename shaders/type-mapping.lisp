@@ -1,10 +1,10 @@
 (in-package #:cl-sokol-shaders)
 
-;;; Type mappings between 3bgl-shader types and sokol types
+;;; Type mappings between clsl types and sokol types
 
-;; Map 3bgl-shader type names to sokol vertex attribute base types
+;; Map clsl type names to sokol vertex attribute base types
 (defun type-to-attr-base-type (type-name)
-  "Convert a 3bgl-shader type name to sg-shader-attr-base-type keyword.
+  "Convert a clsl type name to sg-shader-attr-base-type keyword.
 TYPE-NAME should be a keyword like :float, :vec4, :int, :ivec3, :uint, etc."
   (case type-name
     ;; Float types
@@ -32,9 +32,9 @@ TYPE-NAME should be a keyword like :float, :vec4, :int, :ivec3, :uint, etc."
     (otherwise
      :sg-shaderattrbasetype-undefined)))
 
-;; Map 3bgl-shader type names to sokol uniform types
+;; Map clsl type names to sokol uniform types
 (defun type-to-uniform-type (type-name)
-  "Convert a 3bgl-shader type name to sg-uniform-type keyword."
+  "Convert a clsl type name to sg-uniform-type keyword."
   (case type-name
     (:float :sg-uniformtype-float)
     (:vec2 :sg-uniformtype-float2)

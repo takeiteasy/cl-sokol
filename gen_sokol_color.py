@@ -242,7 +242,7 @@ def generate_lisp_bindings():
         a_text = "{:.1f}".format(a) if a == int(a) else "{:.9g}".format(a)
 
         output.write(f";; {color[0]} - R:{rgba[0]} G:{rgba[1]} B:{rgba[2]} A:{rgba[3]}\n")
-        output.write(f"(defconstant {lisp_name} '({r_text} {g_text} {b_text} {a_text}))\n\n")
+        output.write(f"(defparameter {lisp_name} '({r_text} {g_text} {b_text} {a_text}))\n\n")
 
     # Generate packed RGBA32 constants
     output.write("\n;;;; Packed RGBA32 integer values (0xRRGGBBAA)\n\n")
@@ -250,7 +250,7 @@ def generate_lisp_bindings():
     for color in colors:
         rgba = unpack_rgba(color[1])
         lisp_name = to_constant_name(color[0]) + "-RGBA32"
-        hex_color = "0x{0:08X}".format(color[1])
+        hex_color = "#x{0:08X}".format(color[1])
 
         output.write(f";; {color[0]} - R:{rgba[0]} G:{rgba[1]} B:{rgba[2]} A:{rgba[3]}\n")
         output.write(f"(defconstant {lisp_name} {hex_color})\n\n")
@@ -294,20 +294,20 @@ def generate_lisp_bindings():
 (defmacro with-color ((var color-list) &body body)
   "Convenience macro to create a temporary sg_color from a list of (r g b a) floats"
   `(cffi:with-foreign-object (,var '(:struct sokol-gfx:sg-color))
-     (setf (cffi:foreign-slot-value ,var '(:struct sokol-gfx:sg-color) 'sokol-gfx:r) ,(first color-list))
-     (setf (cffi:foreign-slot-value ,var '(:struct sokol-gfx:sg-color) 'sokol-gfx:g) ,(second color-list))
-     (setf (cffi:foreign-slot-value ,var '(:struct sokol-gfx:sg-color) 'sokol-gfx:b) ,(third color-list))
-     (setf (cffi:foreign-slot-value ,var '(:struct sokol-gfx:sg-color) 'sokol-gfx:a) ,(fourth color-list))
+     (setf (cffi:foreign-slot-value ,var '(:struct sokol-gfx:sg-color) 'sokol-gfx::r) ,(first color-list))
+     (setf (cffi:foreign-slot-value ,var '(:struct sokol-gfx:sg-color) 'sokol-gfx::g) ,(second color-list))
+     (setf (cffi:foreign-slot-value ,var '(:struct sokol-gfx:sg-color) 'sokol-gfx::b) ,(third color-list))
+     (setf (cffi:foreign-slot-value ,var '(:struct sokol-gfx:sg-color) 'sokol-gfx::a) ,(fourth color-list))
      ,@body))
 
 (defun color-from-list (color-list)
   "Create an sg_color from a list of (r g b a) floats.
    Returns a foreign pointer that must be freed by the caller."
   (let ((color-ptr (cffi:foreign-alloc '(:struct sokol-gfx:sg-color))))
-    (setf (cffi:foreign-slot-value color-ptr '(:struct sokol-gfx:sg-color) 'sokol-gfx:r) (first color-list))
-    (setf (cffi:foreign-slot-value color-ptr '(:struct sokol-gfx:sg-color) 'sokol-gfx:g) (second color-list))
-    (setf (cffi:foreign-slot-value color-ptr '(:struct sokol-gfx:sg-color) 'sokol-gfx:b) (third color-list))
-    (setf (cffi:foreign-slot-value color-ptr '(:struct sokol-gfx:sg-color) 'sokol-gfx:a) (fourth color-list))
+    (setf (cffi:foreign-slot-value color-ptr '(:struct sokol-gfx:sg-color) 'sokol-gfx::r) (first color-list))
+    (setf (cffi:foreign-slot-value color-ptr '(:struct sokol-gfx:sg-color) 'sokol-gfx::g) (second color-list))
+    (setf (cffi:foreign-slot-value color-ptr '(:struct sokol-gfx:sg-color) 'sokol-gfx::b) (third color-list))
+    (setf (cffi:foreign-slot-value color-ptr '(:struct sokol-gfx:sg-color) 'sokol-gfx::a) (fourth color-list))
     color-ptr))
 """)
 

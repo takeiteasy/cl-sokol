@@ -1,5 +1,6 @@
 (defpackage #:cl-sokol-shaders
   (:use #:cl)
+  (:nicknames #:cl-sokol/shaders)
   (:export
    ;; Main API
    #:define-sokol-shader

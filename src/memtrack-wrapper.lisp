@@ -21,11 +21,11 @@
 
 (defun memtrack-info ()
   "Get memory tracking info. Returns plist with :num-allocs and :num-bytes"
-  (with-foreign-object (info '(:struct sokol-memtrack:smemtrack-info-t))
-    (setf (mem-ref info '(:struct sokol-memtrack:smemtrack-info-t))
+  (with-foreign-object (info '(:struct sokol-memtrack:smemtrack-info))
+    (setf (mem-ref info '(:struct sokol-memtrack:smemtrack-info))
           (sokol-memtrack:smemtrack-info))
-    (list :num-allocs (foreign-slot-value info '(:struct sokol-memtrack:smemtrack-info-t) 'sokol-memtrack::num-allocs)
-          :num-bytes (foreign-slot-value info '(:struct sokol-memtrack:smemtrack-info-t) 'sokol-memtrack::num-bytes))))
+    (list :num-allocs (foreign-slot-value info '(:struct sokol-memtrack:smemtrack-info) 'sokol-memtrack::num-allocs)
+          :num-bytes (foreign-slot-value info '(:struct sokol-memtrack:smemtrack-info) 'sokol-memtrack::num-bytes))))
 
 (defun memtrack-allocator ()
   "Get sokol-memtrack allocator functions for use in desc structs.

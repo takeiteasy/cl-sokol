@@ -92,6 +92,19 @@
   :components ((:file "src/sokol-gfx-imgui")
                (:file "src/gfx-imgui-wrapper")))
 
+(asdf:defsystem #:cl-sokol/shaders
+  :description "Write sokol shaders in Common Lisp using clsl DSL"
+  :depends-on (#:clsl #:cl-sokol #:cffi)
+  :serial t
+  :pathname "shaders"
+  :components ((:file "package")
+               (:file "type-mapping")
+               (:file "reflection")
+               (:file "shader-desc")
+               (:file "api")
+               (:module "examples"
+                :components ((:file "triangle")))))
+
 (asdf:defsystem #:cl-sokol/all
   :description "All cl-sokol subsystems (convenience system)"
   :depends-on (#:cl-sokol
@@ -101,4 +114,5 @@
                #:cl-sokol/memtrack
                #:cl-sokol/color
                #:cl-sokol/imgui
-               #:cl-sokol/gfx-imgui))
+               #:cl-sokol/gfx-imgui
+               #:cl-sokol/shaders))

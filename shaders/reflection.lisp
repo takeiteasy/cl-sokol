@@ -1,6 +1,6 @@
 (in-package #:cl-sokol-shaders)
 
-;;; Extract shader reflection data from 3bgl-shader's generate-stage output
+;;; Extract shader reflection data from clsl's generate-stage output
 
 (defclass shader-reflection ()
   ((name :initarg :name :accessor shader-name)
@@ -197,7 +197,7 @@ In GLSL, textures are combined with samplers (sampler2D etc)."
 (defun generate-shader-source (stage entry-point &key (backend :glsl) (version 450))
   "Generate shader source for a single stage.
 Returns (values source uniforms attributes buffers structs)."
-  (3bgl-shaders:generate-stage stage entry-point
+  (clsl:generate-stage stage entry-point
                                :backend backend
                                :version version
                                :expand-uniforms t))
@@ -216,7 +216,7 @@ Returns a shader-reflection object with all metadata."
 
       ;; For non-GLSL backends, attributes come back empty from generate-stage
       ;; We need to extract them from the GLSL version for reflection
-      (let ((attrs (if (and (null vs-attrs) (not (eq backend :glsl)))
+      (let* ((attrs (if (and (null vs-attrs) (not (eq backend :glsl)))
                        ;; Generate GLSL just for attribute info
                        (multiple-value-bind (glsl-source glsl-uniforms glsl-attrs)
                            (generate-shader-source :vertex vertex-entry :backend :glsl :version 450)

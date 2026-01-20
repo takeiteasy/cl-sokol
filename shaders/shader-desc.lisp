@@ -141,34 +141,35 @@ INDEX is the uniform block index (0-7)."
                              (:uint :sg-imagesampletype-uint)
                              (otherwise :sg-imagesampletype-float))))
 
-(defun set-shader-image-desc (img-ptr texture shader-backend index)
-  "Set up a single sg_shader_image struct (texture view)."
+(defun set-shader-texture-view-desc (tex-view-ptr texture shader-backend index)
+  "Set up a single sg_shader_texture_view struct.
+TEX-VIEW-PTR points to the texture field inside a sg_shader_view."
   ;; Set stage
-  (setf (cffi:foreign-slot-value img-ptr '(:struct sg:sg-shader-image) 'sg::stage)
+  (setf (cffi:foreign-slot-value tex-view-ptr '(:struct sg:sg-shader-texture-view) 'sg::stage)
         (stage-to-shader-stage (texture-stage texture)))
   ;; Set image type
-  (setf (cffi:foreign-slot-value img-ptr '(:struct sg:sg-shader-image) 'sg::image-type)
+  (setf (cffi:foreign-slot-value tex-view-ptr '(:struct sg:sg-shader-texture-view) 'sg::image-type)
         (image-type-to-sg-image-type (texture-image-type texture)))
   ;; Set sample type
-  (setf (cffi:foreign-slot-value img-ptr '(:struct sg:sg-shader-image) 'sg::sample-type)
+  (setf (cffi:foreign-slot-value tex-view-ptr '(:struct sg:sg-shader-texture-view) 'sg::sample-type)
         (sample-type-to-sg-image-sample-type (texture-sample-type texture)))
   ;; Set multisampled
-  (setf (cffi:foreign-slot-value img-ptr '(:struct sg:sg-shader-image) 'sg::multisampled)
-        (if (texture-multisampled texture) 1 0))
+  (setf (cffi:foreign-slot-value tex-view-ptr '(:struct sg:sg-shader-texture-view) 'sg::multisampled)
+        (if (texture-multisampled texture) t nil))
   ;; Set backend-specific bindings
   (let ((binding (or (texture-binding texture) index)))
     (case shader-backend
       (:metal
-       (setf (cffi:foreign-slot-value img-ptr '(:struct sg:sg-shader-image) 'sg::msl-texture-n)
+       (setf (cffi:foreign-slot-value tex-view-ptr '(:struct sg:sg-shader-texture-view) 'sg::msl-texture-n)
              binding))
       (:hlsl
-       (setf (cffi:foreign-slot-value img-ptr '(:struct sg:sg-shader-image) 'sg::hlsl-register-t-n)
+       (setf (cffi:foreign-slot-value tex-view-ptr '(:struct sg:sg-shader-texture-view) 'sg::hlsl-register-t-n)
              binding))
       (:wgsl
-       (setf (cffi:foreign-slot-value img-ptr '(:struct sg:sg-shader-image) 'sg::wgsl-group1-binding-n)
+       (setf (cffi:foreign-slot-value tex-view-ptr '(:struct sg:sg-shader-texture-view) 'sg::wgsl-group1-binding-n)
              binding))
       (:glsl
-       ;; GLSL uses combined texture-samplers, handled in image_sampler_pairs
+       ;; GLSL uses combined texture-samplers, handled in texture_sampler_pairs
        nil))))
 
 (defun set-shader-sampler-desc (smp-ptr texture shader-backend index)
@@ -200,38 +201,40 @@ For GLSL combined samplers, the sampler is implicit in the texture."
        ;; GLSL uses combined samplers
        nil))))
 
-(defun set-shader-image-sampler-pair (pair-ptr texture index)
-  "Set up a single sg_shader_image_sampler_pair struct for GLSL combined samplers."
+(defun set-shader-texture-sampler-pair (pair-ptr texture index)
+  "Set up a single sg_shader_texture_sampler_pair struct for GLSL combined samplers."
   ;; Set stage
-  (setf (cffi:foreign-slot-value pair-ptr '(:struct sg:sg-shader-image-sampler-pair) 'sg::stage)
+  (setf (cffi:foreign-slot-value pair-ptr '(:struct sg:sg-shader-texture-sampler-pair) 'sg::stage)
         (stage-to-shader-stage (texture-stage texture)))
-  ;; Set image slot index
-  (setf (cffi:foreign-slot-value pair-ptr '(:struct sg:sg-shader-image-sampler-pair) 'sg::image-slot)
+  ;; Set view slot index (texture view)
+  (setf (cffi:foreign-slot-value pair-ptr '(:struct sg:sg-shader-texture-sampler-pair) 'sg::view-slot)
         index)
-  ;; Set sampler slot index (same as image for combined samplers)
-  (setf (cffi:foreign-slot-value pair-ptr '(:struct sg:sg-shader-image-sampler-pair) 'sg::sampler-slot)
+  ;; Set sampler slot index (same as view for combined samplers)
+  (setf (cffi:foreign-slot-value pair-ptr '(:struct sg:sg-shader-texture-sampler-pair) 'sg::sampler-slot)
         index)
   ;; Set GLSL name for the combined sampler
-  (setf (cffi:foreign-slot-value pair-ptr '(:struct sg:sg-shader-image-sampler-pair) 'sg::glsl-name)
+  (setf (cffi:foreign-slot-value pair-ptr '(:struct sg:sg-shader-texture-sampler-pair) 'sg::glsl-name)
         (cffi:foreign-string-alloc (texture-glsl-name texture))))
 
 (defun set-shader-textures-and-samplers (desc reflection shader-backend)
-  "Populate the images, samplers, and image_sampler_pairs arrays in sg_shader_desc."
+  "Populate the views, samplers, and texture_sampler_pairs arrays in sg_shader_desc."
   (let ((textures (shader-textures reflection)))
     (when textures
-      (let ((imgs-ptr (cffi:foreign-slot-pointer desc '(:struct sg:sg-shader-desc) 'sg::images))
+      (let ((views-ptr (cffi:foreign-slot-pointer desc '(:struct sg:sg-shader-desc) 'sg::views))
             (smps-ptr (cffi:foreign-slot-pointer desc '(:struct sg:sg-shader-desc) 'sg::samplers))
-            (pairs-ptr (cffi:foreign-slot-pointer desc '(:struct sg:sg-shader-desc) 'sg::image-sampler-pairs)))
+            (pairs-ptr (cffi:foreign-slot-pointer desc '(:struct sg:sg-shader-desc) 'sg::texture-sampler-pairs)))
         (loop for texture in textures
-              for i from 0 below 16  ; sokol supports up to 16 images/samplers
-              for img-ptr = (cffi:mem-aptr imgs-ptr '(:struct sg:sg-shader-image) i)
+              for i from 0 below 32  ; sokol supports up to 32 views
+              ;; Get pointer to sg_shader_view[i], then to its texture field
+              for view-ptr = (cffi:mem-aptr views-ptr '(:struct sg:sg-shader-view) i)
+              for tex-view-ptr = (cffi:foreign-slot-pointer view-ptr '(:struct sg:sg-shader-view) 'sg::texture)
               for smp-ptr = (cffi:mem-aptr smps-ptr '(:struct sg:sg-shader-sampler) i)
-              for pair-ptr = (cffi:mem-aptr pairs-ptr '(:struct sg:sg-shader-image-sampler-pair) i)
-              do (set-shader-image-desc img-ptr texture shader-backend i)
+              for pair-ptr = (cffi:mem-aptr pairs-ptr '(:struct sg:sg-shader-texture-sampler-pair) i)
+              do (set-shader-texture-view-desc tex-view-ptr texture shader-backend i)
                  (set-shader-sampler-desc smp-ptr texture shader-backend i)
-                 ;; For GLSL, also set up image-sampler pairs
+                 ;; For GLSL, also set up texture-sampler pairs
                  (when (eq shader-backend :glsl)
-                   (set-shader-image-sampler-pair pair-ptr texture i)))))))
+                   (set-shader-texture-sampler-pair pair-ptr texture i)))))))
 
 (defun build-shader-desc (name reflection shader-backend sokol-backend)
   "Build a sg_shader_desc from shader reflection data.
