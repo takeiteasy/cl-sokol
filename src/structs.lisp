@@ -212,8 +212,69 @@
 (define-struct-wrapper pipeline-desc (:struct sokol-gfx:sg-pipeline-desc)
   ((shader :type t :initform nil :accessor pipeline-desc-shader)
    (vertex-layouts :type list :initform nil :accessor pipeline-desc-vertex-layouts)
+   (vertex-stride :type integer :initform 0 :accessor pipeline-desc-vertex-stride)
+   (index-type :type keyword :initform :none :accessor pipeline-desc-index-type)
+   (cull-mode :type keyword :initform :none :accessor pipeline-desc-cull-mode)
+   ;; Depth state
+   (depth-compare :type keyword :initform :always :accessor pipeline-desc-depth-compare)
+   (depth-write-enabled :type boolean :initform nil :accessor pipeline-desc-depth-write-enabled)
+   ;; Blend state (for color attachment 0)
+   (blend-enabled :type boolean :initform nil :accessor pipeline-desc-blend-enabled)
+   (blend-src-factor-rgb :type keyword :initform :one :accessor pipeline-desc-blend-src-factor-rgb)
+   (blend-dst-factor-rgb :type keyword :initform :zero :accessor pipeline-desc-blend-dst-factor-rgb)
+   (blend-src-factor-alpha :type keyword :initform :one :accessor pipeline-desc-blend-src-factor-alpha)
+   (blend-dst-factor-alpha :type keyword :initform :zero :accessor pipeline-desc-blend-dst-factor-alpha)
    (label :type (or null string) :initform nil :accessor pipeline-desc-label))
   :documentation "Describes a graphics pipeline (shader + state).")
+
+(defun %keyword-to-index-type (kw)
+  "Convert keyword to sokol index type enum value."
+  (cffi:foreign-enum-value 'sokol-gfx:sg-index-type
+                           (ecase kw
+                             (:none :sg-indextype-none)
+                             (:uint16 :sg-indextype-uint16)
+                             (:uint32 :sg-indextype-uint32))))
+
+(defun %keyword-to-cull-mode (kw)
+  "Convert keyword to sokol cull mode enum value."
+  (cffi:foreign-enum-value 'sokol-gfx:sg-cull-mode
+                           (ecase kw
+                             (:none :sg-cullmode-none)
+                             (:front :sg-cullmode-front)
+                             (:back :sg-cullmode-back))))
+
+(defun %keyword-to-compare-func (kw)
+  "Convert keyword to sokol compare function enum value."
+  (cffi:foreign-enum-value 'sokol-gfx:sg-compare-func
+                           (ecase kw
+                             (:never :sg-comparefunc-never)
+                             (:less :sg-comparefunc-less)
+                             (:equal :sg-comparefunc-equal)
+                             (:less-equal :sg-comparefunc-less-equal)
+                             (:greater :sg-comparefunc-greater)
+                             (:not-equal :sg-comparefunc-not-equal)
+                             (:greater-equal :sg-comparefunc-greater-equal)
+                             (:always :sg-comparefunc-always))))
+
+(defun %keyword-to-blend-factor (kw)
+  "Convert keyword to sokol blend factor enum value."
+  (cffi:foreign-enum-value 'sokol-gfx:sg-blend-factor
+                           (ecase kw
+                             (:zero :sg-blendfactor-zero)
+                             (:one :sg-blendfactor-one)
+                             (:src-color :sg-blendfactor-src-color)
+                             (:one-minus-src-color :sg-blendfactor-one-minus-src-color)
+                             (:src-alpha :sg-blendfactor-src-alpha)
+                             (:one-minus-src-alpha :sg-blendfactor-one-minus-src-alpha)
+                             (:dst-color :sg-blendfactor-dst-color)
+                             (:one-minus-dst-color :sg-blendfactor-one-minus-dst-color)
+                             (:dst-alpha :sg-blendfactor-dst-alpha)
+                             (:one-minus-dst-alpha :sg-blendfactor-one-minus-dst-alpha)
+                             (:src-alpha-saturated :sg-blendfactor-src-alpha-saturated)
+                             (:blend-color :sg-blendfactor-blend-color)
+                             (:one-minus-blend-color :sg-blendfactor-one-minus-blend-color)
+                             (:blend-alpha :sg-blendfactor-blend-alpha)
+                             (:one-minus-blend-alpha :sg-blendfactor-one-minus-blend-alpha))))
 
 (defmethod to-foreign ((desc pipeline-desc) &optional ptr)
   (let ((ptr (or ptr (foreign-alloc (foreign-type-of desc)))))
@@ -228,19 +289,73 @@
     ;; Set vertex layouts
     (when (pipeline-desc-vertex-layouts desc)
       (let* ((layout-ptr (foreign-slot-pointer ptr '(:struct sokol-gfx:sg-pipeline-desc) 'sokol-gfx::layout))
-             (attrs-ptr (foreign-slot-pointer layout-ptr '(:struct sokol-gfx:sg-vertex-layout-state) 'sokol-gfx::attrs)))
+             (attrs-ptr (foreign-slot-pointer layout-ptr '(:struct sokol-gfx:sg-vertex-layout-state) 'sokol-gfx::attrs))
+             (buffers-ptr (foreign-slot-pointer layout-ptr '(:struct sokol-gfx:sg-vertex-layout-state) 'sokol-gfx::buffers))
+             (offset 0))
+        ;; Set vertex attributes with proper offsets
         (loop for format in (pipeline-desc-vertex-layouts desc)
               for i from 0
-              do (setf (foreign-slot-value
-                        (cffi:mem-aptr attrs-ptr '(:struct sokol-gfx:sg-vertex-attr-state) i)
-                        '(:struct sokol-gfx:sg-vertex-attr-state)
-                        'sokol-gfx::format)
-                       (foreign-enum-value 'sokol-gfx:sg-vertex-format format)))))
+              do (let ((attr-ptr (cffi:mem-aptr attrs-ptr '(:struct sokol-gfx:sg-vertex-attr-state) i)))
+                   ;; Set buffer index (all from buffer 0)
+                   (setf (foreign-slot-value attr-ptr '(:struct sokol-gfx:sg-vertex-attr-state)
+                                             'sokol-gfx::buffer-index)
+                         0)
+                   ;; Set offset
+                   (setf (foreign-slot-value attr-ptr '(:struct sokol-gfx:sg-vertex-attr-state)
+                                             'sokol-gfx::offset)
+                         offset)
+                   ;; Set format
+                   (setf (foreign-slot-value attr-ptr '(:struct sokol-gfx:sg-vertex-attr-state)
+                                             'sokol-gfx::format)
+                         (foreign-enum-value 'sokol-gfx:sg-vertex-format format))
+                   ;; Calculate next offset based on format size
+                   ;; float4 = 16 bytes, float3 = 12 bytes, float2 = 8 bytes, float = 4 bytes
+                   (incf offset (ecase format
+                                  (:sg-vertexformat-float4 16)
+                                  (:sg-vertexformat-float3 12)
+                                  (:sg-vertexformat-float2 8)
+                                  (:sg-vertexformat-float 4)))))
+        ;; Set buffer stride if specified
+        (when (plusp (pipeline-desc-vertex-stride desc))
+          (setf (foreign-slot-value
+                 (cffi:mem-aptr buffers-ptr '(:struct sokol-gfx:sg-vertex-buffer-layout-state) 0)
+                 '(:struct sokol-gfx:sg-vertex-buffer-layout-state)
+                 'sokol-gfx::stride)
+                (pipeline-desc-vertex-stride desc)))))
 
-    ;; Set label if provided
-    ;; (when (pipeline-desc-label desc)
-    ;;  (setf (foreign-slot-value ptr '(:struct sokol-gfx:sg-pipeline-desc) 'sokol-gfx::label)
-    ;;        (foreign-string-alloc (pipeline-desc-label desc))))
+    ;; Set index type
+    (setf (foreign-slot-value ptr '(:struct sokol-gfx:sg-pipeline-desc) 'sokol-gfx::index-type)
+          (%keyword-to-index-type (pipeline-desc-index-type desc)))
+
+    ;; Set cull mode
+    (setf (foreign-slot-value ptr '(:struct sokol-gfx:sg-pipeline-desc) 'sokol-gfx::cull-mode)
+          (%keyword-to-cull-mode (pipeline-desc-cull-mode desc)))
+
+    ;; Set depth state
+    (let ((depth-ptr (foreign-slot-pointer ptr '(:struct sokol-gfx:sg-pipeline-desc) 'sokol-gfx::depth)))
+      (setf (foreign-slot-value depth-ptr '(:struct sokol-gfx:sg-depth-state) 'sokol-gfx::compare)
+            (%keyword-to-compare-func (pipeline-desc-depth-compare desc)))
+      (setf (foreign-slot-value depth-ptr '(:struct sokol-gfx:sg-depth-state) 'sokol-gfx::write-enabled)
+            (pipeline-desc-depth-write-enabled desc)))
+
+    ;; Set blend state for color attachment 0
+    (when (pipeline-desc-blend-enabled desc)
+      (let* ((colors-ptr (foreign-slot-pointer ptr '(:struct sokol-gfx:sg-pipeline-desc) 'sokol-gfx::colors))
+             (color0-ptr colors-ptr)
+             (blend-ptr (foreign-slot-pointer color0-ptr '(:struct sokol-gfx:sg-color-target-state) 'sokol-gfx::blend)))
+        (setf (foreign-slot-value blend-ptr '(:struct sokol-gfx:sg-blend-state) 'sokol-gfx::enabled) t)
+        (setf (foreign-slot-value blend-ptr '(:struct sokol-gfx:sg-blend-state) 'sokol-gfx::src-factor-rgb)
+              (%keyword-to-blend-factor (pipeline-desc-blend-src-factor-rgb desc)))
+        (setf (foreign-slot-value blend-ptr '(:struct sokol-gfx:sg-blend-state) 'sokol-gfx::dst-factor-rgb)
+              (%keyword-to-blend-factor (pipeline-desc-blend-dst-factor-rgb desc)))
+        (setf (foreign-slot-value blend-ptr '(:struct sokol-gfx:sg-blend-state) 'sokol-gfx::op-rgb)
+              (cffi:foreign-enum-value 'sokol-gfx:sg-blend-op :sg-blendop-add))
+        (setf (foreign-slot-value blend-ptr '(:struct sokol-gfx:sg-blend-state) 'sokol-gfx::src-factor-alpha)
+              (%keyword-to-blend-factor (pipeline-desc-blend-src-factor-alpha desc)))
+        (setf (foreign-slot-value blend-ptr '(:struct sokol-gfx:sg-blend-state) 'sokol-gfx::dst-factor-alpha)
+              (%keyword-to-blend-factor (pipeline-desc-blend-dst-factor-alpha desc)))
+        (setf (foreign-slot-value blend-ptr '(:struct sokol-gfx:sg-blend-state) 'sokol-gfx::op-alpha)
+              (cffi:foreign-enum-value 'sokol-gfx:sg-blend-op :sg-blendop-add))))
 
     ptr))
 
@@ -278,21 +393,19 @@
   (let ((ptr (or ptr (foreign-alloc (foreign-type-of b)))))
     (zero-memory ptr '(:struct sokol-gfx:sg-bindings))
 
-    ;; Set vertex buffers
+    ;; Set vertex buffers - copy the id field from each buffer
     (let ((vbs-ptr (foreign-slot-pointer ptr '(:struct sokol-gfx:sg-bindings) 'sokol-gfx::vertex-buffers)))
       (loop for buffer in (bindings-vertex-buffers b)
             for i from 0
-            do (setf (foreign-slot-value
-                      (cffi:mem-aptr vbs-ptr '(:struct sokol-gfx:sg-buffer) i)
-                      '(:struct sokol-gfx:sg-buffer)
-                      'sokol-gfx::id)
+            for target-ptr = (cffi:mem-aptr vbs-ptr '(:struct sokol-gfx:sg-buffer) i)
+            do (setf (foreign-slot-value target-ptr '(:struct sokol-gfx:sg-buffer) 'sokol-gfx::id)
                      (foreign-slot-value buffer '(:struct sokol-gfx:sg-buffer) 'sokol-gfx::id))))
 
-    ;; Set index buffer if provided
+    ;; Set index buffer if provided - copy the id field
     (when (bindings-index-buffer b)
       (let ((ib-ptr (foreign-slot-pointer ptr '(:struct sokol-gfx:sg-bindings) 'sokol-gfx::index-buffer)))
-        (setf (mem-ref ib-ptr '(:struct sokol-gfx:sg-buffer))
-              (bindings-index-buffer b))))
+        (setf (foreign-slot-value ib-ptr '(:struct sokol-gfx:sg-buffer) 'sokol-gfx::id)
+              (foreign-slot-value (bindings-index-buffer b) '(:struct sokol-gfx:sg-buffer) 'sokol-gfx::id))))
 
     ;; Set views if provided
     (when (bindings-views b)

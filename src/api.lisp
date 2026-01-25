@@ -115,6 +115,66 @@
   NUM-INSTANCES: number of instances to draw"
   (sokol-gfx:sg-draw base-element num-elements num-instances))
 
+(defun apply-uniforms (stage-slot data-ptr data-size)
+  "Apply shader uniforms.
+  STAGE-SLOT: uniform block slot (typically 0)
+  DATA-PTR: foreign pointer to uniform data
+  DATA-SIZE: size of uniform data in bytes"
+  (cffi:with-foreign-object (range '(:struct sokol-gfx:sg-range))
+    (setf (cffi:foreign-slot-value range '(:struct sokol-gfx:sg-range) 'sokol-gfx::ptr) data-ptr)
+    (setf (cffi:foreign-slot-value range '(:struct sokol-gfx:sg-range) 'sokol-gfx::size) data-size)
+    (sokol-gfx:sg-apply-uniforms stage-slot range)))
+
+;;;; Resource Destruction
+
+(defun destroy-buffer (buffer)
+  "Destroy a buffer resource.
+  BUFFER can be either a foreign pointer (from make-buffer) or a raw sg_buffer struct."
+  (if (cffi:pointerp buffer)
+      ;; It's a pointer allocated by make-buffer
+      (progn
+        (sokol-gfx:sg-destroy-buffer (mem-ref buffer '(:struct sokol-gfx:sg-buffer)))
+        (cffi:foreign-free buffer))
+      ;; It's a raw struct (by value)
+      (sokol-gfx:sg-destroy-buffer buffer)))
+
+(defun destroy-pipeline (pipeline)
+  "Destroy a pipeline resource.
+  PIPELINE can be either a foreign pointer (from make-pipeline) or a raw sg_pipeline struct."
+  (if (cffi:pointerp pipeline)
+      ;; It's a pointer allocated by make-pipeline
+      (progn
+        (sokol-gfx:sg-destroy-pipeline (mem-ref pipeline '(:struct sokol-gfx:sg-pipeline)))
+        (cffi:foreign-free pipeline))
+      ;; It's a raw struct (by value)
+      (sokol-gfx:sg-destroy-pipeline pipeline)))
+
+(defun destroy-shader (shader)
+  "Destroy a shader resource.
+  SHADER can be either a foreign pointer or a raw sg_shader struct."
+  (if (cffi:pointerp shader)
+      ;; It's a pointer
+      (progn
+        (sokol-gfx:sg-destroy-shader (mem-ref shader '(:struct sokol-gfx:sg-shader)))
+        (cffi:foreign-free shader))
+      ;; It's a raw struct (by value)
+      (sokol-gfx:sg-destroy-shader shader)))
+
+(defun destroy-image (image)
+  "Destroy an image/texture resource.
+  IMAGE can be either a foreign pointer (from make-image) or a raw sg_image struct."
+  (if (cffi:pointerp image)
+      ;; It's a pointer allocated by make-image
+      (progn
+        (sokol-gfx:sg-destroy-image (mem-ref image '(:struct sokol-gfx:sg-image)))
+        (cffi:foreign-free image))
+      ;; It's a raw struct (by value)
+      (sokol-gfx:sg-destroy-image image)))
+
+(defun destroy-sampler (sampler)
+  "Destroy a sampler resource."
+  (sokol-gfx:sg-destroy-sampler sampler))
+
 ;;;; Utilities
 
 (defun environment ()
@@ -124,6 +184,25 @@
 (defun swapchain ()
   "Get the current swapchain from sokol_glue."
   (sokol-glue:sglue-swapchain))
+
+;;;; Application Control
+
+(defun request-quit ()
+  "Request the application to quit.
+   This will send a QUIT_REQUESTED event to the event handler,
+   allowing the application to optionally cancel the quit."
+  (sokol-app:sapp-request-quit))
+
+(defun quit-app ()
+  "Immediately quit the application without sending a quit request event.
+   Use this after confirming the user wants to quit."
+  (sokol-app:sapp-quit))
+
+(defun cancel-quit ()
+  "Cancel a pending quit request.
+   Call this from the event handler when receiving QUIT_REQUESTED event
+   if you want to prevent the application from quitting."
+  (sokol-app:sapp-cancel-quit))
 
 ;;;; Application Lifecycle
 
@@ -222,175 +301,106 @@
 
 ;;;; Event Wrapper API
 
-(defclass event ()
-  ((type :initarg :type :accessor event-type
-         :documentation "Event type (keyword, e.g., :SAPP-EVENTTYPE-KEY-DOWN)")
-   (frame-count :initarg :frame-count :accessor event-frame-count
-                :documentation "Frame counter")
-   (key-code :initarg :key-code :accessor event-key-code
-             :documentation "Key code (keyword, e.g., :SAPP-KEYCODE-SPACE)")
-   (char-code :initarg :char-code :accessor event-char-code
-              :documentation "Unicode character code")
-   (key-repeat :initarg :key-repeat :accessor event-key-repeat
-               :documentation "True if this is a key repeat")
-   (modifiers :initarg :modifiers :accessor event-modifiers
-              :documentation "Modifier keys bitmask")
-   (mouse-button :initarg :mouse-button :accessor event-mouse-button
-                 :documentation "Mouse button (keyword, e.g., :SAPP-MOUSEBUTTON-LEFT)")
-   (mouse-x :initarg :mouse-x :accessor event-mouse-x
-            :documentation "Mouse X position")
-   (mouse-y :initarg :mouse-y :accessor event-mouse-y
-            :documentation "Mouse Y position")
-   (mouse-dx :initarg :mouse-dx :accessor event-mouse-dx
-             :documentation "Mouse X delta")
-   (mouse-dy :initarg :mouse-dy :accessor event-mouse-dy
-             :documentation "Mouse Y delta")
-   (scroll-x :initarg :scroll-x :accessor event-scroll-x
-             :documentation "Scroll X delta")
-   (scroll-y :initarg :scroll-y :accessor event-scroll-y
-             :documentation "Scroll Y delta")
-   (num-touches :initarg :num-touches :accessor event-num-touches
-                :documentation "Number of active touches")
-   (window-width :initarg :window-width :accessor event-window-width
-                 :documentation "Window width")
-   (window-height :initarg :window-height :accessor event-window-height
-                  :documentation "Window height")
-   (framebuffer-width :initarg :framebuffer-width :accessor event-framebuffer-width
-                      :documentation "Framebuffer width")
-   (framebuffer-height :initarg :framebuffer-height :accessor event-framebuffer-height
-                       :documentation "Framebuffer height"))
-  (:documentation "Wrapper for sokol sapp_event struct"))
+(defun event-type (event)
+  "Get the type of a Sokol event."
+  (cffi:foreign-slot-value event '(:struct sapp:sapp-event) 'sapp::type))
 
-(defun wrap-event (event-ptr)
-  "Convert a foreign sapp_event pointer to a CLOS event object."
-  (make-instance 'event
-    :type (foreign-enum-keyword 'sokol-app:sapp-event-type
-                                (foreign-slot-value event-ptr '(:struct sokol-app:sapp-event) 'sokol-app::type))
-    :frame-count (foreign-slot-value event-ptr '(:struct sokol-app:sapp-event) 'sokol-app::frame-count)
-    :key-code (foreign-enum-keyword 'sokol-app:sapp-keycode
-                                    (foreign-slot-value event-ptr '(:struct sokol-app:sapp-event) 'sokol-app::key-code))
-    :char-code (foreign-slot-value event-ptr '(:struct sokol-app:sapp-event) 'sokol-app::char-code)
-    :key-repeat (foreign-slot-value event-ptr '(:struct sokol-app:sapp-event) 'sokol-app::key-repeat)
-    :modifiers (foreign-slot-value event-ptr '(:struct sokol-app:sapp-event) 'sokol-app::modifiers)
-    :mouse-button (foreign-enum-keyword 'sokol-app:sapp-mousebutton
-                                        (foreign-slot-value event-ptr '(:struct sokol-app:sapp-event) 'sokol-app::mouse-button))
-    :mouse-x (foreign-slot-value event-ptr '(:struct sokol-app:sapp-event) 'sokol-app::mouse-x)
-    :mouse-y (foreign-slot-value event-ptr '(:struct sokol-app:sapp-event) 'sokol-app::mouse-y)
-    :mouse-dx (foreign-slot-value event-ptr '(:struct sokol-app:sapp-event) 'sokol-app::mouse-dx)
-    :mouse-dy (foreign-slot-value event-ptr '(:struct sokol-app:sapp-event) 'sokol-app::mouse-dy)
-    :scroll-x (foreign-slot-value event-ptr '(:struct sokol-app:sapp-event) 'sokol-app::scroll-x)
-    :scroll-y (foreign-slot-value event-ptr '(:struct sokol-app:sapp-event) 'sokol-app::scroll-y)
-    :num-touches (foreign-slot-value event-ptr '(:struct sokol-app:sapp-event) 'sokol-app::num-touches)
-    :window-width (foreign-slot-value event-ptr '(:struct sokol-app:sapp-event) 'sokol-app::window-width)
-    :window-height (foreign-slot-value event-ptr '(:struct sokol-app:sapp-event) 'sokol-app::window-height)
-    :framebuffer-width (foreign-slot-value event-ptr '(:struct sokol-app:sapp-event) 'sokol-app::framebuffer-width)
-    :framebuffer-height (foreign-slot-value event-ptr '(:struct sokol-app:sapp-event) 'sokol-app::framebuffer-height)))
+(defun event-key-code (event)
+  "Get the key code from a keyboard event."
+  (cffi:foreign-slot-value event '(:struct sapp:sapp-event) 'sapp::key-code))
 
-;;; Event type predicates
+(defun event-char-code (event)
+  "Get the character code from a keyboard event."
+  (cffi:foreign-slot-value event '(:struct sapp:sapp-event) 'sapp::char-code))
 
-(defun key-down-p (event)
-  "Return T if EVENT is a key-down event."
-  (eq (event-type event) :SAPP-EVENTTYPE-KEY-DOWN))
+(defun event-key-repeat (event)
+  "Check if a key event is a repeat (key held down).
+  Returns T if this is a repeat event, NIL otherwise."
+  (not (zerop (cffi:foreign-slot-value event '(:struct sapp:sapp-event) 'sapp::key-repeat))))
 
-(defun key-up-p (event)
-  "Return T if EVENT is a key-up event."
-  (eq (event-type event) :SAPP-EVENTTYPE-KEY-UP))
+(defun event-frame-count (event)
+  "Get the frame count when the event occurred."
+  (cffi:foreign-slot-value event '(:struct sapp:sapp-event) 'sapp::frame-count))
 
-(defun char-input-p (event)
-  "Return T if EVENT is a character input event."
-  (eq (event-type event) :SAPP-EVENTTYPE-CHAR))
+(defun event-window-width (event)
+  "Get the window width from a resize event."
+  (cffi:foreign-slot-value event '(:struct sapp:sapp-event) 'sapp::window-width))
 
-(defun mouse-down-p (event)
-  "Return T if EVENT is a mouse button down event."
-  (eq (event-type event) :SAPP-EVENTTYPE-MOUSE-DOWN))
+(defun event-window-height (event)
+  "Get the window height from a resize event."
+  (cffi:foreign-slot-value event '(:struct sapp:sapp-event) 'sapp::window-height))
 
-(defun mouse-up-p (event)
-  "Return T if EVENT is a mouse button up event."
-  (eq (event-type event) :SAPP-EVENTTYPE-MOUSE-UP))
+(defun event-framebuffer-width (event)
+  "Get the framebuffer width from a resize event."
+  (cffi:foreign-slot-value event '(:struct sapp:sapp-event) 'sapp::framebuffer-width))
 
-(defun mouse-move-p (event)
-  "Return T if EVENT is a mouse move event."
-  (eq (event-type event) :SAPP-EVENTTYPE-MOUSE-MOVE))
+(defun event-framebuffer-height (event)
+  "Get the framebuffer height from a resize event."
+  (cffi:foreign-slot-value event '(:struct sapp:sapp-event) 'sapp::framebuffer-height))
 
-(defun mouse-scroll-p (event)
-  "Return T if EVENT is a mouse scroll event."
-  (eq (event-type event) :SAPP-EVENTTYPE-MOUSE-SCROLL))
+(defun event-modifiers (event)
+  "Get the modifier flags from an event."
+  (cffi:foreign-slot-value event '(:struct sapp:sapp-event) 'sapp::modifiers))
 
-(defun mouse-enter-p (event)
-  "Return T if EVENT is a mouse enter event."
-  (eq (event-type event) :SAPP-EVENTTYPE-MOUSE-ENTER))
+(defun event-mouse-button (event)
+  "Get the mouse button from a mouse event."
+  (cffi:foreign-slot-value event '(:struct sapp:sapp-event) 'sapp::mouse-button))
 
-(defun mouse-leave-p (event)
-  "Return T if EVENT is a mouse leave event."
-  (eq (event-type event) :SAPP-EVENTTYPE-MOUSE-LEAVE))
+(defun event-mouse-x (event)
+  "Get the mouse X position from an event."
+  (cffi:foreign-slot-value event '(:struct sapp:sapp-event) 'sapp::mouse-x))
 
-(defun window-resized-p (event)
-  "Return T if EVENT is a window resize event."
-  (eq (event-type event) :SAPP-EVENTTYPE-RESIZED))
+(defun event-mouse-y (event)
+  "Get the mouse Y position from an event."
+  (cffi:foreign-slot-value event '(:struct sapp:sapp-event) 'sapp::mouse-y))
 
-(defun window-iconified-p (event)
-  "Return T if EVENT is a window iconified event."
-  (eq (event-type event) :SAPP-EVENTTYPE-ICONIFIED))
+(defun event-mouse-dx (event)
+  "Get the mouse delta X from an event."
+  (cffi:foreign-slot-value event '(:struct sapp:sapp-event) 'sapp::mouse-dx))
 
-(defun window-restored-p (event)
-  "Return T if EVENT is a window restored event."
-  (eq (event-type event) :SAPP-EVENTTYPE-RESTORED))
+(defun event-mouse-dy (event)
+  "Get the mouse delta Y from an event."
+  (cffi:foreign-slot-value event '(:struct sapp:sapp-event) 'sapp::mouse-dy))
 
-(defun window-focused-p (event)
-  "Return T if EVENT is a window focused event."
-  (eq (event-type event) :SAPP-EVENTTYPE-FOCUSED))
+(defun event-scroll-x (event)
+  "Get the scroll X from an event."
+  (cffi:foreign-slot-value event '(:struct sapp:sapp-event) 'sapp::scroll-x))
 
-(defun window-unfocused-p (event)
-  "Return T if EVENT is a window unfocused event."
-  (eq (event-type event) :SAPP-EVENTTYPE-UNFOCUSED))
+(defun event-scroll-y (event)
+  "Get the scroll Y from an event."
+  (cffi:foreign-slot-value event '(:struct sapp:sapp-event) 'sapp::scroll-y))
 
-(defun quit-requested-p (event)
-  "Return T if EVENT is a quit requested event."
-  (eq (event-type event) :SAPP-EVENTTYPE-QUIT-REQUESTED))
+(defun event-num-touches (event)
+  "Get the number of touches from an event."
+  (cffi:foreign-slot-value event '(:struct sapp:sapp-event) 'sapp::num-touches))
 
-;;; Modifier key helpers
+(defun event-touches (event)
+  "Get the touches array from an event."
+  (cffi:foreign-slot-pointer event '(:struct sapp:sapp-event) 'sapp::touches))
 
-(defun shift-pressed-p (event)
-  "Return T if shift modifier is pressed."
-  (logtest (event-modifiers event) #x1)) ; SAPP_MODIFIER_SHIFT = 1
+(defun event-touch-identifier (event index)
+  "Get the touch identifier at INDEX from an event."
+  (let ((touches (event-touches event)))
+    (cffi:foreign-slot-value
+     (cffi:mem-aptr touches '(:struct sapp:sapp-touchpoint) index)
+     '(:struct sapp:sapp-touchpoint)
+     'sapp::identifier)))
 
-(defun ctrl-pressed-p (event)
-  "Return T if ctrl modifier is pressed."
-  (logtest (event-modifiers event) #x2)) ; SAPP_MODIFIER_CTRL = 2
+(defun event-touch-pos-x (event index)
+  "Get the touch X position at INDEX from an event."
+  (let ((touches (event-touches event)))
+    (cffi:foreign-slot-value
+     (cffi:mem-aptr touches '(:struct sapp:sapp-touchpoint) index)
+     '(:struct sapp:sapp-touchpoint)
+     'sapp::pos-x)))
 
-(defun alt-pressed-p (event)
-  "Return T if alt modifier is pressed."
-  (logtest (event-modifiers event) #x4)) ; SAPP_MODIFIER_ALT = 4
-
-(defun super-pressed-p (event)
-  "Return T if super/command modifier is pressed."
-  (logtest (event-modifiers event) #x8)) ; SAPP_MODIFIER_SUPER = 8
-
-;;; Mouse button helpers
-
-(defun left-button-p (event)
-  "Return T if event is for left mouse button."
-  (eq (event-mouse-button event) :SAPP-MOUSEBUTTON-LEFT))
-
-(defun right-button-p (event)
-  "Return T if event is for right mouse button."
-  (eq (event-mouse-button event) :SAPP-MOUSEBUTTON-RIGHT))
-
-(defun middle-button-p (event)
-  "Return T if event is for middle mouse button."
-  (eq (event-mouse-button event) :SAPP-MOUSEBUTTON-MIDDLE))
-
-;;; Convenience functions for common checks
-
-(defun key-pressed-p (event keycode)
-  "Return T if EVENT is a key-down for KEYCODE (keyword, e.g., :SAPP-KEYCODE-SPACE)."
-  (and (key-down-p event)
-       (eq (event-key-code event) keycode)))
-
-(defun mouse-clicked-p (event button)
-  "Return T if EVENT is a mouse-down for BUTTON (keyword, e.g., :SAPP-MOUSEBUTTON-LEFT)."
-  (and (mouse-down-p event)
-       (eq (event-mouse-button event) button)))
+(defun event-touch-pos-y (event index)
+  "Get the touch Y position at INDEX from an event."
+  (let ((touches (event-touches event)))
+    (cffi:foreign-slot-value
+     (cffi:mem-aptr touches '(:struct sapp:sapp-touchpoint) index)
+     '(:struct sapp:sapp-touchpoint)
+     'sapp::pos-y)))
 
 ;;;; Time Functions
 

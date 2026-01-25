@@ -48,24 +48,22 @@
    #:event
    ;; Main functions
    #:run-app
-   ;; Event wrapper API
-   #:wrap-event
-   ;; Event type predicates
-   #:key-down-p
-   #:key-up-p
-   #:char-input-p
-   #:mouse-down-p
-   #:mouse-up-p
-   #:mouse-move-p
-   #:mouse-scroll-p
-   #:mouse-enter-p
-   #:mouse-leave-p
-   #:window-resized-p
-   #:window-iconified-p
-   #:window-restored-p
-   #:window-focused-p
-   #:window-unfocused-p
-   #:quit-requested-p
+   ;; Events
+   #:event-type
+   #:event-key-code
+   #:event-modifiers
+   #:event-mouse-button
+   #:event-mouse-x
+   #:event-mouse-y
+   #:event-mouse-dx
+   #:event-mouse-dy
+   #:event-scroll-x
+   #:event-scroll-y
+   #:event-num-touches
+   #:event-touches
+   #:event-touch-identifier
+   #:event-touch-pos-x
+   #:event-touch-pos-y
    ;; Modifier key helpers
    #:shift-pressed-p
    #:ctrl-pressed-p
@@ -134,13 +132,24 @@
    #:commit
    #:apply-pipeline
    #:apply-bindings
+   #:apply-uniforms
    #:draw
+   ;; Resource destruction
+   #:destroy-buffer
+   #:destroy-pipeline
+   #:destroy-shader
+   #:destroy-image
+   #:destroy-sampler
    ;; Utilities
    #:environment
    #:swapchain
    #:query-backend
    #:make-range-from-array
    #:make-color
+   ;; Application control
+   #:request-quit
+   #:quit-app
+   #:cancel-quit
    ;; Accessors for common types
    #:color-r
    #:color-g
@@ -155,6 +164,16 @@
    #:buffer-desc-label
    #:pipeline-desc-shader
    #:pipeline-desc-vertex-layouts
+   #:pipeline-desc-vertex-stride
+   #:pipeline-desc-index-type
+   #:pipeline-desc-cull-mode
+   #:pipeline-desc-depth-compare
+   #:pipeline-desc-depth-write-enabled
+   #:pipeline-desc-blend-enabled
+   #:pipeline-desc-blend-src-factor-rgb
+   #:pipeline-desc-blend-dst-factor-rgb
+   #:pipeline-desc-blend-src-factor-alpha
+   #:pipeline-desc-blend-dst-factor-alpha
    #:pipeline-desc-label
    #:pass-desc-action
    #:pass-action-clear-color
